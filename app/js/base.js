@@ -48581,7 +48581,7 @@ angular.module('ui.utils', [
 /*!
  * angular-ui-mask
  * https://github.com/angular-ui/ui-mask
- * Version: 1.6.0 - 2015-11-11T01:49:32.318Z
+ * Version: 1.6.7 - 2015-12-30T03:32:53.475Z
  * License: MIT
  */
 
@@ -48625,6 +48625,15 @@ angular.module('ui.mask', [])
                                     // Vars used exclusively in eventHandler()
                                     oldValue, oldValueUnmasked, oldCaretPosition, oldSelectionLength;
 
+                            var originalIsEmpty = controller.$isEmpty;
+	                        controller.$isEmpty = function(value) {
+		                        if (maskProcessed) {
+			                        return originalIsEmpty(unmaskValue(value || ''));
+		                        } else {
+			                        return originalIsEmpty(value);
+		                        }
+	                        };
+
                             function initialize(maskAttr) {
                                 if (!angular.isDefined(maskAttr)) {
                                     return uninitialize();
@@ -48646,7 +48655,11 @@ angular.module('ui.mask', [])
                                 maskPlaceholder = placeholderAttr;
 
                                 // If the mask is processed, then we need to update the value
-                                if (maskProcessed) {
+                                // but don't set the value if there is nothing entered into the element
+                                // and there is a placeholder attribute on the element because that
+                                // will only set the value as the blank maskPlaceholder
+                                // and override the placeholder on the element
+                                if (maskProcessed && !(iElement.val().length === 0 && angular.isDefined(iAttrs.placeholder))) {
                                     iElement.val(maskValue(unmaskValue(iElement.val())));
                                 }
                             }
@@ -48684,9 +48697,6 @@ angular.module('ui.mask', [])
                                 // to be out-of-sync with what the controller's $viewValue is set to.
                                 controller.$viewValue = value.length ? maskValue(value) : '';
                                 controller.$setValidity('mask', isValid);
-                                if (value === '' && iAttrs.required) {
-                                    controller.$setValidity('required', !controller.$error.required);
-                                }
                                 if (isValid) {
                                     return modelViewValue ? controller.$viewValue : value;
                                 } else {
@@ -48733,7 +48743,7 @@ angular.module('ui.mask', [])
                             }
 
                             controller.$formatters.push(formatter);
-                            controller.$parsers.push(parser);
+                            controller.$parsers.unshift(parser);
 
                             function uninitialize() {
                                 maskProcessed = false;
@@ -48784,7 +48794,6 @@ angular.module('ui.mask', [])
                                 iElement.bind('blur', blurHandler);
                                 iElement.bind('mousedown mouseup', mouseDownUpHandler);
                                 iElement.bind(linkOptions.eventsToHandle.join(' '), eventHandler);
-                                iElement.bind('paste', onPasteHandler);
                                 eventsBound = true;
                             }
 
@@ -48799,7 +48808,6 @@ angular.module('ui.mask', [])
                                 iElement.unbind('keyup', eventHandler);
                                 iElement.unbind('click', eventHandler);
                                 iElement.unbind('focus', eventHandler);
-                                iElement.unbind('paste', onPasteHandler);
                                 eventsBound = false;
                             }
 
@@ -48822,6 +48830,7 @@ angular.module('ui.mask', [])
                                         maskPatternsCopy.shift();
                                     }
                                 });
+
                                 return valueUnmasked;
                             }
 
@@ -48863,7 +48872,21 @@ angular.module('ui.mask', [])
                             // of the maskable char gets deleted, we'll still be able to strip
                             // it in the unmaskValue() preprocessing.
                             function getMaskComponents() {
-                                return maskPlaceholder.replace(/[_]+/g, '_').replace(/([^_]+)([a-zA-Z0-9])([^_])/g, '$1$2_$3').split('_');
+                                var maskPlaceholderChars = maskPlaceholder.split(''),
+                                        maskPlaceholderCopy;
+
+                                //maskCaretMap can have bad values if the input has the ui-mask attribute implemented as an obversable property, i.e. the demo page
+                                if (maskCaretMap && !isNaN(maskCaretMap[0])) {
+                                    //Instead of trying to manipulate the RegEx based on the placeholder characters
+                                    //we can simply replace the placeholder characters based on the already built
+                                    //maskCaretMap to underscores and leave the original working RegEx to get the proper
+                                    //mask components
+                                    angular.forEach(maskCaretMap, function(value) {
+                                        maskPlaceholderChars[value] = '_';
+                                    });
+                                }
+                                maskPlaceholderCopy = maskPlaceholderChars.join('');
+                                return maskPlaceholderCopy.replace(/[_]+/g, '_').replace(/([^_]+)([a-zA-Z0-9])([^_])/g, '$1$2_$3').split('_');
                             }
 
                             function processRawMask(mask) {
@@ -48911,8 +48934,8 @@ angular.module('ui.mask', [])
                                 maskComponents = getMaskComponents();
                                 maskProcessed = maskCaretMap.length > 1 ? true : false;
                             }
-                            
-                            var prevValue = iElement.val(); 
+
+                            var prevValue = iElement.val();
                             function blurHandler() {
                                 if (linkOptions.clearOnBlur) {
                                     oldCaretPosition = 0;
@@ -48932,7 +48955,7 @@ angular.module('ui.mask', [])
                                 }
                                 prevValue = value;
                             }
-                            
+
                             function triggerChangeEvent(element) {
                                 var change;
                                 if (angular.isFunction(window.Event) && !element.fireEvent) {
@@ -48969,11 +48992,6 @@ angular.module('ui.mask', [])
                                 /*jshint validthis: true */
                                 oldSelectionLength = getSelectionLength(this);
                                 iElement.unbind('mouseout', mouseoutHandler);
-                            }
-
-                            function onPasteHandler() {
-                                /*jshint validthis: true */
-                                setCaretPosition(this, iElement.val().length);
                             }
 
                             function eventHandler(e) {
@@ -49047,14 +49065,14 @@ angular.module('ui.mask', [])
 
                                 oldValue = valMasked;
                                 oldValueUnmasked = valUnmasked;
-    
+
                                 //additional check to fix the problem where the viewValue is out of sync with the value of the element.
                                 //better fix for commit 2a83b5fb8312e71d220a497545f999fc82503bd9 (I think)
                                 if (!valAltered && val.length > valMasked.length)
                                     valAltered = true;
-    
+
                                 iElement.val(valMasked);
-    
+
                                 //we need this check.  What could happen if you don't have it is that you'll set the model value without the user
                                 //actually doing anything.  Meaning, things like pristine and touched will be set.
                                 if (valAltered) {
@@ -49230,7 +49248,7 @@ angular.module('ui.event',[]).directive('uiEvent', ['$parse',
 /*!
  * angular-ui-validate
  * https://github.com/angular-ui/ui-validate
- * Version: 1.2.1 - 2015-10-23T01:54:01.326Z
+ * Version: 1.2.2 - 2015-11-28T04:00:20.151Z
  * License: MIT
  */
 
@@ -49304,7 +49322,7 @@ angular.module('ui.validate',[])
             // Return as valid for now. Validity is updated when promise resolves.
             return true;
           } else {
-            return expression;
+            return !!expression; // Transform 'undefined' to false (to avoid corrupting the NgModelController and the FormController)
           }
         };
         ctrl.$validators[key] = validateFn;
@@ -49473,7 +49491,7 @@ angular.module('ui.indeterminate', []).directive('uiIndeterminate', [
 /*!
  * angular-ui-scrollpoint
  * https://github.com/angular-ui/ui-scrollpoint
- * Version: 1.2.0 - 2015-11-11T01:45:07.327Z
+ * Version: 2.0.1 - 2015-12-23T09:14:55.624Z
  * License: MIT
  */
 
@@ -49485,7 +49503,7 @@ angular.module('ui.indeterminate', []).directive('uiIndeterminate', [
  * @param [offset] {int} optional Y-offset to override the detected offset.
  *   Takes 300 (absolute) or -300 or +300 (relative to detected)
  */
-angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', function ($window) {
+angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$timeout', function ($window, $timeout) {
 
         function getWindowScrollTop() {
             if (angular.isDefined($window.pageYOffset)) {
@@ -49495,77 +49513,362 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', func
                 return iebody.scrollTop;
             }
         }
+        function getWindowScrollHeight() {
+            return ($window.document.body.scrollHeight - $window.innerHeight);
+        }
+        function getWindowHeight(contentHeight) {
+            return (contentHeight ? $window.document.body.clientHeight : $window.innerHeight);
+        }
         return {
-            require: '^?uiScrollpointTarget',
-            scope: {
-                uiScrollpoint: '@'
-            },
-            link: function (scope, elm, attrs, uiScrollpointTarget) {
-                var absolute = true,
-                    shift = 0,
-                    fixLimit,
-                    $target = uiScrollpointTarget && uiScrollpointTarget.$element || angular.element($window);
-    
-                function setup(scrollpoint) {
+            require: ['uiScrollpoint', '^?uiScrollpointTarget'],
+            controller: function(){
+                this.$element = undefined;
+                this.$target = undefined;
+                this.hasTarget = false;
+
+                this.edges = {top: true};
+                this.hitEdge = undefined;
+
+                this.absolute = true;
+                this.percent = false;
+                this.shift = 0;
+                this.posCache = {};
+
+                this.enabled = true;
+                
+                this.scrollpointClass = 'ui-scrollpoint';
+                this.actions = undefined;
+
+                this.addEdge = function(view_edge, element_edge){
+                    if(angular.isString(view_edge)){
+                        if(angular.isUndefined(element_edge)){
+                            element_edge = true;
+                        }
+                        if(view_edge == 'view'){
+                            this.addEdge('top', 'bottom');
+                            this.addEdge('bottom', 'top');
+                        }
+                        else{
+                            this.edges[view_edge] = element_edge;
+                        }
+                    }
+                };
+
+                this.addAction = function(action){
+                    if(action && angular.isFunction(action)){
+                        if(angular.isUndefined(this.actions)){
+                            this.actions = [action];
+                        }
+                        else if(this.actions.indexOf(action) == -1){
+                            this.actions.push(action);
+                        }
+                    }
+                };
+
+                this.setScrollpoint = function(scrollpoint){
                     if (!scrollpoint) {
-                        absolute = false;
+                        this.absolute = false;
+                        this.percent = false;
+                        this.shift = 0;
                     } else if (typeof (scrollpoint) === 'string') {
                         // charAt is generally faster than indexOf: http://jsperf.com/indexof-vs-charat
+                        this.percent = (scrollpoint.charAt(scrollpoint.length-1) == '%');
+                        if(this.percent){
+                            scrollpoint = scrollpoint.substr(0, scrollpoint.length-1);
+                        }
                         if (scrollpoint.charAt(0) === '-') {
-                            absolute = false;
-                            shift = -parseFloat(scrollpoint.substr(1));
+                            this.absolute = this.percent;
+                            this.shift = -parseFloat(scrollpoint.substr(1));
                         } else if (scrollpoint.charAt(0) === '+') {
-                            absolute = false;
-                            shift = parseFloat(scrollpoint.substr(1));
+                            this.absolute = this.percent;
+                            this.shift = parseFloat(scrollpoint.substr(1));
                         } else {
                             var parsed = parseFloat(scrollpoint);
                             if (!isNaN(parsed) && isFinite(parsed)) {
-                                absolute = true;
-                                shift = parsed;
+                                this.absolute = true;
+                                this.shift = parsed;
                             }
                         }
                     } else if (typeof (scrollpoint) === 'number') {
-                        setup(scrollpoint.toString());
+                        this.setScrollpoint(scrollpoint.toString());
                         return;
                     }
-                    fixLimit = absolute ? scope.uiScrollpoint : elm[0].offsetTop + shift;
-                }
-                setup(scope.uiScrollpoint);
+                };
+
+                this.setClass = function(_class){
+                    if(!_class){
+                        _class = 'ui-scrollpoint';
+                    }
+                    this.scrollpointClass = _class;
+                };
+
+                this.setEdges = function(edges){
+                    // normalize uiScrollpointEdge into edges structure
+                    //  edges = { ['screen_edge'] : ['element_edge' | true] }
+                    if(angular.isString(edges)){
+                        this.edges = {};
+                        this.addEdge(edges);
+                    }
+                    else if(angular.isArray(edges)){
+                        this.edges = {};
+                        for(var i in edges){
+                            this.addEdge(edges[i]);
+                        }
+                    }
+                    else if(angular.isObject(edges)){
+                        this.edges = {};
+                        for(var edge in edges){
+                            this.addEdge(edge, edges[edge]);
+                        }
+                    }
+                    else{
+                        // default
+                        this.edges = {top: true};
+                    }
+                };
+
+                this.setElement = function(element){
+                    this.$element = element;
+                };
+
+                this.setTarget = function(target){
+                    if(target){
+                        this.$target = target;
+                        this.hasTarget = true;
+                    }
+                    else{
+                        this.$target = angular.element($window);
+                        this.hasTarget = false;
+                    }
+                };
+
+                this.scrollEdgeHit = function(){
+                    var offset, hitEdge, flipOffset;
+                    for(var scroll_edge in this.edges){
+                        var scroll_top = (scroll_edge == 'top');
+                        var scroll_bottom = (scroll_edge == 'bottom');
+
+                        var elem_edge = this.edges[scroll_edge];
+                        var elem_top = (elem_edge == 'top');
+                        var elem_bottom = (elem_edge == 'bottom');
+                        if(elem_edge === true){
+                            if(scroll_top){ elem_top = true; }
+                            if(scroll_bottom){ elem_bottom = true; }
+                        }
+
+                        var scrollOffset = this.getScrollOffset();
+                        if(scroll_bottom){
+                            scrollOffset += this.getTargetHeight();
+                        }
+
+                        var checkOffset;
+                        if(this.absolute){
+                            if(this.percent){
+                                checkOffset = this.shift / 100.0 * this.getTargetScrollHeight();
+                            }
+                            else{
+                                checkOffset = this.shift;
+                            }
+                            if(scroll_bottom){
+                                checkOffset = this.getTargetContentHeight() - checkOffset;
+                                if(this.hasTarget){
+                                    checkOffset += this.getTargetHeight();
+                                }
+                            }
+                        }
+                        else{
+                            if(elem_top){
+                                checkOffset = this.getElementTop();
+                            }
+                            else if(elem_bottom){
+                                checkOffset = this.getElementBottom();
+                            }
+                            checkOffset += this.shift;
+                        }
+                        
+                        var edge_offset = (scrollOffset - checkOffset);
+                        if(scroll_bottom){
+                            edge_offset *= -1.0;
+                        }
+
+                        if(angular.isUndefined(offset) || edge_offset > offset){
+                            offset = edge_offset;
+                            hitEdge = scroll_edge;
+                            flipOffset = (scroll_bottom && this.absolute);
+                        }
+                    }
+                    this.hitEdge = (offset >= 0) ? hitEdge : undefined;
+                    return offset*(flipOffset?-1.0:1.0);
+                };
+
+                this.getScrollOffset = function(){
+                    return this.hasTarget ? this.$target[0].scrollTop : getWindowScrollTop();
+                };
+                this.getTargetHeight = function(){
+                    return this.hasTarget ? this.$target[0].offsetHeight : getWindowHeight();
+                };
+                this.getTargetContentHeight = function(){
+                    return ( this.hasTarget ? (this.$target[0].scrollHeight - this.$target[0].clientHeight) : getWindowHeight(true) );
+                };
+                this.getTargetScrollHeight = function(){
+                    return ( this.hasTarget ? (this.$target[0].scrollHeight - this.$target[0].clientHeight) : getWindowScrollHeight() );
+                };
+
+                this.getElementTop = function(current){
+                    if(!current && angular.isDefined(this.posCache.top)){
+                        return this.posCache.top;
+                    }
+                    var bounds = this.$element[0].getBoundingClientRect();
+                    var top = bounds.top + this.getScrollOffset();
+
+                    if(this.hasTarget){
+                        var targetBounds = this.$target[0].getBoundingClientRect();
+                        top -= targetBounds.top;
+                    }
+
+                    return top;
+                };
+                this.getElementBottom = function(current){
+                    return this.getElementTop(current) + this.$element[0].offsetHeight;
+                };
+
+                this.cachePosition = function(){
+                    this.posCache.top = this.getElementTop(true);
+                };
+            },
+            link: function (scope, elm, attrs, Ctrl) {
+                var uiScrollpoint = Ctrl[0];
+                var uiScrollpointTarget = Ctrl[1];
+                var ready = false;
+                var hit = false;
+                var absoluteParent = false;
+
+                uiScrollpoint.setElement(elm);
+                uiScrollpoint.setTarget( uiScrollpointTarget ? uiScrollpointTarget.$element : null);
+
+                // base ui-scrollpoint (leave blank or set to: absolute, +, -, or %)
+                attrs.$observe('uiScrollpoint', function(scrollpoint){
+                    uiScrollpoint.setScrollpoint(scrollpoint);
+                    onScroll();
+                });
+
+                // ui-scrollpoint-enabled allows disabling the scrollpoint
+                attrs.$observe('uiScrollpointEnabled', function(scrollpointEnabled){
+                    scrollpointEnabled = scope.$eval(scrollpointEnabled);
+                    if(scrollpointEnabled != uiScrollpoint.enabled){
+                        reset();
+                    }
+                    uiScrollpoint.enabled = scrollpointEnabled;
+                });
+
+                // ui-scrollpoint-absolute bypasses ui-scrollpoint-target
+                attrs.$observe('uiScrollpointAbsolute', function(scrollpointAbsolute){
+                    scrollpointAbsolute = scope.$eval(scrollpointAbsolute);
+                    if(scrollpointAbsolute != absoluteParent){
+                        if(uiScrollpoint.$target){
+                            uiScrollpoint.$target.off('scroll', onScroll);
+                        }
+                        uiScrollpoint.setTarget( (!scrollpointAbsolute && uiScrollpointTarget) ? uiScrollpointTarget.$element : null);
+                        resetTarget();
+                        reset();
+                    }
+                    absoluteParent = scrollpointAbsolute;
+                });
+
+                // ui-scrollpoint-action function name to use as scrollpoint callback
+                attrs.$observe('uiScrollpointAction', function(uiScrollpointAction){
+                    if(scope[uiScrollpointAction] && angular.isFunction(scope[uiScrollpointAction])){
+                        uiScrollpoint.addAction(scope[uiScrollpointAction]);
+                    }
+                });
+
+                // ui-scrollpoint-class class to add instead of ui-scrollpoint
+                attrs.$observe('uiScrollpointClass', function(scrollpointClass){
+                    uiScrollpoint.setClass(scrollpointClass);
+                    hit = false;
+                    onScroll();
+                });
+
+                // ui-scrollpoint-edge allows configuring which element and scroll edges match
+                attrs.$observe('uiScrollpointEdge', function(scrollpointEdge){
+                    if(scrollpointEdge){
+                        // allowed un-$eval'ed values
+                        var allowedKeywords = ['top', 'bottom', 'view'];
+                        if(allowedKeywords.indexOf(scrollpointEdge) == -1){
+                            // $eval any other values
+                            scrollpointEdge = scope.$eval(scrollpointEdge);
+                        }
+
+                        // assign it in controller
+                        uiScrollpoint.setEdges(scrollpointEdge);
+                    }
+                });
     
                 function onScroll() {
-    
-                    var limit = absolute ? scope.uiScrollpoint : elm[0].offsetTop + shift;
-    
-                    // if pageYOffset is defined use it, otherwise use other crap for IE
-                    var offset = uiScrollpointTarget ? $target[0].scrollTop : getWindowScrollTop();
-                    if (!elm.hasClass('ui-scrollpoint') && offset > limit) {
-                        elm.addClass('ui-scrollpoint');
-                        fixLimit = limit;
-                    } else if (elm.hasClass('ui-scrollpoint') && offset < fixLimit) {
-                        elm.removeClass('ui-scrollpoint');
+                    if(!ready || !uiScrollpoint.enabled){ return; }
+
+                    var hitEdge = uiScrollpoint.hitEdge; // which edge did scrollpoint trigger at before
+                    var edgeHit = uiScrollpoint.scrollEdgeHit();
+                    
+                    // edgeHit >= 0 - scrollpoint is scrolled out of active view
+                    // edgeHit < 0 - scrollpoint is in active view
+
+                    // hit is toggled at the moment the scrollpoint is crossed
+
+                    var fireActions = false;
+
+                    if(edgeHit >= 0){
+                        // SCROLLPOINT is OUT by edgeHit pixels
+                        if(!hit){
+                            // add the scrollpoint class
+                            if(!elm.hasClass(uiScrollpoint.scrollpointClass)){
+                                elm.addClass(uiScrollpoint.scrollpointClass);
+                            }
+                            fireActions = true;
+                            hit = true;
+                        }
+                    }
+                    else{
+                        // SCROLLPOINT is IN by edgeHit pixels
+                        if(hit || angular.isUndefined(hit)){
+                            // remove the scrollpoint class
+                            if(elm.hasClass(uiScrollpoint.scrollpointClass)){
+                                elm.removeClass(uiScrollpoint.scrollpointClass);
+                            }
+                            fireActions = true;
+                            hit = false;
+                        }
+                        uiScrollpoint.cachePosition();
+                    }
+
+                    if(fireActions){
+                        // fire the actions
+                        if(uiScrollpoint.actions){
+                            for(var i in uiScrollpoint.actions){
+                                uiScrollpoint.actions[i](edgeHit, elm, uiScrollpoint.hitEdge || hitEdge);
+                            }
+                        }
                     }
                 }
     
                 function reset() {
-                    elm.removeClass('ui-scrollpoint');
-                    fixLimit = absolute ? scope.uiScrollpoint : elm[0].offsetTop + shift;
-                    onScroll();
+                    $timeout(function(){
+                        elm.removeClass(uiScrollpoint.scrollpointClass);
+                        hit = undefined;
+                        uiScrollpoint.hitEdge = undefined;
+                        uiScrollpoint.cachePosition();
+                        onScroll();
+                    });
                 }
-    
+                function resetTarget() {
+                    uiScrollpoint.$target.on('scroll', onScroll);
+                    scope.$on('$destroy', function () {
+                        uiScrollpoint.$target.off('scroll', onScroll);
+                    });
+                }
+                resetTarget();
+                elm.ready(function(){ ready=true; onScroll(); });
                 scope.$on('scrollpointShouldReset', reset);
-    
-                $target.on('scroll', onScroll);
-                onScroll(); // sets the initial state
-    
-                // Unbind scroll event handler when directive is removed
-                scope.$on('$destroy', function () {
-                    $target.off('scroll', onScroll);
-                });
-    
-                scope.$watch('uiScrollpoint', function (newScrollpoint) {
-                    setup(newScrollpoint);
-                    onScroll();
-                });
             }
         };
     }]).directive('uiScrollpointTarget', [function () {
@@ -50239,7 +50542,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function() {
 /*!
  * angular-ui-uploader
  * https://github.com/angular-ui/ui-uploader
- * Version: 1.1.2 - 2015-10-27T03:09:52.784Z
+ * Version: 1.1.3 - 2015-12-01T00:54:49.732Z
  * License: MIT
  */
 
@@ -50279,13 +50582,17 @@ function uiUploader($log) {
 
     function startUpload(options) {
         self.options = options;
+
+        //headers are not shared by requests
+        var headers = options.headers || {};
+
         for (var i = 0; i < self.files.length; i++) {
             if (self.activeUploads == self.options.concurrency) {
                 break;
             }
             if (self.files[i].active)
                 continue;
-            ajaxUpload(self.files[i], self.options.url, self.options.data);
+            ajaxUpload(self.files[i], self.options.url, self.options.data, headers);
         }
     }
 
@@ -50312,12 +50619,8 @@ function uiUploader($log) {
         return (bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0) + ' ' + sizes[isNaN(bytes) ? 0 : i + 1];
     }
 
-    function isFunction(entity) {
-        return typeof(entity) === typeof(Function);
-    }
-
-    function ajaxUpload(file, url, data) {
-        var xhr, formData, prop, key = '' || 'file';
+    function ajaxUpload(file, url, data, headers) {
+        var xhr, formData, prop, key = 'file';
         data = data || {};
 
         self.activeUploads += 1;
@@ -50331,6 +50634,14 @@ function uiUploader($log) {
 
         formData = new window.FormData();
         xhr.open('POST', url);
+
+        if (headers) {
+            for (var headerKey in headers) {
+                if (headers.hasOwnProperty(headerKey)) {
+                    xhr.setRequestHeader(headerKey, headers[headerKey]);
+                }
+            }
+        }
 
         // Triggered when upload starts:
         xhr.upload.onloadstart = function() {
@@ -50347,7 +50658,7 @@ function uiUploader($log) {
             //console.info(event.loaded);
             file.loaded = event.loaded;
             file.humanSize = getHumanSize(event.loaded);
-            if (isFunction(self.options.onProgress)) {
+            if (angular.isFunction(self.options.onProgress)) {
                 self.options.onProgress(file);
             }
         };
@@ -50357,12 +50668,12 @@ function uiUploader($log) {
             self.activeUploads -= 1;
             self.uploadedFiles += 1;
             startUpload(self.options);
-            if (isFunction(self.options.onCompleted)) {
+            if (angular.isFunction(self.options.onCompleted)) {
                 self.options.onCompleted(file, xhr.responseText, xhr.status);
             }            
             if (self.uploadedFiles === self.files.length) {
                 self.uploadedFiles = 0;
-                if (isFunction(self.options.onCompletedAll)) {
+                if (angular.isFunction(self.options.onCompletedAll)) {
                     self.options.onCompletedAll(self.files);
                 }
             }
@@ -50370,7 +50681,7 @@ function uiUploader($log) {
 
         // Triggered when upload fails:
         xhr.onerror = function(e) {
-            if (isFunction(self.options.onError)) {
+            if (angular.isFunction(self.options.onError)) {
                 self.options.onError(e);
             }
         };
@@ -65462,7 +65773,7 @@ angular.module('cfp.loadingBar', [])
 })();       //
 
 /*!
- * jQuery Browser Plugin 0.0.8
+ * jQuery Browser Plugin 0.1.0
  * https://github.com/gabceb/jquery-browser-plugin
  *
  * Original jquery-browser code Copyright 2005, 2015 jQuery Foundation, Inc. and other contributors
@@ -65503,6 +65814,7 @@ angular.module('cfp.loadingBar', [])
     var match = /(edge)\/([\w.]+)/.exec( ua ) ||
         /(opr)[\/]([\w.]+)/.exec( ua ) ||
         /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
+        /(iemobile)[\/]([\w.]+)/.exec( ua ) ||
         /(version)(applewebkit)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec( ua ) ||
         /(webkit)[ \/]([\w.]+).*(version)[ \/]([\w.]+).*(safari)[ \/]([\w.]+)/.exec( ua ) ||
         /(webkit)[ \/]([\w.]+)/.exec( ua ) ||
@@ -65514,11 +65826,11 @@ angular.module('cfp.loadingBar', [])
 
     var platform_match = /(ipad)/.exec( ua ) ||
         /(ipod)/.exec( ua ) ||
+        /(windows phone)/.exec( ua ) ||
         /(iphone)/.exec( ua ) ||
         /(kindle)/.exec( ua ) ||
         /(silk)/.exec( ua ) ||
         /(android)/.exec( ua ) ||
-        /(windows phone)/.exec( ua ) ||
         /(win)/.exec( ua ) ||
         /(mac)/.exec( ua ) ||
         /(linux)/.exec( ua ) ||
@@ -65563,12 +65875,20 @@ angular.module('cfp.loadingBar', [])
     }
 
     // IE11 has a new token so we will assign it msie to avoid breaking changes
-    // IE12 disguises itself as Chrome, but adds a new Edge token.
-    if ( browser.rv || browser.edge ) {
+    if ( browser.rv || browser.iemobile) {
       var ie = "msie";
 
       matched.browser = ie;
       browser[ie] = true;
+    }
+
+    // Edge is officially known as Microsoft Edge, so rewrite the key to match
+    if ( browser.edge ) {
+      delete browser.edge;
+      var msedge = "msedge";
+
+      matched.browser = msedge;
+      browser[msedge] = true;
     }
 
     // Blackberry browsers are marked as Safari on BlackBerry

@@ -1,11 +1,22 @@
+/*!
+ * 
+ * Angle - Bootstrap Admin App + AngularJS
+ * 
+ * Version: 3.2.0
+ * Author: @themicon_co
+ * Website: http://themicon.co
+ * License: https://wrapbootstrap.com/help/licenses
+ * 
+ */
+
 // APP START
-// -----------------------------------
+// ----------------------------------- 
 
 (function() {
     'use strict';
 
     angular
-        .module('invalog', [
+        .module('angle', [
             'app.core',
             'app.routes',
             'app.sidebar',
@@ -29,6 +40,12 @@
     'use strict';
 
     angular
+        .module('app.lazyload', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.core', [
             'ngRoute',
             'ngAnimate',
@@ -43,12 +60,6 @@
             'ngResource',
             'ui.utils'
         ]);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.lazyload', []);
 })();
 (function() {
     'use strict';
@@ -88,13 +99,13 @@
     'use strict';
 
     angular
-        .module('app.sidebar', []);
+        .module('app.translate', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.translate', []);
+        .module('app.sidebar', []);
 })();
 (function() {
     'use strict';
@@ -159,6 +170,46 @@
     'use strict';
 
     angular
+        .module('app.lazyload')
+        .config(lazyloadConfig);
+
+    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
+    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
+
+      // Lazy Load modules configuration
+      $ocLazyLoadProvider.config({
+        debug: false,
+        events: true,
+        modules: APP_REQUIRES.modules
+      });
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.lazyload')
+        .constant('APP_REQUIRES', {
+          // jQuery based and standalone scripts
+          scripts: {
+            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
+            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
+                                   'vendor/simple-line-icons/css/simple-line-icons.css']
+          },
+          // Angular based script (use the right module name)
+          modules: [
+            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
+          ]
+        })
+        ;
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
         .module('app.core')
         .config(coreConfig);
 
@@ -208,9 +259,9 @@
         .run(appRun);
 
     appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
-
+    
     function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
-
+      
       // Set reference to access them from any scope
       $rootScope.$state = $state;
       $rootScope.$stateParams = $stateParams;
@@ -233,7 +284,7 @@
       };
 
       // Hooks Example
-      // -----------------------------------
+      // ----------------------------------- 
 
       // Hook not found
       $rootScope.$on('$stateNotFound',
@@ -262,52 +313,12 @@
         var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
         document.title = title;
         return title;
-      };
+      };      
 
     }
 
 })();
 
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.lazyload')
-        .config(lazyloadConfig);
-
-    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
-    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
-
-      // Lazy Load modules configuration
-      $ocLazyLoadProvider.config({
-        debug: false,
-        events: true,
-        modules: APP_REQUIRES.modules
-      });
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.lazyload')
-        .constant('APP_REQUIRES', {
-          // jQuery based and standalone scripts
-          scripts: {
-            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
-            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
-                                   'vendor/simple-line-icons/css/simple-line-icons.css']
-          },
-          // Angular based script (use the right module name)
-          modules: [
-            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
-          ]
-        })
-        ;
-
-})();
 
 (function() {
     'use strict';
@@ -335,7 +346,7 @@
     function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
 
       // Loading bar transition
-      // -----------------------------------
+      // ----------------------------------- 
       var thBar;
       $rootScope.$on('$stateChangeStart', function() {
           if($('.wrapper > section').length) // check if bar container exists
@@ -368,8 +379,8 @@
 
     //
     // directives definition
-    //
-
+    // 
+    
     function searchOpen () {
         var directive = {
             controller: searchOpenController,
@@ -385,13 +396,13 @@
             restrict: 'A'
         };
         return directive;
-
+        
     }
 
     //
     // Contrller definition
-    //
-
+    // 
+    
     searchOpenController.$inject = ['$scope', '$element', 'NavSearch'];
     function searchOpenController ($scope, $element, NavSearch) {
       $element
@@ -401,7 +412,7 @@
 
     searchDismissController.$inject = ['$scope', '$element', 'NavSearch'];
     function searchDismissController ($scope, $element, NavSearch) {
-
+      
       var inputSelector = '.navbar-form input[type="text"]';
 
       $(inputSelector)
@@ -410,7 +421,7 @@
           if (e.keyCode === 27) // ESC
             NavSearch.dismiss();
         });
-
+        
       // click anywhere closes the search
       $(document).on('click', NavSearch.dismiss);
       // dismissable options
@@ -426,7 +437,7 @@
  * Module: nav-search.js
  * Services to share navbar search functions
  =========================================================*/
-
+ 
 (function() {
     'use strict';
 
@@ -446,9 +457,9 @@
           var navbarForm = $(navbarFormSelector);
 
           navbarForm.toggleClass('open');
-
+          
           var isOpen = navbarForm.hasClass('open');
-
+          
           navbarForm.find('input')[isOpen ? 'focus' : 'blur']();
         }
 
@@ -458,7 +469,7 @@
             .find('input[type="text"]').blur() // remove focus
             .val('') // Empty input
             ;
-        }
+        }        
     }
 })();
 
@@ -474,7 +485,7 @@
 
         var directive = {
             restrict: 'EAC',
-            template:
+            template: 
               '<div class="preloader-progress">' +
                   '<div class="preloader-progress-bar" ' +
                        'ng-style="{width: loadCounter + \'%\'}"></div>' +
@@ -535,7 +546,7 @@
             // a custom event must be used instead
             var off = scope.$on('$viewContentLoaded', function () {
               viewsLoaded ++;
-              // we know there are at least two views to be loaded
+              // we know there are at least two views to be loaded 
               // before the app is ready (1-index.html 2-app*.html)
               if ( viewsLoaded === 2) {
                 // with resolve this fires only once
@@ -654,7 +665,7 @@
 
     routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
-
+        
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
@@ -662,9 +673,9 @@
         // defaults to dashboard
         $urlRouterProvider.otherwise('/app/singleview');
 
-        //
+        // 
         // Application Routes
-        // -----------------------------------
+        // -----------------------------------   
         $stateProvider
           .state('app', {
               url: '/app',
@@ -682,12 +693,12 @@
               title: 'Submenu',
               templateUrl: helper.basepath('submenu.html')
           })
-          //
+          // 
           // CUSTOM RESOLVES
           //   Add your own resolves properties
           //   following this object extend
           //   method
-          // -----------------------------------
+          // ----------------------------------- 
           // .state('app.someroute', {
           //   url: '/some_url',
           //   templateUrl: 'path_to_template.html',
@@ -763,6 +774,70 @@
 
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.translate')
+        .config(translateConfig)
+        ;
+    translateConfig.$inject = ['$translateProvider'];
+    function translateConfig($translateProvider){
+
+      $translateProvider.useStaticFilesLoader({
+          prefix : 'app/i18n/',
+          suffix : '.json'
+      });
+
+      $translateProvider.preferredLanguage('en');
+      $translateProvider.useLocalStorage();
+      $translateProvider.usePostCompiling(true);
+      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.translate')
+        .run(translateRun)
+        ;
+    translateRun.$inject = ['$rootScope', '$translate'];
+    
+    function translateRun($rootScope, $translate){
+
+      // Internationalization
+      // ----------------------
+
+      $rootScope.language = {
+        // Handles language dropdown
+        listIsOpen: false,
+        // list of available languages
+        available: {
+          'en':       'English',
+          'es_AR':    'Español'
+        },
+        // display always the current ui language
+        init: function () {
+          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
+          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
+          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
+        },
+        set: function (localeId) {
+          // Set the new idiom
+          $translate.use(localeId);
+          // save a reference for the current language
+          $rootScope.language.selected = $rootScope.language.available[localeId];
+          // finally toggle dropdown
+          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
+        }
+      };
+
+      $rootScope.language.init();
+
+    }
+})();
 /**=========================================================
  * Module: sidebar-menu.js
  * Handle sidebar collapsible elements
@@ -794,17 +869,17 @@
 
 
           // Load menu from json file
-          // -----------------------------------
+          // ----------------------------------- 
 
           SidebarLoader.getMenu(sidebarReady);
-
+          
           function sidebarReady(items) {
             $scope.menuItems = items;
           }
 
           // Handle sidebar and collapse items
           // ----------------------------------
-
+          
           $scope.getMenuItemPropClasses = function(item) {
             return (item.heading ? 'nav-heading' : '') +
                    (isActive(item) ? ' active' : '') ;
@@ -833,15 +908,15 @@
             else if ( isParentItem ) {
               closeAllBut(-1);
             }
-
+            
             $scope.lastEventFromChild = isChild($index);
 
             return true;
-
+          
           };
 
           // Controller helpers
-          // -----------------------------------
+          // ----------------------------------- 
 
             // Check item and children active state
             function isActive(item) {
@@ -871,7 +946,7 @@
               /*jshint -W018*/
               return (typeof $index === 'string') && !($index.indexOf('-') < 0);
             }
-
+        
         } // activate
     }
 
@@ -920,7 +995,7 @@
               subNav.trigger('mouseleave');
               subNav = toggleMenuItem( $(this), $sidebar);
 
-              // Used to detect click and touch events outside the sidebar
+              // Used to detect click and touch events outside the sidebar          
               sidebarAddBackdrop();
 
             }
@@ -948,10 +1023,10 @@
 
       	  // Autoclose when click outside the sidebar
           if ( angular.isDefined(attrs.sidebarAnyclickClose) ) {
-
+            
             var wrapper = $('.wrapper');
             var sbclickEvent = 'click.sidebar';
-
+            
             $rootScope.$watch('app.asideToggled', watchExternalClicks);
 
           }
@@ -981,7 +1056,7 @@
             if(!scope.$$phase) scope.$apply(); // anti-pattern but sometimes necessary
       	  }
         }
-
+        
         ///////
 
         function sidebarAddBackdrop() {
@@ -991,7 +1066,7 @@
           });
         }
 
-        // Open the collapse sidebar submenu items when on touch devices
+        // Open the collapse sidebar submenu items when on touch devices 
         // - desktop only opens on hover
         function toggleTouchItem($element){
           $element
@@ -1002,13 +1077,13 @@
         }
 
         // Handles hover to open items under collapsed menu
-        // -----------------------------------
+        // ----------------------------------- 
         function toggleMenuItem($listItem, $sidebar) {
 
           removeFloatingNav();
 
           var ul = $listItem.children('ul');
-
+          
           if( !ul.length ) return $();
           if( $listItem.hasClass('open') ) {
             toggleTouchItem($listItem);
@@ -1020,7 +1095,7 @@
           // float aside uses extra padding on aside
           var mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
           var subNav = ul.clone().appendTo( $aside );
-
+          
           toggleTouchItem($listItem);
 
           var itemTop = ($listItem.position().top + mar) - $sidebar.scrollTop();
@@ -1069,7 +1144,7 @@
         function getMenu(onReady, onError) {
           var menuJson = 'server/sidebar-menu.json',
               menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
-
+            
           onError = onError || function() { alert('Failure loading menu'); };
 
           $http
@@ -1118,70 +1193,6 @@
     }
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .config(translateConfig)
-        ;
-    translateConfig.$inject = ['$translateProvider'];
-    function translateConfig($translateProvider){
-
-      $translateProvider.useStaticFilesLoader({
-          prefix : 'app/i18n/',
-          suffix : '.json'
-      });
-
-      $translateProvider.preferredLanguage('en');
-      $translateProvider.useLocalStorage();
-      $translateProvider.usePostCompiling(true);
-      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .run(translateRun)
-        ;
-    translateRun.$inject = ['$rootScope', '$translate'];
-
-    function translateRun($rootScope, $translate){
-
-      // Internationalization
-      // ----------------------
-
-      $rootScope.language = {
-        // Handles language dropdown
-        listIsOpen: false,
-        // list of available languages
-        available: {
-          'en':       'English',
-          'es_AR':    'Español'
-        },
-        // display always the current ui language
-        init: function () {
-          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
-          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
-          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
-        },
-        set: function (localeId) {
-          // Set the new idiom
-          $translate.use(localeId);
-          // save a reference for the current language
-          $rootScope.language.selected = $rootScope.language.available[localeId];
-          // finally toggle dropdown
-          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
-        }
-      };
-
-      $rootScope.language.init();
-
-    }
-})();
 /**=========================================================
  * Module: animate-enabled.js
  * Enable or disables ngAnimate for element with directive
@@ -1302,9 +1313,9 @@
                 e.preventDefault();
 
                 if (screenfull.enabled) {
-
+                  
                   screenfull.toggle();
-
+                  
                   // Switch icon indicator
                   if(screenfull.isFullscreen)
                     $(this).children('em').removeClass('fa-expand').addClass('fa-compress');
@@ -1360,7 +1371,7 @@
 
           });
         }
-
+        
         function createLink(uri) {
           var linkId = 'autoloaded-stylesheet',
               oldLink = $('#'+linkId).attr('id', linkId + '-old');
@@ -1589,7 +1600,7 @@
                 return false;
               }
           },
-
+          
           langdirection: $html.attr('dir') === 'rtl' ? 'right' : 'left',
 
           isTouch: function () {
