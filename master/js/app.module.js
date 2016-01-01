@@ -1,22 +1,17 @@
 /*!
- * 
- * Angle - Bootstrap Admin App + AngularJS
- * 
- * Version: 3.2.0
- * Author: @themicon_co
- * Website: http://themicon.co
- * License: https://wrapbootstrap.com/help/licenses
- * 
+ *
+ * Invalog - Bootstrap App + AngularJS
+ *
  */
 
 // APP START
-// ----------------------------------- 
+// -----------------------------------
 
 (function() {
     'use strict';
 
     angular
-        .module('angle', [
+        .module('invalog', [
             'app.core',
             'app.routes',
             'app.sidebar',
@@ -28,4 +23,3 @@
             'app.utils'
         ]);
 })();
-

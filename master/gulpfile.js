@@ -13,7 +13,7 @@ var isProduction = false;
 // styles sourcemaps
 var useSourceMaps = false;
 
-// Switch to sass mode. 
+// Switch to sass mode.
 // Example:
 //    gulp --usesass
 var useSass = args.usesass;
@@ -58,7 +58,7 @@ var vendor = {
 };
 
 
-// SOURCES CONFIG 
+// SOURCES CONFIG
 var source = {
   scripts: [paths.scripts + 'app.module.js',
             // template modules
@@ -79,7 +79,7 @@ var source = {
   }
 };
 
-// BUILD TARGET CONFIG 
+// BUILD TARGET CONFIG
 var build = {
   scripts: paths.app + 'js',
   styles:  paths.app + 'css',
@@ -129,7 +129,7 @@ var tplCacheOptions = {
 };
 
 var injectOptions = {
-  name: 'templates', 
+  name: 'templates',
   transform: function(filepath) {
     return 'script(src=\'' +
               filepath.substr(filepath.indexOf('app')) +
@@ -248,7 +248,7 @@ gulp.task('templates:index', ['templates:views'], function() {
 // JADE
 gulp.task('templates:views', function() {
     log('Building views.. ' + (useCache?'using cache':''));
-    
+
     if(useCache) {
 
       return gulp.src(source.templates.views)
@@ -257,7 +257,7 @@ gulp.task('templates:views', function() {
           .pipe($.angularTemplatecache(tplCacheOptions))
           .pipe( $.if(isProduction, $.uglify({preserveComments:'some'}) ))
           .pipe(gulp.dest(build.scripts));
-          ;  
+          ;
     }
     else {
 
@@ -344,9 +344,9 @@ gulp.task('build', gulpsync.sync([
           'assets'
         ]));
 
-gulp.task('prod', function() { 
+gulp.task('prod', function() {
   log('Starting production build...');
-  isProduction = true; 
+  isProduction = true;
 });
 
 // build with sourcemaps (no minify)
@@ -387,7 +387,7 @@ function handleError(err) {
 
 // Mini gulp plugin to flip css (rtl)
 function flipcss(opt) {
-  
+
   if (!opt) opt = {};
 
   // creating a stream through which each file will pass
@@ -407,7 +407,7 @@ function flipcss(opt) {
   return stream;
 }
 
-// log to console using 
+// log to console using
 function log(msg) {
-  $.util.log( $.util.colors.blue( msg ) );  
+  $.util.log( $.util.colors.blue( msg ) );
 }

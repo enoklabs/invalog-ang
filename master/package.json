@@ -1,8 +1,8 @@
 {
-  "name": "Angle",
+  "name": "Invalog",
   "version": "0.0.0",
-  "description": "Angle - Bootstrap Admin App + AngularJS",
-  "author": "@themicon_co",
+  "description": "Invalog - App",
+  "author": "",
   "dependencies": {},
   "devDependencies": {
     "css-flip": "git://github.com/geedmo/css-flip",
