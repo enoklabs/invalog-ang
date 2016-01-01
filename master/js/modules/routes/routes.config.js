@@ -13,7 +13,7 @@
 
     routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
     function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
-        
+
         // Set the following to true to enable the HTML5 Mode
         // You may have to set <base> tag in index and a routing configuration in your server
         $locationProvider.html5Mode(false);
@@ -21,9 +21,9 @@
         // defaults to dashboard
         $urlRouterProvider.otherwise('/app/singleview');
 
-        // 
+        //
         // Application Routes
-        // -----------------------------------   
+        // -----------------------------------
         $stateProvider
           .state('app', {
               url: '/app',
@@ -36,17 +36,22 @@
               title: 'Single View',
               templateUrl: helper.basepath('singleview.html')
           })
+          .state('app.overview', {
+              url: '/overview',
+              title: 'OverView',
+              templateUrl: helper.basepath('overview.html')
+          })
           .state('app.submenu', {
               url: '/submenu',
               title: 'Submenu',
               templateUrl: helper.basepath('submenu.html')
           })
-          // 
+          //
           // CUSTOM RESOLVES
           //   Add your own resolves properties
           //   following this object extend
           //   method
-          // ----------------------------------- 
+          // -----------------------------------
           // .state('app.someroute', {
           //   url: '/some_url',
           //   templateUrl: 'path_to_template.html',
@@ -62,4 +67,3 @@
     } // routesConfig
 
 })();
-

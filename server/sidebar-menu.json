@@ -11,14 +11,20 @@
     "translate": "sidebar.nav.SINGLEVIEW"
   },
   {
+    "text": "Over View",
+    "sref": "app.overview",
+    "icon": "fa fa-lock",
+    "translate": "sidebar.nav.OVERVIEW"
+  },
+  {
     "text": "Menu",
     "sref": "#",
     "icon": "icon-folder",
     "submenu": [
-      { "text": "Sub Menu", 
-        "sref": "app.submenu", 
-        "translate": "sidebar.nav.menu.SUBMENU" 
-      }    
+      { "text": "Sub Menu",
+        "sref": "app.submenu",
+        "translate": "sidebar.nav.menu.SUBMENU"
+      }
     ],
     "translate": "sidebar.nav.menu.MENU"
   }

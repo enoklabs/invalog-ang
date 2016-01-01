@@ -12,7 +12,7 @@
       // Global Settings
       // -----------------------------------
       $rootScope.app = {
-        name: 'Angle',
+        name: 'Invalog',
         description: 'Angular Bootstrap Admin Template',
         year: ((new Date()).getFullYear()),
         layout: {
