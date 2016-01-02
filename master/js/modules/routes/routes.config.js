@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/singleview');
+        $urlRouterProvider.otherwise('/app/overview');
 
         //
         // Application Routes
@@ -30,11 +30,6 @@
               abstract: true,
               templateUrl: helper.basepath('app.html'),
               resolve: helper.resolveFor('modernizr', 'icons')
-          })
-          .state('app.singleview', {
-              url: '/singleview',
-              title: 'Single View',
-              templateUrl: helper.basepath('singleview.html')
           })
           .state('app.overview', {
               url: '/overview',
@@ -51,7 +46,23 @@
                 title: 'Maintenance',
                 templateUrl: helper.basepath('maintenance.html')
             })
-          .state('app.submenu', {
+            .state('app.warranty', {
+                url: '/warranty-tracker',
+                title: 'Warranty Tracker',
+                templateUrl: helper.basepath('tools/warranty.html')
+            })
+            .state('app.manuals', {
+                url: '/manuals-tracker',
+                title: 'Manuals Tracker',
+                templateUrl: helper.basepath('tools/manuals.html')
+            })
+            .state('app.articles', {
+                url: '/articles',
+                title: 'Articles',
+                templateUrl: helper.basepath('articles.html')
+            })
+          .state('' +
+              'app.submenu', {
               url: '/submenu',
               title: 'Submenu',
               templateUrl: helper.basepath('submenu.html')

@@ -17,10 +17,12 @@
       "OVERVIEW": "OverView",
       "INVENTORY": "Inventory",
       "MAINTENANCE": "Maintenance",
-      "menu": {
-        "MENU": "Menu",
-        "SUBMENU": "Sub Menu"
-      }
+      "tools": {
+        "TOOLS": "Tools",
+        "WARRANTY": "Warranty Tracker",
+        "MANUALS": "Manuals Tracker"
+      },
+      "ARTICLES" : "Articles"
     }
   }
 }

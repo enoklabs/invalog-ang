@@ -7,32 +7,44 @@
   {
     "text": "Over View",
     "sref": "app.overview",
-    "icon": "icon-cup",
+    "icon": "icon-home",
     "translate": "sidebar.nav.OVERVIEW"
   },
   {
     "text": "Inventory",
     "sref": "app.inventory",
-    "icon": "icon-cup",
+    "icon": "icon-list",
     "translate": "sidebar.nav.INVENTORY"
   },
   {
     "text": "Maintenance",
     "sref": "app.maintenance",
-    "icon": "fa fa-file-o",
+    "icon": "icon-calendar",
     "translate": "sidebar.nav.MAINTENANCE"
   },
 
   {
-    "text": "Menu",
+    "text": "Tools",
     "sref": "#",
-    "icon": "icon-folder",
+    "icon": "icon-wrench",
     "submenu": [
-      { "text": "Sub Menu",
-        "sref": "app.submenu",
-        "translate": "sidebar.nav.menu.SUBMENU"
+      { "text": "Warranty Tracker",
+        "sref": "app.warranty",
+        "icon": "icon-badge",
+        "translate": "sidebar.nav.tools.WARRANTY"
+      },
+      { "text": "Manuals Tracker",
+        "sref": "app.manuals",
+        "icon": "icon-book-open",
+        "translate": "sidebar.nav.tools.MANUALS"
       }
     ],
-    "translate": "sidebar.nav.menu.MENU"
+    "translate": "sidebar.nav.tools.TOOLS"
+  },
+  {
+    "text": "Articles",
+    "sref": "app.articles",
+    "icon": "fa fa-newspaper-o",
+    "translate": "sidebar.nav.ARTICLES"
   }
 ]
