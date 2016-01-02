@@ -13,7 +13,10 @@
       "HEADER": "Main Navigation"
     },
     "nav": {
-      "SINGLEVIEW": "Single View",
+
+      "OVERVIEW": "OverView",
+      "INVENTORY": "Inventory",
+      "MAINTENANCE": "Maintenance",
       "menu": {
         "MENU": "Menu",
         "SUBMENU": "Sub Menu"

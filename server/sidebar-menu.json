@@ -5,17 +5,24 @@
     "translate": "sidebar.heading.HEADER"
   },
   {
-    "text": "Single View",
-    "sref": "app.singleview",
-    "icon": "fa fa-file-o",
-    "translate": "sidebar.nav.SINGLEVIEW"
-  },
-  {
     "text": "Over View",
     "sref": "app.overview",
-    "icon": "fa fa-lock",
+    "icon": "icon-cup",
     "translate": "sidebar.nav.OVERVIEW"
   },
+  {
+    "text": "Inventory",
+    "sref": "app.inventory",
+    "icon": "icon-cup",
+    "translate": "sidebar.nav.INVENTORY"
+  },
+  {
+    "text": "Maintenance",
+    "sref": "app.maintenance",
+    "icon": "fa fa-file-o",
+    "translate": "sidebar.nav.MAINTENANCE"
+  },
+
   {
     "text": "Menu",
     "sref": "#",

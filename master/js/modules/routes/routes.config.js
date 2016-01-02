@@ -41,6 +41,16 @@
               title: 'OverView',
               templateUrl: helper.basepath('overview.html')
           })
+            .state('app.inventory', {
+                url: '/inventory',
+                title: 'Inventory',
+                templateUrl: helper.basepath('inventory.html')
+            })
+            .state('app.maintenance', {
+                url: '/maintenance',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance.html')
+            })
           .state('app.submenu', {
               url: '/submenu',
               title: 'Submenu',

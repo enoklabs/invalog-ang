@@ -1,2 +1,4 @@
 master/bower_components/*
 master/node_modules/*
+.idea/*
+.idea/vcs.xml
