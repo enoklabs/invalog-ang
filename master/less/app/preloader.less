@@ -2,7 +2,9 @@
    Component: preloader.less
  ========================================================================== */
 
-@preloader-bg:  @brand-info;
+//@preloader-bg:  @brand-info;
+@preloader-bg: #039BE5;
+@preloader-bg2: #29B6F6;
 @preloader-wd:  100px;
 @preloader-hg:  30px;
 /*@noflip*/
@@ -14,11 +16,11 @@
   height: 100%;
   overflow: hidden;
   background-color:  @preloader-bg;
-  background-image: -webkit-linear-gradient(90deg, @preloader-bg 10%, darken(@preloader-bg, 5%) 90%); /* Chrome 10+, Saf5.1+ */
-  background-image:    -moz-linear-gradient(90deg, @preloader-bg 10%, darken(@preloader-bg, 5%) 90%); /* FF3.6+ */
-  background-image:     -ms-linear-gradient(90deg, @preloader-bg 10%, darken(@preloader-bg, 5%) 90%); /* IE10 */
-  background-image:      -o-linear-gradient(90deg, @preloader-bg 10%, darken(@preloader-bg, 5%) 90%); /* Opera 11.10+ */
-  background-image:         linear-gradient(90deg, @preloader-bg 10%, darken(@preloader-bg, 5%) 90%); /* W3C */
+  background-image: -webkit-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* FF3.6+ */
+  background-image:     -ms-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* IE10 */
+  background-image:      -o-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* Opera 11.10+ */
+  background-image:         linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* W3C */
   z-index: 9999;
   .transition(opacity .65s); 
 }
