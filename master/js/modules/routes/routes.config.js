@@ -31,11 +31,11 @@
               templateUrl: helper.basepath('app.html'),
               resolve: helper.resolveFor('modernizr', 'icons')
           })
-          .state('app.overview', {
-              url: '/overview',
-              title: 'OverView',
-              templateUrl: helper.basepath('overview.html')
-          })
+            .state('app.overview', {
+                url: '/overview',
+                title: 'OverView',
+                templateUrl: helper.basepath('overview.html')
+            })
             .state('app.inventory', {
                 url: '/inventory',
                 title: 'Inventory',
@@ -67,6 +67,62 @@
               title: 'Submenu',
               templateUrl: helper.basepath('submenu.html')
           })
+            .state('' +
+                'app.equity', {
+                url: '/equity',
+                title: 'Equity',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.sales', {
+                url: '/sales',
+                title: 'Sales',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.donations', {
+                url: '/donations',
+                title: 'Donations',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.sharing', {
+                url: '/sharing',
+                title: 'Sharing',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.recommendations', {
+                url: '/recommendations',
+                title: 'Recommendations',
+                templateUrl: helper.basepath('submenu.html')
+            })
+          //
+          // Single Page Routes
+          // -----------------------------------
+            .state('page', {
+                url: '/page',
+                templateUrl: 'app/pages/page.html',
+                resolve: helper.resolveFor('modernizr', 'icons'),
+                controller: ['$rootScope', function($rootScope) {
+                    $rootScope.app.layout.isBoxed = false;
+                }]
+            })
+            .state('page.login', {
+                url: '/login',
+                title: 'Login',
+                templateUrl: 'app/pages/login.html'
+            })
+            .state('page.register', {
+                url: '/register',
+                title: 'Register',
+                templateUrl: 'app/pages/register.html'
+            })
+            .state('page.recover', {
+                url: '/recover',
+                title: 'Recover',
+                templateUrl: 'app/pages/recover.html'
+            })
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties

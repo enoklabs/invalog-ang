@@ -71,7 +71,7 @@
                      <li class="mb-sm">
                         <span class="text-muted">Warranties:</span> 2</li>
                      <li class="mb-sm">
-                        <span class="text-muted">Total Inventory Items:</span> 135</li>
+                        <span class="text-muted">Total Inventory:</span> 135</li>
                   </ul>
                </div>
             </div>
@@ -115,7 +115,7 @@
 
 <div class="row">
 
-   <div class="col-lg-6">
+   <div class="col-lg-8">
       <div class="panel panel-default">
          <div class="panel-heading">
             <!--<a href="#" class="btn btn-default btn-sm pull-right">See All Recommendations </a>-->
@@ -207,13 +207,50 @@
             <!--<a href="#" class="pull-left">-->
                <!--<small>Load more</small>-->
             <!--</a>-->
-            <a href="#" class="btn btn-default btn-sm pull-right">See All Recommendations </a>
+            <a ng-href="#/app/recommendations" class="btn btn-default btn-sm pull-right">See All Recommendations </a>
          </div>
          <!-- END panel-footer-->
 
       </div>
    </div>
-   <!-- END dashboard sidebar-->
+   <!-- END recommendations -->
+
+
+   <div class="col-md-4">
+      <!-- START widget-->
+      <div class="panel panel-default">
+         <div class="panel-body">
+            <div class="row row-table row-table-header">
+               <h4 class="header">
+                  Latest Article
+               </h4>
+               <hr>
+            </div>
+
+            <div class="row row-table">
+
+               <a href="javascript:;">
+                  <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/uxpmod_2226018_33285484187_house-prices-up.jpg?1450644260567" alt="">
+                  <h4>Most Americans have More Value in Their Homes And They Don’t Even Know It</h4>
+               </a>
+               <p class="text-muted">More than half of Americans don’t have a home inventory of their possessions, putting them at risk for inadequate home insurance coverage, should fire, theft or natural disaster of severe weather strike.</p>
+
+
+            </div>
+         </div>
+
+         <!-- START panel footer-->
+         <div class="panel-footer clearfix">
+            <a href="#" class="pull-left">
+            <small>Read more</small>
+            </a>
+            <a ng-href="#/app/articles" class="btn btn-default btn-sm pull-right">See All Articles </a>
+         </div>
+         <!-- END panel-footer-->
+
+      </div>
+      <!-- END widget-->
+   </div>
 
 </div>
 <!-- END row-->
