@@ -37,6 +37,11 @@
         "sref": "app.manuals",
         "icon": "icon-book-open",
         "translate": "sidebar.nav.tools.MANUALS"
+      },
+      { "text": "Moving / Storage",
+        "sref": "app.moving",
+        "icon": "fa fa-truck",
+        "translate": "sidebar.nav.tools.MOVING"
       }
     ],
     "translate": "sidebar.nav.tools.TOOLS"

@@ -56,6 +56,11 @@
                 title: 'Manuals Tracker',
                 templateUrl: helper.basepath('tools/manuals.html')
             })
+            .state('app.moving', {
+                url: '/moving',
+                title: 'Moving / Storage',
+                templateUrl: helper.basepath('submenu.html')
+            })
             .state('app.articles', {
                 url: '/articles',
                 title: 'Articles',
