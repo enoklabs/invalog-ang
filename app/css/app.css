@@ -8744,6 +8744,13 @@ ul[rn-carousel] {
 .label-purple[href]:focus {
   background-color: #564aa3;
 }
+.label-gray {
+  background-color: #c5cacc;
+}
+.label-gray[href]:hover,
+.label-gray[href]:focus {
+  background-color: #aab1b4;
+}
 .alert-purple {
   background-color: #7266ba;
   border-color: #7266ba;
@@ -8940,4 +8947,11 @@ ul[rn-carousel] {
 }
 .row-table-header hr {
   margin: 10px 0;
+}
+.border-secondary {
+  border: 1px solid #5ac7f8;
+}
+.border-secondary em,
+.border-secondary i {
+  color: #5ac7f8;
 }

@@ -41,6 +41,11 @@
                 title: 'Inventory',
                 templateUrl: helper.basepath('inventory.html')
             })
+            .state('app.item', {
+                url: '/inventory/item',
+                title: 'Item',
+                templateUrl: helper.basepath('item.html')
+            })
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',

@@ -53,13 +53,13 @@
     'use strict';
 
     angular
-        .module('app.lazyload', []);
+        .module('app.loadingbar', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.loadingbar', []);
+        .module('app.lazyload', []);
 })();
 (function() {
     'use strict';
@@ -87,25 +87,25 @@
     'use strict';
 
     angular
-        .module('app.settings', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.sidebar', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.pages', []);
+        .module('app.settings', []);
 })();
 (function() {
     'use strict';
 
     angular
         .module('app.translate', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages', []);
 })();
 (function() {
     'use strict';
@@ -284,46 +284,6 @@
     'use strict';
 
     angular
-        .module('app.lazyload')
-        .config(lazyloadConfig);
-
-    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
-    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
-
-      // Lazy Load modules configuration
-      $ocLazyLoadProvider.config({
-        debug: false,
-        events: true,
-        modules: APP_REQUIRES.modules
-      });
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.lazyload')
-        .constant('APP_REQUIRES', {
-          // jQuery based and standalone scripts
-          scripts: {
-            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
-            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
-                                   'vendor/simple-line-icons/css/simple-line-icons.css']
-          },
-          // Angular based script (use the right module name)
-          modules: [
-            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
-          ]
-        })
-        ;
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
         .module('app.loadingbar')
         .config(loadingbarConfig)
         ;
@@ -364,6 +324,46 @@
     }
 
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.lazyload')
+        .config(lazyloadConfig);
+
+    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
+    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
+
+      // Lazy Load modules configuration
+      $ocLazyLoadProvider.config({
+        debug: false,
+        events: true,
+        modules: APP_REQUIRES.modules
+      });
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.lazyload')
+        .constant('APP_REQUIRES', {
+          // jQuery based and standalone scripts
+          scripts: {
+            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
+            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
+                                   'vendor/simple-line-icons/css/simple-line-icons.css']
+          },
+          // Angular based script (use the right module name)
+          modules: [
+            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
+          ]
+        })
+        ;
+
+})();
+
 /**=========================================================
  * Module: navbar-search.js
  * Navbar search toggler * Auto dismiss on ESC key
@@ -693,6 +693,11 @@
                 title: 'Inventory',
                 templateUrl: helper.basepath('inventory.html')
             })
+            .state('app.item', {
+                url: '/inventory/item',
+                title: 'Item',
+                templateUrl: helper.basepath('item.html')
+            })
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',
@@ -799,64 +804,6 @@
           ;
 
     } // routesConfig
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.settings')
-        .run(settingsRun);
-
-    settingsRun.$inject = ['$rootScope', '$localStorage'];
-
-    function settingsRun($rootScope, $localStorage){
-
-      // Global Settings
-      // -----------------------------------
-      $rootScope.app = {
-        name: 'Invalog',
-        description: 'Angular Bootstrap Admin Template',
-        year: ((new Date()).getFullYear()),
-        layout: {
-          isFixed: true,
-          isCollapsed: false,
-          isBoxed: false,
-          isRTL: false,
-          horizontal: false,
-          isFloat: false,
-          asideHover: false,
-          theme: null,
-          asideScrollbar: false
-        },
-        useFullLayout: false,
-        hiddenFooter: false,
-        offsidebarOpen: false,
-        asideToggled: false,
-        viewAnimation: 'ng-fadeInUp'
-      };
-
-      // Setup the layout mode
-      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
-
-      // Restore layout settings [*** UNCOMMENT TO ENABLE ***]
-      // if( angular.isDefined($localStorage.layout) )
-      //   $rootScope.app.layout = $localStorage.layout;
-      // else
-      //   $localStorage.layout = $rootScope.app.layout;
-      //
-      // $rootScope.$watch('app.layout', function () {
-      //   $localStorage.layout = $rootScope.app.layout;
-      // }, true);
-
-      // Close submenu when sidebar change from collapsed to normal
-      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
-        if( newValue === false )
-          $rootScope.$broadcast('closeSidebarMenu');
-      });
-
-    }
 
 })();
 
@@ -1215,6 +1162,128 @@
     }
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.settings')
+        .run(settingsRun);
+
+    settingsRun.$inject = ['$rootScope', '$localStorage'];
+
+    function settingsRun($rootScope, $localStorage){
+
+      // Global Settings
+      // -----------------------------------
+      $rootScope.app = {
+        name: 'Invalog',
+        description: 'Angular Bootstrap Admin Template',
+        year: ((new Date()).getFullYear()),
+        layout: {
+          isFixed: true,
+          isCollapsed: false,
+          isBoxed: false,
+          isRTL: false,
+          horizontal: false,
+          isFloat: false,
+          asideHover: false,
+          theme: null,
+          asideScrollbar: false
+        },
+        useFullLayout: false,
+        hiddenFooter: false,
+        offsidebarOpen: false,
+        asideToggled: false,
+        viewAnimation: 'ng-fadeInUp'
+      };
+
+      // Setup the layout mode
+      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
+
+      // Restore layout settings [*** UNCOMMENT TO ENABLE ***]
+      // if( angular.isDefined($localStorage.layout) )
+      //   $rootScope.app.layout = $localStorage.layout;
+      // else
+      //   $localStorage.layout = $rootScope.app.layout;
+      //
+      // $rootScope.$watch('app.layout', function () {
+      //   $localStorage.layout = $rootScope.app.layout;
+      // }, true);
+
+      // Close submenu when sidebar change from collapsed to normal
+      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
+        if( newValue === false )
+          $rootScope.$broadcast('closeSidebarMenu');
+      });
+
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.translate')
+        .config(translateConfig)
+        ;
+    translateConfig.$inject = ['$translateProvider'];
+    function translateConfig($translateProvider){
+
+      $translateProvider.useStaticFilesLoader({
+          prefix : 'app/i18n/',
+          suffix : '.json'
+      });
+
+      $translateProvider.preferredLanguage('en');
+      $translateProvider.useLocalStorage();
+      $translateProvider.usePostCompiling(true);
+      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
+
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.translate')
+        .run(translateRun)
+        ;
+    translateRun.$inject = ['$rootScope', '$translate'];
+    
+    function translateRun($rootScope, $translate){
+
+      // Internationalization
+      // ----------------------
+
+      $rootScope.language = {
+        // Handles language dropdown
+        listIsOpen: false,
+        // list of available languages
+        available: {
+          'en':       'English',
+          'es_AR':    'Español'
+        },
+        // display always the current ui language
+        init: function () {
+          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
+          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
+          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
+        },
+        set: function (localeId) {
+          // Set the new idiom
+          $translate.use(localeId);
+          // save a reference for the current language
+          $rootScope.language.selected = $rootScope.language.available[localeId];
+          // finally toggle dropdown
+          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
+        }
+      };
+
+      $rootScope.language.init();
+
+    }
+})();
 /**=========================================================
  * Module: access-login.js
  * Demo for login api
@@ -1329,70 +1398,6 @@
     }
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .config(translateConfig)
-        ;
-    translateConfig.$inject = ['$translateProvider'];
-    function translateConfig($translateProvider){
-
-      $translateProvider.useStaticFilesLoader({
-          prefix : 'app/i18n/',
-          suffix : '.json'
-      });
-
-      $translateProvider.preferredLanguage('en');
-      $translateProvider.useLocalStorage();
-      $translateProvider.usePostCompiling(true);
-      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .run(translateRun)
-        ;
-    translateRun.$inject = ['$rootScope', '$translate'];
-    
-    function translateRun($rootScope, $translate){
-
-      // Internationalization
-      // ----------------------
-
-      $rootScope.language = {
-        // Handles language dropdown
-        listIsOpen: false,
-        // list of available languages
-        available: {
-          'en':       'English',
-          'es_AR':    'Español'
-        },
-        // display always the current ui language
-        init: function () {
-          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
-          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
-          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
-        },
-        set: function (localeId) {
-          // Set the new idiom
-          $translate.use(localeId);
-          // save a reference for the current language
-          $rootScope.language.selected = $rootScope.language.available[localeId];
-          // finally toggle dropdown
-          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
-        }
-      };
-
-      $rootScope.language.init();
-
-    }
-})();
 /**=========================================================
  * Module: animate-enabled.js
  * Enable or disables ngAnimate for element with directive
