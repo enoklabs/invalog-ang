@@ -9998,6 +9998,10 @@ ul[rn-carousel] {
   display: inline-block !important;
 }
 
+.block {
+  display: block !important;
+}
+
 .block-center {
   margin: 0 auto;
 }

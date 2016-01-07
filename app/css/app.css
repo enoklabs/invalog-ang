@@ -8433,6 +8433,9 @@ ul[rn-carousel] {
 .inline {
   display: inline-block !important;
 }
+.block {
+  display: block !important;
+}
 .block-center {
   margin: 0 auto;
 }

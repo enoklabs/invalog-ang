@@ -1,14 +1,355 @@
 <h3>
-   <!-- Language List -->
-   <div ng-include="'app/views/partials/language-list.html'" ></div>
-   <!-- END Language list-->
 
-   <i class="icon-grid"></i> Inventory
-   <small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>
+   <div ng-include="'app/views/partials/dashboard-actions.html'" class="pull-right"></div>
+
+   <div class="pull-right mr">
+      <a href="" search-open="search-open" class="btn btn-default">
+         <em class="icon-magnifier"></em>
+      </a>
+      <a class="btn btn-default"> <i class="fa fa-filter"></i> Filter</a>
+   </div>
+   <i class="icon-grid"></i> Inventory Items
+   <!--<small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>-->
 </h3>
 <div class="row">
-   <div class="col-xs-12 text-center">
-      <h2 class="text-thin">Inventory content</h2>
-      <p>Inventory Content</p>
+   <div class="col-xs-9 text-center">
+
+      <!-- START Multiple List group-->
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item1.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">Table - <span class="text-success">$350</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Furniture</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">1</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$350</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$350</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star-o"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+
+               </tr>
+               </tbody>
+            </table>
+         </a>
+      </div>
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item5.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">TV - <span class="text-success">$1,250</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Electronics</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">1</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$1,250</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$1,250</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </a>
+      </div>
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item3.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">3 Piece Art Canvas - <span class="text-success">$9,750</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Art</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">3</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$3,250</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$9,750</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star-o"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </a>
+         <!-- END dashboard main content-->
+      </div>
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item4.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">Surround Sound System - <span class="text-success">$1,250</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Electronics</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">1</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$1,250</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$1,250</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star-o"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+
+               </tr>
+               </tbody>
+            </table>
+         </a>
+      </div>
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item2.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">Lamp - <span class="text-success">$140</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Furniture</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">4</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$35</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$140</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </a>
+      </div>
+      <div class="list-group">
+         <a href="#" class="list-group-item">
+            <table class="wd-wide">
+               <tbody>
+               <tr>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/item3.png" alt="" class="media-box-object img-responsive img-rounded thumb64" />
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <h4 class="media-box-heading">Art Canvas - <span class="text-success">$9,750</span></h4>
+                        <p class="m0 text-sm text-muted">Location: <em class="ml-sm">Living Room</em></p>
+                        <p class="m0 text-sm text-muted">Category: <em class="ml-sm">Art</em></p>
+                        <p class="m0 text-sm text-muted">Quantity: <em class="ml-sm">3</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-md hidden-xs hidden-sm">
+                     <div class="ph text-left">
+                        <p class="m0">Summary</p>
+                        <p class="m0 text-sm text-muted">Purchase Date: <em class="ml-sm">Dec 10, 2015</em></p>
+                        <p class="m0 text-sm text-muted">Unit Value: <em class="ml-sm">$3,250</em></p>
+                        <p class="m0 text-sm text-muted">Total Value: <em class="ml-sm">$9,750</em></p>
+                     </div>
+                  </td>
+                  <td class="wd-xs">
+                     <div class="ph">
+                        <p class="m0">Condition</p>
+                        <span class="text-warning">
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star-o"></i>
+                        </span>
+                     </div>
+                  </td>
+                  <td class="wd-xs hidden-xs hidden-sm">
+                     <div class="ph btn-group-sm">
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="icon-note"></em></a>
+                        <a class="m0 text-muted btn btn-default">
+                           <em class="fa fa-times"></em></a>
+                     </div>
+                  </td>
+               </tr>
+               </tbody>
+            </table>
+         </a>
+         <!-- END dashboard main content-->
+      </div>
+      <!-- END Multiple List group-->
+
    </div>
+
+
+   <div class="col-md-3">
+      <!-- START widget-->
+      <div class="panel widget bg-white">
+         <div class="panel-body">
+            <div class="row row-table row-table-header">
+               <h4 class="header">
+                  Inventory Value <i class="icon-home pull-right"></i>
+               </h4>
+               <hr>
+            </div>
+
+
+            <div class="row row-table">
+               <div class="col-xs-12 pv-lg">
+                  <div class="h2 mt text-center text-success">$27,485</div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+
 </div>
