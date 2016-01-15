@@ -1,14 +1,113 @@
 <h3>
-   <!-- Language List -->
-   <div ng-include="'app/views/partials/language-list.html'" ></div>
-   <!-- END Language list-->
 
-   Maintenance
-   <small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>
-</h3>
-<div class="row">
-   <div class="col-xs-12 text-center">
-      <h2 class="text-thin">Maintenance content</h2>
-      <p>Maintenance Content</p>
+   <div class="pull-right">
+      <div uib-dropdown="" is-open="maintenance.listIsOpen" class="btn-group">
+         <button type="button" uib-dropdown-toggle="" class="btn btn-default">Type
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li>
+               <a ng-click="">All</a>
+            </li>
+            <li>
+               <a ng-click="">Maintenance</a>
+            </li>
+            <li>
+               <a ng-click="">Yardwork</a>
+            </li>
+            <li>
+               <a ng-click="">Other</a>
+            </li>
+         </ul>
+      </div>
+
+      <div uib-dropdown="" is-open="when.listIsOpen" class="btn-group">
+         <button type="button" uib-dropdown-toggle="" class="btn btn-default">When
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li>
+               <a ng-click="">All</a>
+            </li>
+            <li>
+               <a ng-click="">Spring</a>
+            </li>
+            <li>
+               <a ng-click="">Summer</a>
+            </li>
+            <li>
+               <a ng-click="">Fall</a>
+            </li>
+            <li>
+               <a ng-click="">Winter</a>
+            </li>
+         </ul>
+      </div>
+      <button type="button" uib-dropdown-toggle="" class="btn btn-info">
+         <i class="fa fa-plus"></i> Add Maintenance Task
+      </button>
    </div>
+
+   <div class="pull-right mr-sm">
+      <a href="" search-open="search-open" class="btn btn-default">
+         <em class="icon-magnifier"></em>
+      </a>
+      <a class="btn btn-default"> <i class="fa fa-filter"></i> Filter</a>
+   </div>
+
+   <i class="icon-calendar"></i>  Maintenance Checklist & Recommendations
+   <!--<small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>-->
+</h3>
+
+
+<div class="container-fluid">
+
+
+   <!-- Sorting example-->
+   <div class="panel panel-default">
+      <div class="panel-heading">
+         <button ng-click="table.tableParams.sorting({})" class="pull-right btn btn-default btn-sm">Clear sorting</button>
+         <div class="panel-title">Maintenance Tasks</div>
+      </div>
+      <table class="table table-bordered table-striped">
+         <tbody>
+         <tr>
+
+            <td data-title="'Type'" sortable="'type'">
+               <span class="fa-stack">
+                  <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                  <em class="fa fa-list fa-stack-1x fa-inverse text-white"></em>
+               </span>
+            </td>
+
+            <td>
+               <strong class="media-box-heading text-uppercase"><span class="text-purple m0">Inventory</span></strong>
+               <p class="mb-sm">
+                  <small>Living room has no photo...</small>
+               </p>
+            </td>
+
+            <td data-title="'Type'" sortable="'type'">
+               <span>Cleaning</span>
+            </td>
+            <td data-title="'Frequency'" sortable="'frequency'">
+               <span>Monthly</span>
+            </td>
+            <td data-title="'Space'" sortable="'space'">
+               <span>Bedroom, Bathroom</span>
+            </td>
+            <td data-title="'Time'" sortable="'time'" class="-align-center">
+               <span class="label label-purple pull-right">just now</span>
+            </td>
+            <td data-title="'Action'" sortable="'action'">
+               <a class="pull-right btn btn-info btn-sm">Add to Checklist</a>
+            </td>
+
+         </tr>
+         </tbody>
+      </table>
+
+
+   </div>
+
 </div>

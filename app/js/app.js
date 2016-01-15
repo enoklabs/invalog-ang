@@ -20,10 +20,17 @@
             'app.loadingbar',
             'app.translate',
             'app.settings',
+            'app.tables',
             'app.utils'
         ]);
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors', []);
+})();
 (function() {
     'use strict';
 
@@ -47,12 +54,6 @@
     'use strict';
 
     angular
-        .module('app.colors', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.lazyload', []);
 })();
 (function() {
@@ -66,6 +67,12 @@
 
     angular
         .module('app.navsearch', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages', []);
 })();
 (function() {
     'use strict';
@@ -105,15 +112,59 @@
     'use strict';
 
     angular
-        .module('app.pages', []);
+        .module('app.utils', [
+          'app.colors'
+          ]);
 })();
+
 (function() {
     'use strict';
 
     angular
-        .module('app.utils', [
-          'app.colors'
-          ]);
+        .module('app.colors')
+        .constant('APP_COLORS', {
+          'primary':                '#5d9cec',
+          'success':                '#27c24c',
+          'info':                   '#23b7e5',
+          'warning':                '#ff902b',
+          'danger':                 '#f05050',
+          'inverse':                '#131e26',
+          'green':                  '#37bc9b',
+          'pink':                   '#f532e5',
+          'purple':                 '#7266ba',
+          'dark':                   '#3a3f51',
+          'yellow':                 '#fad732',
+          'gray-darker':            '#232735',
+          'gray-dark':              '#3a3f51',
+          'gray':                   '#dde6e9',
+          'gray-light':             '#e4eaec',
+          'gray-lighter':           '#edf1f2'
+        })
+        ;
+})();
+/**=========================================================
+ * Module: colors.js
+ * Services to retrieve global colors
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.colors')
+        .service('Colors', Colors);
+
+    Colors.$inject = ['APP_COLORS'];
+    function Colors(APP_COLORS) {
+        this.byName = byName;
+
+        ////////////////
+
+        function byName(name) {
+          return (APP_COLORS[name] || '#fff');
+        }
+    }
+
 })();
 
 (function() {
@@ -229,56 +280,6 @@
 
 })();
 
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .constant('APP_COLORS', {
-          'primary':                '#5d9cec',
-          'success':                '#27c24c',
-          'info':                   '#23b7e5',
-          'warning':                '#ff902b',
-          'danger':                 '#f05050',
-          'inverse':                '#131e26',
-          'green':                  '#37bc9b',
-          'pink':                   '#f532e5',
-          'purple':                 '#7266ba',
-          'dark':                   '#3a3f51',
-          'yellow':                 '#fad732',
-          'gray-darker':            '#232735',
-          'gray-dark':              '#3a3f51',
-          'gray':                   '#dde6e9',
-          'gray-light':             '#e4eaec',
-          'gray-lighter':           '#edf1f2'
-        })
-        ;
-})();
-/**=========================================================
- * Module: colors.js
- * Services to retrieve global colors
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .service('Colors', Colors);
-
-    Colors.$inject = ['APP_COLORS'];
-    function Colors(APP_COLORS) {
-        this.byName = byName;
-
-        ////////////////
-
-        function byName(name) {
-          return (APP_COLORS[name] || '#fff');
-        }
-    }
-
-})();
 
 (function() {
     'use strict';
@@ -470,6 +471,120 @@
             .val('') // Empty input
             ;
         }        
+    }
+})();
+
+/**=========================================================
+ * Module: access-login.js
+ * Demo for login api
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages')
+        .controller('LoginFormController', LoginFormController);
+
+    LoginFormController.$inject = ['$http', '$state'];
+    function LoginFormController($http, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
+
+          vm.login = function() {
+            vm.authMsg = '';
+
+            if(vm.loginForm.$valid) {
+
+              $http
+                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
+                .then(function(response) {
+                  // assumes if ok, response is an object with some data, if not, a string with error
+                  // customize according to your api
+                  if ( !response.account ) {
+                    vm.authMsg = 'Incorrect credentials.';
+                  }else{
+                    $state.go('app.dashboard');
+                  }
+                }, function() {
+                  vm.authMsg = 'Server Request Error';
+                });
+            }
+            else {
+              // set as dirty if the user click directly to login so we show the validation messages
+              /*jshint -W106*/
+              vm.loginForm.account_email.$dirty = true;
+              vm.loginForm.account_password.$dirty = true;
+            }
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: access-register.js
+ * Demo for register account api
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages')
+        .controller('RegisterFormController', RegisterFormController);
+
+    RegisterFormController.$inject = ['$http', '$state'];
+    function RegisterFormController($http, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
+            
+          vm.register = function() {
+            vm.authMsg = '';
+
+            if(vm.registerForm.$valid) {
+
+              $http
+                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
+                .then(function(response) {
+                  // assumes if ok, response is an object with some data, if not, a string with error
+                  // customize according to your api
+                  if ( !response.account ) {
+                    vm.authMsg = response;
+                  }else{
+                    $state.go('app.dashboard');
+                  }
+                }, function() {
+                  vm.authMsg = 'Server Request Error';
+                });
+            }
+            else {
+              // set as dirty if the user click directly to login so we show the validation messages
+              /*jshint -W106*/
+              vm.registerForm.account_email.$dirty = true;
+              vm.registerForm.account_password.$dirty = true;
+              vm.registerForm.account_agreed.$dirty = true;
+              
+            }
+          };
+        }
     }
 })();
 
@@ -693,6 +808,11 @@
                 title: 'Inventory',
                 templateUrl: helper.basepath('inventory.html')
             })
+            .state('app.item', {
+                url: '/inventory/item',
+                title: 'Item',
+                templateUrl: helper.basepath('item.html')
+            })
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',
@@ -707,6 +827,11 @@
                 url: '/manuals-tracker',
                 title: 'Manuals Tracker',
                 templateUrl: helper.basepath('tools/manuals.html')
+            })
+            .state('app.moving', {
+                url: '/moving',
+                title: 'Moving / Storage',
+                templateUrl: helper.basepath('submenu.html')
             })
             .state('app.articles', {
                 url: '/articles',
@@ -1275,120 +1400,6 @@
     }
 })();
 /**=========================================================
- * Module: access-login.js
- * Demo for login api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('LoginFormController', LoginFormController);
-
-    LoginFormController.$inject = ['$http', '$state'];
-    function LoginFormController($http, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-
-          vm.login = function() {
-            vm.authMsg = '';
-
-            if(vm.loginForm.$valid) {
-
-              $http
-                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = 'Incorrect credentials.';
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.loginForm.account_email.$dirty = true;
-              vm.loginForm.account_password.$dirty = true;
-            }
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: access-register.js
- * Demo for register account api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('RegisterFormController', RegisterFormController);
-
-    RegisterFormController.$inject = ['$http', '$state'];
-    function RegisterFormController($http, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-            
-          vm.register = function() {
-            vm.authMsg = '';
-
-            if(vm.registerForm.$valid) {
-
-              $http
-                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = response;
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.registerForm.account_email.$dirty = true;
-              vm.registerForm.account_password.$dirty = true;
-              vm.registerForm.account_agreed.$dirty = true;
-              
-            }
-          };
-        }
-    }
-})();
-
-/**=========================================================
  * Module: animate-enabled.js
  * Enable or disables ngAnimate for element with directive
  =========================================================*/
@@ -1832,6 +1843,13 @@
         ]);
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tables', []);
+})();
+
 
 // To run this code, edit file index.html or index.jade and change
 // html data-ng-app attribute from angle to myAppName
@@ -1858,3 +1876,229 @@
         }
     }
 })();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tables')
+        .service('ngTableDataService', ngTableDataService);
+
+    function ngTableDataService() {
+        /* jshint validthis:true */
+        var self = this;
+        this.cache = null;
+        this.getData = getData;
+
+        ////////////////
+
+        function getData($defer, params, api) {
+            // if no cache, request data and filter
+            if ( ! self.cache ) {
+                if ( api ) {
+                    api.get(function(data){
+                        self.cache = data;
+                        filterdata($defer, params);
+                    });
+                }
+            }
+            else {
+                filterdata($defer, params);
+            }
+
+            function filterdata($defer, params) {
+                var from = (params.page() - 1) * params.count();
+                var to = params.page() * params.count();
+                var filteredData = self.cache.result.slice(from, to);
+
+                params.total(self.cache.total);
+                $defer.resolve(filteredData);
+            }
+
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: NGTableCtrl.js
+ * Controller for ngTables
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tables')
+        .controller('NGTableCtrl', NGTableCtrl);
+    /*jshint -W055 */
+    NGTableCtrl.$inject = ['$filter', 'ngTableParams', '$resource', '$timeout', 'ngTableDataService'];
+    function NGTableCtrl($filter, ngTableParams, $resource, $timeout, ngTableDataService) {
+        var vm = this;
+        vm.title = 'Controller';
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            var data = [
+                {name: 'Moroni',  age: 50, money: -10   },
+                {name: 'Tiancum', age: 43, money: 120   },
+                {name: 'Jacob',   age: 27, money: 5.5   },
+                {name: 'Nephi',   age: 29, money: -54   },
+                {name: 'Enos',    age: 34, money: 110   },
+                {name: 'Tiancum', age: 43, money: 1000  },
+                {name: 'Jacob',   age: 27, money: -201  },
+                {name: 'Nephi',   age: 29, money: 100   },
+                {name: 'Enos',    age: 34, money: -52.5 },
+                {name: 'Tiancum', age: 43, money: 52.1  },
+                {name: 'Jacob',   age: 27, money: 110   },
+                {name: 'Nephi',   age: 29, money: -55   },
+                {name: 'Enos',    age: 34, money: 551   },
+                {name: 'Tiancum', age: 43, money: -1410 },
+                {name: 'Jacob',   age: 27, money: 410   },
+                {name: 'Nephi',   age: 29, money: 100   },
+                {name: 'Enos',    age: 34, money: -100  }
+            ];
+
+            // SELECT ROWS
+            // -----------------------------------
+
+            vm.data = data;
+
+            vm.tableParams3 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10          // count per page
+            }, {
+                total: data.length, // length of data
+                getData: function ($defer, params) {
+                    // use build-in angular filter
+                    var filteredData = params.filter() ?
+                        $filter('filter')(data, params.filter()) :
+                        data;
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(filteredData, params.orderBy()) :
+                        data;
+
+                    params.total(orderedData.length); // set total for recalc pagination
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+            vm.changeSelection = function(user) {
+                console.info(user);
+            };
+
+            // EXPORT CSV
+            // -----------------------------------
+
+            var data4 = [{name: 'Moroni', age: 50},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34}];
+
+            vm.tableParams4 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10           // count per page
+            }, {
+                total: data4.length, // length of data4
+                getData: function($defer, params) {
+                    $defer.resolve(data4.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+
+            // SORTING
+            // -----------------------------------
+
+
+
+            vm.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                count: 10,          // count per page
+                sorting: {
+                    name: 'asc'     // initial sorting
+                }
+            }, {
+                total: data.length, // length of data
+                getData: function($defer, params) {
+                    // use build-in angular filter
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(data, params.orderBy()) :
+                        data;
+
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+            // FILTERS
+            // -----------------------------------
+
+            vm.tableParams2 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10,          // count per page
+                filter: {
+                    name: '',
+                    age: ''
+                    // name: 'M'       // initial filter
+                }
+            }, {
+                total: data.length, // length of data
+                getData: function($defer, params) {
+                    // use build-in angular filter
+                    var orderedData = params.filter() ?
+                        $filter('filter')(data, params.filter()) :
+                        data;
+
+                    vm.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+
+                    params.total(orderedData.length); // set total for recalc pagination
+                    $defer.resolve(vm.users);
+                }
+            });
+
+            // AJAX
+
+            var Api = $resource('server/table-data.json');
+
+            vm.tableParams5 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10           // count per page
+            }, {
+                total: 0,           // length of data
+                counts: [],         // hide page counts control
+                getData: function($defer, params) {
+
+                    // Service using cache to avoid mutiple requests
+                    ngTableDataService.getData( $defer, params, Api);
+
+                    /* direct ajax request to api (perform result pagination on the server)
+                     Api.get(params.url(), function(data) {
+                     $timeout(function() {
+                     // update table params
+                     params.total(data.total);
+                     // set new data
+                     $defer.resolve(data.result);
+                     }, 500);
+                     });
+                     */
+                }
+            });
+        }
+    }
+})();
+
+

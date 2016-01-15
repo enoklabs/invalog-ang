@@ -13,12 +13,14 @@
   {
     "text": "Inventory",
     "sref": "app.inventory",
-    "icon": "icon-list",
+    "icon": "icon-grid",
     "translate": "sidebar.nav.INVENTORY"
   },
   {
     "text": "Maintenance",
     "sref": "app.maintenance",
+    "alert": "5" ,
+    "label": "label label-info",
     "icon": "icon-calendar",
     "translate": "sidebar.nav.MAINTENANCE"
   },
@@ -37,6 +39,11 @@
         "sref": "app.manuals",
         "icon": "icon-book-open",
         "translate": "sidebar.nav.tools.MANUALS"
+      },
+      { "text": "Moving / Storage",
+        "sref": "app.moving",
+        "icon": "fa fa-truck",
+        "translate": "sidebar.nav.tools.MOVING"
       }
     ],
     "translate": "sidebar.nav.tools.TOOLS"
@@ -53,7 +60,7 @@
       },
       { "text": "Sales",
         "sref": "app.sales",
-        "icon": "fa fa-dollar",
+        "icon": "icon-tag",
         "translate": "sidebar.nav.money.SALES"
       },
       { "text": "Donations",

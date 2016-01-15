@@ -41,6 +41,11 @@
                 title: 'Inventory',
                 templateUrl: helper.basepath('inventory.html')
             })
+            .state('app.item', {
+                url: '/inventory/item',
+                title: 'Item',
+                templateUrl: helper.basepath('item.html')
+            })
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',
@@ -55,6 +60,11 @@
                 url: '/manuals-tracker',
                 title: 'Manuals Tracker',
                 templateUrl: helper.basepath('tools/manuals.html')
+            })
+            .state('app.moving', {
+                url: '/moving',
+                title: 'Moving / Storage',
+                templateUrl: helper.basepath('submenu.html')
             })
             .state('app.articles', {
                 url: '/articles',
