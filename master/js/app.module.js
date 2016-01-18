@@ -21,6 +21,7 @@
             'app.translate',
             'app.settings',
             'app.tables',
-            'app.utils'
+            'app.utils',
+            'app.calendar'
         ]);
 })();

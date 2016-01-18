@@ -46,11 +46,27 @@
                 title: 'Item',
                 templateUrl: helper.basepath('item.html')
             })
+            //
+            // MAINTENANCE Page Routes
+            // -----------------------------------
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',
-                templateUrl: helper.basepath('maintenance.html')
+                templateUrl: helper.basepath('maintenance/index.html')
             })
+            .state('app.maintenance-grid', {
+                url: '/maintenance-grid',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-grid.html')
+            })
+            .state('app.maintenance-calendar', {
+                url: '/maintenance-calendar',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-calendar.html')
+            })
+            //
+            // WARRANTY Page Routes
+            // -----------------------------------
             .state('app.warranty', {
                 url: '/warranty-tracker',
                 title: 'Warranty Tracker',

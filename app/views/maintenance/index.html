@@ -1,0 +1,95 @@
+<h3 ng-include="'app/views/maintenance/partials/topbar.html'"></h3>
+
+<div class="container-fluid">
+
+
+   <!-- Sorting example-->
+   <div class="panel panel-default">
+      <div class="panel-heading">
+         <button ng-click="table.tableParams.sorting({})" class="pull-right btn btn-default btn-sm">Clear sorting</button>
+         <div class="panel-title">Total Tasklists (156)</div>
+      </div>
+      <table class="table table-bordered table-striped">
+         <tbody>
+
+         <!-- TASK ITEM -->
+         <tr>
+            <td data-title="'Type'" sortable="'type'">
+               <span class="fa-stack">
+                  <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                  <em class="fa fa-list fa-stack-1x fa-inverse text-white"></em>
+               </span>
+               <strong class="media-box-heading text-uppercase"><span class="text-purple m0">Inventory</span></strong>
+
+            </td>
+
+            <td>
+               <p class="mb-sm">
+                  <small>Living room has no photo...</small>
+               </p>
+            </td>
+
+            <td data-title="'Type'" sortable="'type'">
+               <span>Cleaning</span>
+            </td>
+            <td data-title="'Frequency'" sortable="'frequency'">
+               <span>Monthly</span>
+            </td>
+            <td data-title="'Space'" sortable="'space'">
+               <span>Bedroom, Bathroom</span>
+            </td>
+            <td data-title="'Time'" sortable="'time'" class="-align-center">
+               <span class="label label-purple pull-right">just now</span>
+            </td>
+            <td data-title="'Action'" sortable="'action'">
+               <a class="pull-right btn btn-info btn-xs">Add to Checklist</a>
+               <a class="pull-right btn btn-default btn-xs mr-sm">More info..</a>
+            </td>
+
+         </tr>
+         <!-- END task item -->
+         <!-- TASK ITEM -->
+         <tr>
+            <td data-title="'Type'" sortable="'type'">
+               <span class="fa-stack">
+                  <em class="fa fa-circle fa-stack-2x text-purple"></em>
+                  <em class="fa fa-list fa-stack-1x fa-inverse text-white"></em>
+               </span>
+               <strong class="media-box-heading text-uppercase"><span class="text-purple m0">Inventory</span></strong>
+
+            </td>
+
+            <td>
+               <p class="mb-sm">
+                  <small>Living room has no photo...</small>
+               </p>
+            </td>
+
+            <td data-title="'Type'" sortable="'type'">
+               <span>Cleaning</span>
+            </td>
+            <td data-title="'Frequency'" sortable="'frequency'">
+               <span>Monthly</span>
+            </td>
+            <td data-title="'Space'" sortable="'space'">
+               <span>Bedroom, Bathroom</span>
+            </td>
+            <td data-title="'Time'" sortable="'time'" class="-align-center">
+               <span class="label label-purple pull-right">just now</span>
+            </td>
+            <td data-title="'Action'" sortable="'action'">
+               <a class="pull-right btn btn-info btn-xs">Add to Checklist</a>
+               <a class="pull-right btn btn-default btn-xs mr-sm">More info..</a>
+            </td>
+
+         </tr>
+         <!-- END task item -->
+
+
+         </tbody>
+      </table>
+
+
+   </div>
+
+</div>

@@ -40,72 +40,8 @@
          <!--</li>-->
 
          <!-- MAINTENANCE Alert menu-->
-         <li uib-dropdown="" class="dropdown dropdown-list">
-            <a uib-dropdown-toggle="">
-               <em class="icon-calendar"></em>
-               <div class="label label-danger">5</div>
-            </a>
-            <!-- MAINTENANCE Dropdown menu-->
-            <ul class="dropdown-menu maintenance animated fadeInUp">
-               <span>You have 3 maintenance tasks</span>
-               <li>
-                  <!-- MAINTENANCE list group-->
-                  <div class="list-group">
-                     <!-- list item-->
-                     <a href="" class="list-group-item">
-                        <div class="media-box">
-                           <div class="pull-left">
-                              <em class="icon-home text-info"></em>
-                           </div>
-                           <div class="media-box-body clearfix pull-left">
-                              <p class="m0">Room:</p>
-                              <p class="m0 text-muted">
-                                 <small>Inspect crawl space for water...</small>
-                              </p>
-                           </div>
-                           <span class="label label-purple pull-right">just now</span>
-                        </div>
-                     </a>
-                     <!-- list item-->
-                     <a href="" class="list-group-item">
-                        <div class="media-box">
-                           <div class="pull-left">
-                              <em class="icon-home text-info"></em>
-                           </div>
-                           <div class="media-box-body clearfix pull-left">
-                              <p class="m0">Room: </p>
-                              <p class="m0 text-muted">
-                                 <small>Turn off automatic sprinklers...</small>
-                              </p>
-                           </div>
-                           <span class="label label-purple pull-right">two days ago</span>
-                        </div>
-                     </a>
-                     <!-- list item-->
-                     <a href="" class="list-group-item">
-                        <div class="media-box">
-                           <div class="pull-left">
-                              <em class="icon-home text-info"></em>
-                           </div>
-                           <div class="media-box-body clearfix pull-left">
-                              <p class="m0">Room:</p>
-                              <p class="m0 text-muted">
-                                 <small>Change air conditioner filters...</small>
-                              </p>
-                           </div>
-                           <span class="label label-purple pull-right">5 hours ago</span>
-                        </div>
-                     </a>
-                     <!-- last list item -->
-                     <a href="" class="list-group-item text-center">
-                        <small>View All Maintenance tasks</small>
-                     </a>
-                  </div>
-                  <!-- END list group-->
-               </li>
-            </ul>
-            <!-- END Dropdown menu-->
-         </li>
+         <li uib-dropdown="" class="dropdown dropdown-list" ng-include="'app/views/partials/maintenance-list.html'"></li>
+
          <!-- END Alert menu-->
 
 

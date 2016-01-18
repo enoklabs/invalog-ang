@@ -1,0 +1,63 @@
+<!-- TITLE -->
+<i class="icon-calendar"></i>  Maintenance Tasks
+
+<!-- ACTION BUTTONS -->
+<div class="pull-right">
+
+    <a href="" search-open="search-open" class="btn btn-default">
+        <em class="icon-magnifier"></em>
+    </a>
+
+    <a ng-href="#/app/maintenance-grid" class="btn btn-default"><i class="icon-grid"></i></a>
+    <a ng-href="#/app/maintenance" class="btn btn-default"><i class="icon-list"></i></a>
+    <a ng-href="#/app/maintenance-calendar" class="btn btn-default"><i class="icon-calendar"></i></a>
+
+    <!--<a class="btn btn-default"> <i class="fa fa-filter"></i> Filter</a>-->
+
+    <div uib-dropdown="" is-open="maintenance.listIsOpen" class="btn-group">
+        <button type="button" uib-dropdown-toggle="" class="btn btn-default">Type
+            <span class="caret"></span>
+        </button>
+        <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li>
+                <a ng-click="">All</a>
+            </li>
+            <li>
+                <a ng-click="">Maintenance</a>
+            </li>
+            <li>
+                <a ng-click="">Yardwork</a>
+            </li>
+            <li>
+                <a ng-click="">Other</a>
+            </li>
+        </ul>
+    </div>
+
+    <div uib-dropdown="" is-open="when.listIsOpen" class="btn-group">
+        <button type="button" uib-dropdown-toggle="" class="btn btn-default">When
+            <span class="caret"></span>
+        </button>
+        <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li>
+                <a ng-click="">All</a>
+            </li>
+            <li>
+                <a ng-click="">Spring</a>
+            </li>
+            <li>
+                <a ng-click="">Summer</a>
+            </li>
+            <li>
+                <a ng-click="">Fall</a>
+            </li>
+            <li>
+                <a ng-click="">Winter</a>
+            </li>
+        </ul>
+    </div>
+
+    <button type="button" uib-dropdown-toggle="" class="btn btn-info">
+        <i class="fa fa-plus"></i> Add Maintenance Task
+    </button>
+</div>
