@@ -36,15 +36,23 @@
                 title: 'OverView',
                 templateUrl: helper.basepath('overview.html')
             })
+            //
+            // INVENTORY Page Routes
+            // -----------------------------------
             .state('app.inventory', {
                 url: '/inventory',
                 title: 'Inventory',
-                templateUrl: helper.basepath('inventory.html')
+                templateUrl: helper.basepath('inventory/index.html')
             })
             .state('app.item', {
                 url: '/inventory/item',
                 title: 'Item',
-                templateUrl: helper.basepath('item.html')
+                templateUrl: helper.basepath('inventory/item.html')
+            })
+            .state('app.item-create', {
+                url: '/inventory/create',
+                title: 'Create Item',
+                templateUrl: helper.basepath('inventory/create.html')
             })
             //
             // MAINTENANCE Page Routes
