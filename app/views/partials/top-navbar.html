@@ -13,6 +13,8 @@
    </div>
    <!-- END navbar header-->
 
+
+
    <!-- START Nav wrapper-->
    <div class="nav-wrapper">
       <!-- START Left navbar-->
@@ -30,6 +32,46 @@
       </ul>
       <!-- END Left navbar-->
 
+
+      <!-- Navbar Menu -->
+      <ul ng-controller="SidebarController" class="nav navbar-nav">
+         <!--<li ng-repeat="item in menuItems | limitTo: 7 " ng-class="{'dropdown': item.submenu}" uib-dropdown="!!item.submenu">-->
+            <!--<a ng-if="!item.heading &amp;&amp; !item.submenu" ng-href="{{$state.href(item.sref)}}" title="{{item.text}}">-->
+               <!--<span>{{(item.translate | translate) || item.text}}</span>-->
+            <!--</a>-->
+            <!--<a uib-dropdown-toggle="" ng-if="item.submenu">-->
+               <!--<span>{{(item.translate | translate) || item.text}}</span>-->
+            <!--</a>-->
+            <!--&lt;!&ndash; START Dropdown menu&ndash;&gt;-->
+            <!--<ul class="dropdown-menu animated fadeInUp">-->
+               <!--<li ng-repeat="subitem in item.submenu">-->
+                  <!--<a ng-href="{{$state.href(subitem.sref)}}" title="{{subitem.text}}">-->
+                     <!--<span>{{(subitem.translate | translate) || subitem.text}}</span>-->
+                  <!--</a>-->
+               <!--</li>-->
+            <!--</ul>-->
+         <!--</li>-->
+
+         <li>
+            <a ng-href="#/app/overview" title="overview">
+               <span>Overview</span>
+            </a>
+         </li>
+
+         <li>
+            <a ng-href="#/app/money" title="money">
+               <span>Money</span>
+            </a>
+         </li>
+
+         <li>
+            <a ng-href="#/app/articles" title="articles">
+               <span>Articles</span>
+            </a>
+         </li>
+      </ul>
+      <!-- End Navbar Menu-->
+
       <!-- START Right Navbar-->
       <ul class="nav navbar-nav navbar-right">
          <!-- Search icon-->
@@ -38,6 +80,16 @@
                <!--<em class="icon-magnifier"></em>-->
             <!--</a>-->
          <!--</li>-->
+
+         <!--<li>-->
+            <!--<a popover-placement="bottom" popover="Tools Go Here">-->
+               <!--<em class="icon-grid"></em>-->
+            <!--</a>-->
+         <!--</li>-->
+
+         <li uib-dropdown="" class="dropdown dropdown-list" ng-include="'app/views/partials/tools-list.html'"></li>
+
+
 
          <!-- MAINTENANCE Alert menu-->
          <li uib-dropdown="" class="dropdown dropdown-list" ng-include="'app/views/partials/maintenance-list.html'"></li>
