@@ -24,29 +24,11 @@
     "icon": "icon-calendar",
     "translate": "sidebar.nav.MAINTENANCE"
   },
-
   {
-    "text": "Tools",
-    "sref": "#",
-    "icon": "icon-wrench",
-    "submenu": [
-      { "text": "Warranty Tracker",
-        "sref": "app.warranty",
-        "icon": "icon-badge",
-        "translate": "sidebar.nav.tools.WARRANTY"
-      },
-      { "text": "Manuals Tracker",
-        "sref": "app.manuals",
-        "icon": "icon-book-open",
-        "translate": "sidebar.nav.tools.MANUALS"
-      },
-      { "text": "Moving / Storage",
-        "sref": "app.moving",
-        "icon": "fa fa-truck",
-        "translate": "sidebar.nav.tools.MOVING"
-      }
-    ],
-    "translate": "sidebar.nav.tools.TOOLS"
+    "text": "Moving / Storage",
+    "sref": "app.moving",
+    "icon": "fa fa-truck",
+    "translate": "sidebar.nav.MOVING"
   },
   {
     "text": "Money",
@@ -75,11 +57,5 @@
       }
     ],
     "translate": "sidebar.nav.money.MONEY"
-  },
-  {
-    "text": "Articles",
-    "sref": "app.articles",
-    "icon": "fa fa-newspaper-o",
-    "translate": "sidebar.nav.ARTICLES"
   }
 ]

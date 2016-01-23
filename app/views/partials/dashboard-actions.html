@@ -1,6 +1,20 @@
 <!-- START Dashboard action buttons-->
 <div class="pull-right">
-        <a ng-href="#/app/inventory/create" uib-dropdown-toggle="" class="btn btn-info">
-            <i class="fa fa-plus"></i> Add Inventory
-        </a>
+
+<div class="btn-group">
+  <small class="text-muted" style="display:inline;">Property: &nbsp;</small>
+</div>
+  <div class="btn-group">
+    <select class="form-control ng-pristine ng-valid ng-touched">
+      <option selected="selected">My Art Loft</option>
+      <option>Beach House</option>
+      <option>Storage</option>
+    </select>
+  </div>
+
+  <a ng-href="#/app/inventory/create" uib-dropdown-toggle="" class="btn btn-info">
+      <i class="fa fa-plus"></i> Add Inventory
+  </a>
+
+
 </div>
