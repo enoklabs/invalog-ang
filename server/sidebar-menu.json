@@ -29,33 +29,5 @@
     "sref": "app.moving",
     "icon": "fa fa-truck",
     "translate": "sidebar.nav.MOVING"
-  },
-  {
-    "text": "Money",
-    "sref": "#",
-    "icon": "fa fa-dollar",
-    "submenu": [
-      { "text": "Home Equity",
-        "sref": "app.equity",
-        "icon": "icon-home",
-        "translate": "sidebar.nav.money.EQUITY"
-      },
-      { "text": "Sales",
-        "sref": "app.sales",
-        "icon": "icon-tag",
-        "translate": "sidebar.nav.money.SALES"
-      },
-      { "text": "Donations",
-        "sref": "app.donations",
-        "icon": "icon-heart",
-        "translate": "sidebar.nav.money.DONATIONS"
-      },
-      { "text": "Sharing",
-        "sref": "app.sharing",
-        "icon": "icon-share",
-        "translate": "sidebar.nav.money.SHARING"
-      }
-    ],
-    "translate": "sidebar.nav.money.MONEY"
   }
 ]
