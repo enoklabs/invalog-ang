@@ -25,9 +25,15 @@
     "translate": "sidebar.nav.MAINTENANCE"
   },
   {
-    "text": "Moving / Storage",
-    "sref": "app.moving",
+    "text": "Storage / Moving",
+    "sref": "app.storage",
     "icon": "fa fa-truck",
-    "translate": "sidebar.nav.MOVING"
+    "translate": "sidebar.nav.STORAGE"
+  },
+  {
+    "text": "Articles",
+    "sref": "app.articles",
+    "icon": "fa fa-newspaper-o",
+    "translate": "sidebar.nav.ARTICLES"
   }
 ]

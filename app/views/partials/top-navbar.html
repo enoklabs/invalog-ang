@@ -34,59 +34,29 @@
 
 
       <!-- Navbar Menu -->
-      <ul ng-controller="SidebarController" class="nav navbar-nav">
-         <!--<li ng-repeat="item in menuItems | limitTo: 7 " ng-class="{'dropdown': item.submenu}" uib-dropdown="!!item.submenu">-->
-            <!--<a ng-if="!item.heading &amp;&amp; !item.submenu" ng-href="{{$state.href(item.sref)}}" title="{{item.text}}">-->
-               <!--<span>{{(item.translate | translate) || item.text}}</span>-->
-            <!--</a>-->
-            <!--<a uib-dropdown-toggle="" ng-if="item.submenu">-->
-               <!--<span>{{(item.translate | translate) || item.text}}</span>-->
-            <!--</a>-->
-            <!--&lt;!&ndash; START Dropdown menu&ndash;&gt;-->
-            <!--<ul class="dropdown-menu animated fadeInUp">-->
-               <!--<li ng-repeat="subitem in item.submenu">-->
-                  <!--<a ng-href="{{$state.href(subitem.sref)}}" title="{{subitem.text}}">-->
-                     <!--<span>{{(subitem.translate | translate) || subitem.text}}</span>-->
-                  <!--</a>-->
-               <!--</li>-->
-            <!--</ul>-->
-         <!--</li>-->
-
-         <li>
-            <a ng-href="#/app/overview" title="Property">
-               <span>Property</span>
-            </a>
+      <ul class="nav navbar-nav">
+         <li class="mt mr-sm">
+            <div class="btn-group">
+               <small class="text-white" style="display:inline;">Property: &nbsp;</small>
+            </div>
+            <div class="btn-group">
+               <select class="form-control ng-pristine ng-valid ng-touched input-sm" style="
+                      background: transparent;
+                      color: white;
+                      border-color: white;
+               ">
+                  <option selected="selected">My Art Loft</option>
+                  <option>Beach House</option>
+                  <option>Storage</option>
+               </select>
+            </div>
          </li>
-
-         <li>
-            <a ng-href="#/app/recommendations" title="recommendations">
-               <span>Recommendations</span>
-            </a>
-         </li>
-
-         <li>
-            <a ng-href="#/app/articles" title="articles">
-               <span>Articles</span>
-            </a>
-         </li>
-
       </ul>
       <!-- End Navbar Menu-->
 
       <!-- START Right Navbar-->
       <ul class="nav navbar-nav navbar-right">
-         <!-- Search icon-->
-         <!--<li>-->
-            <!--<a search-open="">-->
-               <!--<em class="icon-magnifier"></em>-->
-            <!--</a>-->
-         <!--</li>-->
 
-         <!-- <li>
-            <a popover-placement="bottom" popover="Tools Go Here">
-               <em class="icon-grid"></em>
-            </a>
-         </li> -->
 
          <li>
             <a ng-href="" title="support">
