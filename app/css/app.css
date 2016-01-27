@@ -9191,3 +9191,6 @@ fieldset[disabled] .calendar-app .fc-button.active {
 .border-secondary i {
   color: #5ac7f8;
 }
+.widget {
+  border: 1px solid #e4eaec;
+}
