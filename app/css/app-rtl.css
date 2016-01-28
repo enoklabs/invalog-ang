@@ -11244,3 +11244,8 @@ fieldset[disabled] .calendar-app .fc-button.active {
 .widget {
   border: 1px solid #e4eaec;
 }
+
+.form-group span.fa,
+.form-group span.glyphicon {
+  top: 0 !important;
+}
