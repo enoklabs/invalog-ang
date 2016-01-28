@@ -9400,7 +9400,8 @@ fieldset[disabled] .calendar-app .fc-button.active {
     overflow: hidden !important;
   }
 }
-.navbar .topnavbar {
+.navbar .topnavbar,
+.panel-gradient {
   background-color: #039be5;
   background-image: -webkit-linear-gradient(135deg, #0a9fe2 10%, #039be5 90%);
   /* Chrome 10+, Saf5.1+ */
