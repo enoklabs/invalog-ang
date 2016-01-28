@@ -22,6 +22,8 @@
             'app.settings',
             'app.tables',
             'app.utils',
-            'app.calendar'
+            'app.calendar',
+            'app.pages',
+            'app.bootstrapui'
         ]);
 })();

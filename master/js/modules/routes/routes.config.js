@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/overview');
+        $urlRouterProvider.otherwise('/login');
 
         //
         // Application Routes
@@ -134,9 +134,9 @@
                 title: 'Recommendations',
                 templateUrl: helper.basepath('submenu.html')
             })
-          //
-          // Single Page Routes
-          // -----------------------------------
+            //
+            // Single Page Routes
+            // -----------------------------------
             .state('page', {
                 url: '/page',
                 templateUrl: 'app/pages/page.html',
@@ -145,21 +145,25 @@
                     $rootScope.app.layout.isBoxed = false;
                 }]
             })
-            .state('page.login', {
+            //
+            // LOGIN / REGISTRATION Page Routes
+            // -----------------------------------
+            .state('login', {
                 url: '/login',
                 title: 'Login',
                 templateUrl: 'app/pages/login.html'
             })
-            .state('page.register', {
+            .state('register', {
                 url: '/register',
                 title: 'Register',
-                templateUrl: 'app/pages/register.html'
+                templateUrl: 'app/pages/registration.html'
             })
-            .state('page.recover', {
+            .state('recover', {
                 url: '/recover',
                 title: 'Recover',
                 templateUrl: 'app/pages/recover.html'
             })
+
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties
