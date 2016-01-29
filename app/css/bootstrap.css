@@ -3173,6 +3173,72 @@ fieldset[disabled] .btn-primary.active {
   color: #039be5;
   background-color: #ffffff;
 }
+.btn-action {
+  color: #ffffff;
+  background-color: #fcab53;
+  border-color: #fca94e;
+}
+.btn-action:focus,
+.btn-action.focus {
+  color: #ffffff;
+  background-color: #fca13f;
+  border-color: #fb9526;
+}
+.btn-action:hover {
+  color: #ffffff;
+  background-color: #fca13f;
+  border-color: #fb9526;
+}
+.btn-action:active,
+.btn-action.active,
+.open > .dropdown-toggle.btn-action {
+  color: #ffffff;
+  background-color: #fca13f;
+  border-color: #fb9526;
+}
+.btn-action:active:hover,
+.btn-action.active:hover,
+.open > .dropdown-toggle.btn-action:hover,
+.btn-action:active:focus,
+.btn-action.active:focus,
+.open > .dropdown-toggle.btn-action:focus,
+.btn-action:active.focus,
+.btn-action.active.focus,
+.open > .dropdown-toggle.btn-action.focus {
+  color: #ffffff;
+  background-color: #fca13f;
+  border-color: #fb9526;
+}
+.btn-action:active,
+.btn-action.active,
+.open > .dropdown-toggle.btn-action {
+  background-image: none;
+}
+.btn-action.disabled,
+.btn-action[disabled],
+fieldset[disabled] .btn-action,
+.btn-action.disabled:hover,
+.btn-action[disabled]:hover,
+fieldset[disabled] .btn-action:hover,
+.btn-action.disabled:focus,
+.btn-action[disabled]:focus,
+fieldset[disabled] .btn-action:focus,
+.btn-action.disabled.focus,
+.btn-action[disabled].focus,
+fieldset[disabled] .btn-action.focus,
+.btn-action.disabled:active,
+.btn-action[disabled]:active,
+fieldset[disabled] .btn-action:active,
+.btn-action.disabled.active,
+.btn-action[disabled].active,
+fieldset[disabled] .btn-action.active {
+  background-color: #fcab53;
+  border-color: #fca94e;
+}
+.btn-action .badge {
+  color: #fcab53;
+  background-color: #ffffff;
+}
 .btn-success {
   color: #ffffff;
   background-color: #27c24c;
