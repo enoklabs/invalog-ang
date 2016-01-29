@@ -6,8 +6,8 @@
         <div ng-include="'app/pages/partials/panel-header.html'" class="panel-heading text-center"></div>
 
         <div class="panel-body">
-            <p class="text-center pv">SIGNUP TO GET INSTANT ACCESS.</p>
-            <form role="form" name="reg.registerForm" novalidate="" ng-submit="reg.register()" class="form-validate mb-lg">
+            <h4 class="text-center pb text-muted text-thin">Sign up in seconds</h4>
+            <form role="form" name="reg.registerForm" novalidate="" ng-submit="reg.register()" class="form-validate mb-lg text-thin">
                 <div class="form-group has-feedback">
                     <!--<label class="text-muted">Email address</label>-->
                     <input type="email" name="account_email" placeholder="Enter email" autocomplete="off" ng-model="reg.account.email" required="" class="form-control input-lg" />
@@ -37,10 +37,12 @@
                     </div>
                 </div>
                 <div ng-show="reg.registerForm.account_agreed.$dirty &amp;&amp; reg.registerForm.account_agreed.$error.required" class="text-danger">You must agree the terms</div>
-                <button type="submit" class="btn btn-block btn-primary mt-lg btn-lg">Create account</button>
+                <button type="submit" class="btn btn-block btn-warning mt-lg btn-lg">Create account</button>
             </form>
             <div ng-show="reg.authMsg" class="alert alert-danger text-center">{{reg.authMsg}}</div>
-            <p class="pt-lg text-center">Have an account?</p><a ui-sref="login" class="btn btn-block btn-default btn-lg">Signup</a>
+            <div class="text-center">
+                <small class="pt-lg">Already have an account? <a ui-sref="login">Sign in Now</a></small>
+            </div>
         </div>
     </div>
     <!-- END panel-->

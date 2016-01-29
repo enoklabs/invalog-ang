@@ -6,9 +6,12 @@
         <div ng-include="'app/pages/partials/panel-header.html'" class="panel-heading text-center"></div>
 
         <div class="panel-body">
-            <p class="text-center pv">PASSWORD RESET</p>
-            <form role="form" name="recoverForm" novalidate="" class="form-validate">
-                <p class="text-center">Fill with your mail to receive instructions on how to reset your password.</p>
+            <h4 class="text-center text-muted pb">
+                <i class="fa fa-lock fa-3x"></i><br>
+                Forgot your password?
+            </h4>
+            <form role="form" name="recoverForm" novalidate="" class="form-validate text-thin">
+                <p class="text-center text-thin">Enter your email address below and we'll send you a secure link to reset your password.</p>
                 <div class="form-group has-feedback">
                     <!--<label class="text-muted">Email address</label>-->
                     <input type="email" name="email" placeholder="Enter email" autocomplete="off" ng-model="recover.email" required="" class="form-control input-lg" />
@@ -16,7 +19,7 @@
                     <span ng-show="recoverForm.email.$dirty &amp;&amp; recoverForm.email.$error.required" class="text-danger">This field is required</span>
                     <span ng-show="recoverForm.email.$dirty &amp;&amp; recoverForm.email.$error.email" class="text-danger">This field must be a valid email address</span>
                 </div>
-                <button type="submit" class="btn btn-danger btn-block btn-lg">Reset</button>
+                <button type="submit" class="btn btn-warning btn-block btn-lg">Reset</button>
             </form>
         </div>
     </div>

@@ -9248,7 +9248,7 @@ fieldset[disabled] .calendar-app .fc-button.active {
   background-color: #aab1b4;
 }
 .alert-purple {
-  background-color: #7266ba;
+  background-color: #8278c2;
   border-color: #7266ba;
   color: #ffffff;
 }
@@ -9259,7 +9259,7 @@ fieldset[disabled] .calendar-app .fc-button.active {
   color: #e6e6e6;
 }
 .alert-green {
-  background-color: #37bc9b;
+  background-color: #44c8a8;
   border-color: #37bc9b;
   color: #ffffff;
 }
@@ -9270,7 +9270,7 @@ fieldset[disabled] .calendar-app .fc-button.active {
   color: #e6e6e6;
 }
 .alert-pink {
-  background-color: #f532e5;
+  background-color: #f64ae8;
   border-color: #f532e5;
   color: #ffffff;
 }
@@ -9281,7 +9281,7 @@ fieldset[disabled] .calendar-app .fc-button.active {
   color: #e6e6e6;
 }
 .alert-inverse {
-  background-color: #131e26;
+  background-color: #1b2b37;
   border-color: #131e26;
   color: #ffffff;
 }
