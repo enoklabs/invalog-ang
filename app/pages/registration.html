@@ -6,7 +6,20 @@
         <div ng-include="'app/pages/partials/panel-header.html'" class="panel-heading text-center"></div>
 
         <div class="panel-body">
-            <h4 class="text-center pb text-muted text-thin">Sign up in seconds</h4>
+            <h4 class="text-center text-muted text-thin">Sign up in seconds</h4>
+
+            <div class="text-center pb">
+                <button type="button" class="btn btn-primary mb btn-labeled">
+                    <span class="btn-label"><i class="fa fa-facebook"></i></span>
+                    Sign up with Facebook
+                </button>
+                <!--<button type="button" class="btn btn-danger mb btn-labeled">-->
+                    <!--<span class="btn-label"><i class="fa fa-google-plus"></i></span>-->
+                    <!--Sign up with Google-->
+                <!--</button>-->
+                <em class="block text-muted"> - or - </em>
+            </div>
+
             <form role="form" name="reg.registerForm" novalidate="" ng-submit="reg.register()" class="form-validate mb-lg text-thin">
                 <div class="form-group has-feedback">
                     <!--<label class="text-muted">Email address</label>-->
@@ -41,7 +54,7 @@
             </form>
             <div ng-show="reg.authMsg" class="alert alert-danger text-center">{{reg.authMsg}}</div>
             <div class="text-center">
-                <small class="pt-lg">Already have an account? <a ui-sref="login">Sign in Now</a></small>
+                <small class="pt-lg">Already have an account? <a ui-sref="login">Log in Now</a></small>
             </div>
         </div>
     </div>

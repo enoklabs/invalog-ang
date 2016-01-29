@@ -9,7 +9,20 @@
         <div class="panel-body">
             <div ng-show="login.authMsg" class="alert alert-danger text-center">{{login.authMsg}}</div>
 
-            <h4 class="text-center pb text-muted text-thin">Sign in to continue</h4>
+            <h4 class="text-center text-muted text-thin">Log in to continue</h4>
+
+            <div class="text-center pb">
+                <button type="button" class="btn btn-primary mb btn-labeled">
+                    <span class="btn-label"><i class="fa fa-facebook"></i></span>
+                    Log in with Facebook
+                </button>
+                <!--<button type="button" class="btn btn-danger mb btn-labeled">-->
+                    <!--<span class="btn-label"><i class="fa fa-google-plus"></i></span>-->
+                    <!--Log in with Google-->
+                <!--</button>-->
+                <em class="block text-muted"> - or - </em>
+            </div>
+
             <form role="form" ng-submit="login.login()" name="login.loginForm" novalidate="" class="form-validate mb-lg text-thin">
                 <div class="form-group has-feedback">
                     <input id="exampleInputEmail1" type="email" name="account_email" placeholder="Enter email" autocomplete="off" ng-model="login.account.email" required="" class="form-control input-lg" />
@@ -31,10 +44,11 @@
                     <div class="pull-right"><a ui-sref="recover" class="text-muted">Forgot your password?</a>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-block btn-action mt-lg btn-lg">Login</button>
+                <button type="submit" class="btn btn-block btn-action mt-lg btn-lg">Log In</button>
             </form>
-            <div class="text-center">
-                <small class="pt-lg">Don't have an account? <a ui-sref="register">Register Now</a></small>
+
+            <div class="text-center pt-lg">
+                <small>Don't have an account? <a ui-sref="register">Sign up here</a></small>
             </div>
         </div>
     </div>
