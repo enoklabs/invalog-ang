@@ -1,11 +1,11 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://private-d198dc-invalogapi.apiary-mock.com/
 
 # Invalog Api
 
-Invalog API for front end developers.
+Invalog API for front end development.
 
-## Questions Collection [/items]
+## Items [/items]
 
 ### List All Items [GET]
 
@@ -13,7 +13,8 @@ Invalog API for front end developers.
 
         [
             {
-                "item": "Table",
+                "item_id": 1,
+                "name": "Table",
                 "published_at": "2015-08-05T08:40:51.620Z",
                 "room": "Living Room",
                 "category":"furniture",
@@ -24,7 +25,8 @@ Invalog API for front end developers.
                 "purchase_date": "2014-08-05",
                 "purchase_store": "Ikea",
                 "unit_value": "35000",
-                "condition": "New"
+                "condition": "New",
+                "property": 1
             }
         ]
 
@@ -37,17 +39,17 @@ form of choices.
 + Request (application/json)
 
         {
-            
-            "item": "Lamp",
+            "item_id" : 3
+            "name": "Night Table",
             "room": "Bed Room",
             "category":"furniture",
             "quantity": 1,
             "make": "Homes",
-            "model": "Homes",
+            "model": "Baby Table",
             "serial": "495009",
             "purchase_date": "2015-09-15",
             "purchase_store": "Walmart",
-            "unit_value": "2500",
+            "unit_value": "2999",
             "condition": "New"
         }
 
@@ -55,21 +57,132 @@ form of choices.
 
     + Headers
 
-            Location: /items/2
+            Location: /items/3
 
     + Body
 
             {
-                "item": "Lamp",
+                "item": "Night Table",
                 "published_at": "2015-08-05T08:40:51.620Z",
                 "room": "Bed Room",
                 "category":"furniture",
                 "quantity": 1,
                 "make": "Homes",
-                "model": "Homes",
+                "model": "Baby Table",
                 "serial": "495009",
                 "purchase_date": "2015-09-15",
                 "purchase_store": "Walmart",
-                "unit_value": "2500",
+                "unit_value": "2999",
                 "condition": "New"
             }
+            
+
+
+
+## Rooms [/rooms]
+
+### List All Rooms [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "room_id": 30,
+                "name": "Living Room",
+                "master": 0,
+                "property": 1,
+                "items": [
+                    1,
+                    2,
+                    3
+                ]
+            }
+        ]
+        
+        
+
+
+
+
+
+## Properties [/properties]
+
+### List All Properties [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "property_id": 1,
+                "nickname": "My art loft",
+                "address": "721 Garrison St",
+                "city": "Las Vegas",
+                "state": "Nevada",
+                "country": "United States",
+                "property_type": "Loft",
+                "rooms": [
+                    30,
+                    49,
+                    94,
+                    32,
+                    33,
+                    35
+                ],
+                "owners": [
+                    21 , 
+                    22
+                ],
+                "avatar": {
+                    "32": "http://placehold.it/32x32",
+                    "50": "http://placehold.it/50x50",
+                    "78": "http://placehold.it/78x78",
+                    "115": "http://placehold.it/115x115"
+                }
+            }
+        ]
+        
+        
+
+
+
+
+## Users [/users]
+
+### List All Users [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": 21,
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "email": "janedoe@sample.com",
+                "city": "Las Vegas",
+                "state": "Nevada",
+                "country": "United States",
+                "property": 34,
+                "avatar": {
+                    "32": "http://placehold.it/32x32",
+                    "50": "http://placehold.it/50x50",
+                    "78": "http://placehold.it/78x78",
+                    "115": "http://placehold.it/115x115"
+                }
+            },
+            {
+                "id": 22,
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "johndoe@sample.com",
+                "city": "Las Vegas",
+                "state": "Nevada",
+                "country": "United States",
+                "property": 34,
+                "avatar": {
+                    "32": "http://placehold.it/32x32",
+                    "50": "http://placehold.it/50x50",
+                    "78": "http://placehold.it/78x78",
+                    "115": "http://placehold.it/115x115"
+                }
+            }
+        ]
