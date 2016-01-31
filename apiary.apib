@@ -15,66 +15,61 @@ Invalog API for front end developers.
             {
                 "item": "Table",
                 "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
+                "room": "Living Room",
+                "category":"furniture",
+                "quantity": 1,
+                "make": "Ikea",
+                "model": "Alex",
+                "serial": "0203030555",
+                "purchase_date": "2014-08-05",
+                "purchase_store": "Ikea",
+                "unit_value": "35000",
+                "condition": "New"
             }
         ]
 
-### Create a New Question [POST]
+### Create a New Item [POST]
 
-You may create your own question using this action. It takes a JSON
+You may create your own item using this action. It takes a JSON
 object containing a question and a collection of answers in the
 form of choices.
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            
+            "item": "Lamp",
+            "room": "Bed Room",
+            "category":"furniture",
+            "quantity": 1,
+            "make": "Homes",
+            "model": "Homes",
+            "serial": "495009",
+            "purchase_date": "2015-09-15",
+            "purchase_store": "Walmart",
+            "unit_value": "2500",
+            "condition": "New"
         }
 
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /questions/2
+            Location: /items/2
 
     + Body
 
             {
-                "question": "Favourite programming language?",
+                "item": "Lamp",
                 "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "room": "Bed Room",
+                "category":"furniture",
+                "quantity": 1,
+                "make": "Homes",
+                "model": "Homes",
+                "serial": "495009",
+                "purchase_date": "2015-09-15",
+                "purchase_store": "Walmart",
+                "unit_value": "2500",
+                "condition": "New"
             }
