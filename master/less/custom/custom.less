@@ -1,4 +1,4 @@
-.navbar .topnavbar{
+.navbar .topnavbar, .panel-gradient{
   background-color:  @preloader-bg;
   background-image: -webkit-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* Chrome 10+, Saf5.1+ */
   background-image:    -moz-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* FF3.6+ */
@@ -42,4 +42,14 @@
 .border-secondary{
   border: 1px solid @brand-info-light;
   em, i{ color: @brand-info-light; }
+}
+
+.widget{
+  border: 1px solid #e4eaec;
+}
+
+.form-group{
+  span.fa{
+    top:0 !important;
+  }
 }

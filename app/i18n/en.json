@@ -17,11 +17,11 @@
       "OVERVIEW": "OverView",
       "INVENTORY": "Inventory",
       "MAINTENANCE": "Maintenance",
+      "STORAGE": "Storage / Moving",
       "tools": {
         "TOOLS": "Tools",
         "WARRANTY": "Warranty Tracker",
-        "MANUALS": "Manuals Tracker",
-        "MOVING": "Moving / Storage"
+        "MANUALS": "Manuals Tracker"
       },
       "money": {
         "MONEY": "Money",

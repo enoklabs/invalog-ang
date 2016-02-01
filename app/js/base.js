@@ -44224,7 +44224,7 @@ angular.module('ui.router.util', ['ng']);
 /**
  * @ngdoc overview
  * @name ui.router.router
- *
+ * 
  * @requires ui.router.util
  *
  * @description
@@ -44238,7 +44238,7 @@ angular.module('ui.router.router', ['ui.router.util']);
 /**
  * @ngdoc overview
  * @name ui.router.state
- *
+ * 
  * @requires ui.router.router
  * @requires ui.router.util
  *
@@ -44247,7 +44247,7 @@ angular.module('ui.router.router', ['ui.router.util']);
  *
  * This module is a dependency of the main ui.router module. Do not include this module as a dependency
  * in your angular app (use {@link ui.router} module instead).
- *
+ * 
  */
 angular.module('ui.router.state', ['ui.router.router', 'ui.router.util']);
 
@@ -44259,17 +44259,17 @@ angular.module('ui.router.state', ['ui.router.router', 'ui.router.util']);
  *
  * @description
  * # ui.router
- *
- * ## The main module for ui.router
+ * 
+ * ## The main module for ui.router 
  * There are several sub-modules included with the ui.router module, however only this module is needed
- * as a dependency within your angular app. The other modules are for organization purposes.
+ * as a dependency within your angular app. The other modules are for organization purposes. 
  *
  * The modules are:
  * * ui.router - the main "umbrella" module
- * * ui.router.router -
- *
+ * * ui.router.router - 
+ * 
  * *You'll need to include **only** this module as the dependency within your angular app.*
- *
+ * 
  * <pre>
  * <!doctype html>
  * <html ng-app="myApp">
@@ -44303,14 +44303,14 @@ angular.module('ui.router.compat', ['ui.router']);
  */
 $Resolve.$inject = ['$q', '$injector'];
 function $Resolve(  $q,    $injector) {
-
+  
   var VISIT_IN_PROGRESS = 1,
       VISIT_DONE = 2,
       NOTHING = {},
       NO_DEPENDENCIES = [],
       NO_LOCALS = NOTHING,
       NO_PARENT = extend($q.when(NOTHING), { $$promises: NOTHING, $$values: NOTHING });
-
+  
 
   /**
    * @ngdoc function
@@ -44326,7 +44326,7 @@ function $Resolve(  $q,    $injector) {
    * <pre>
    * $resolve.resolve(invocables, locals, parent, self)
    * </pre>
-   * but the former is more efficient (in fact `resolve` just calls `study`
+   * but the former is more efficient (in fact `resolve` just calls `study` 
    * internally).
    *
    * @param {object} invocables Invocable objects
@@ -44335,19 +44335,19 @@ function $Resolve(  $q,    $injector) {
   this.study = function (invocables) {
     if (!isObject(invocables)) throw new Error("'invocables' must be an object");
     var invocableKeys = objectKeys(invocables || {});
-
+    
     // Perform a topological sort of invocables to build an ordered plan
     var plan = [], cycle = [], visited = {};
     function visit(value, key) {
       if (visited[key] === VISIT_DONE) return;
-
+      
       cycle.push(key);
       if (visited[key] === VISIT_IN_PROGRESS) {
         cycle.splice(0, indexOf(cycle, key));
         throw new Error("Cyclic dependency: " + cycle.join(" -> "));
       }
       visited[key] = VISIT_IN_PROGRESS;
-
+      
       if (isString(value)) {
         plan.push(key, [ function() { return $injector.get(value); }], NO_DEPENDENCIES);
       } else {
@@ -44357,17 +44357,17 @@ function $Resolve(  $q,    $injector) {
         });
         plan.push(key, value, params);
       }
-
+      
       cycle.pop();
       visited[key] = VISIT_DONE;
     }
     forEach(invocables, visit);
     invocables = cycle = visited = null; // plan is all that's required
-
+    
     function isResolve(value) {
       return isObject(value) && value.then && value.$$promises;
     }
-
+    
     return function (locals, parent, self) {
       if (isResolve(locals) && self === undefined) {
         self = parent; parent = locals; locals = null;
@@ -44375,12 +44375,12 @@ function $Resolve(  $q,    $injector) {
       if (!locals) locals = NO_LOCALS;
       else if (!isObject(locals)) {
         throw new Error("'locals' must be an object");
-      }
+      }       
       if (!parent) parent = NO_PARENT;
       else if (!isResolve(parent)) {
         throw new Error("'parent' must be a promise returned by $resolve.resolve()");
       }
-
+      
       // To complete the overall resolution, we have to wait for the parent
       // promise and for the promise for each invokable in our plan.
       var resolution = $q.defer(),
@@ -44389,18 +44389,18 @@ function $Resolve(  $q,    $injector) {
           values = extend({}, locals),
           wait = 1 + plan.length/3,
           merged = false;
-
+          
       function done() {
         // Merge parent values we haven't got yet and publish our own $$values
         if (!--wait) {
-          if (!merged) merge(values, parent.$$values);
+          if (!merged) merge(values, parent.$$values); 
           result.$$values = values;
           result.$$promises = result.$$promises || true; // keep for isResolve()
           delete result.$$inheritedValues;
           resolution.resolve(values);
         }
       }
-
+      
       function fail(reason) {
         result.$$failure = reason;
         resolution.reject(reason);
@@ -44411,7 +44411,7 @@ function $Resolve(  $q,    $injector) {
         fail(parent.$$failure);
         return result;
       }
-
+      
       if (parent.$$inheritedValues) {
         merge(values, omit(parent.$$inheritedValues, invocableKeys));
       }
@@ -44426,16 +44426,16 @@ function $Resolve(  $q,    $injector) {
       } else {
         if (parent.$$inheritedValues) {
           result.$$inheritedValues = omit(parent.$$inheritedValues, invocableKeys);
-        }
+        }        
         parent.then(done, fail);
       }
-
+      
       // Process each invocable in the plan, but ignore any where a local of the same name exists.
       for (var i=0, ii=plan.length; i<ii; i+=3) {
         if (locals.hasOwnProperty(plan[i])) done();
         else invoke(plan[i], plan[i+1], plan[i+2]);
       }
-
+      
       function invoke(key, invocable, params) {
         // Create a deferred for this invocation. Failures will propagate to the resolution as well.
         var invocation = $q.defer(), waitParams = 0;
@@ -44470,65 +44470,65 @@ function $Resolve(  $q,    $injector) {
         // Publish promise synchronously; invocations further down in the plan may depend on it.
         promises[key] = invocation.promise;
       }
-
+      
       return result;
     };
   };
-
+  
   /**
    * @ngdoc function
    * @name ui.router.util.$resolve#resolve
    * @methodOf ui.router.util.$resolve
    *
    * @description
-   * Resolves a set of invocables. An invocable is a function to be invoked via
-   * `$injector.invoke()`, and can have an arbitrary number of dependencies.
+   * Resolves a set of invocables. An invocable is a function to be invoked via 
+   * `$injector.invoke()`, and can have an arbitrary number of dependencies. 
    * An invocable can either return a value directly,
-   * or a `$q` promise. If a promise is returned it will be resolved and the
-   * resulting value will be used instead. Dependencies of invocables are resolved
+   * or a `$q` promise. If a promise is returned it will be resolved and the 
+   * resulting value will be used instead. Dependencies of invocables are resolved 
    * (in this order of precedence)
    *
    * - from the specified `locals`
    * - from another invocable that is part of this `$resolve` call
-   * - from an invocable that is inherited from a `parent` call to `$resolve`
+   * - from an invocable that is inherited from a `parent` call to `$resolve` 
    *   (or recursively
    * - from any ancestor `$resolve` of that parent).
    *
-   * The return value of `$resolve` is a promise for an object that contains
+   * The return value of `$resolve` is a promise for an object that contains 
    * (in this order of precedence)
    *
    * - any `locals` (if specified)
    * - the resolved return values of all injectables
    * - any values inherited from a `parent` call to `$resolve` (if specified)
    *
-   * The promise will resolve after the `parent` promise (if any) and all promises
-   * returned by injectables have been resolved. If any invocable
-   * (or `$injector.invoke`) throws an exception, or if a promise returned by an
-   * invocable is rejected, the `$resolve` promise is immediately rejected with the
-   * same error. A rejection of a `parent` promise (if specified) will likewise be
-   * propagated immediately. Once the `$resolve` promise has been rejected, no
+   * The promise will resolve after the `parent` promise (if any) and all promises 
+   * returned by injectables have been resolved. If any invocable 
+   * (or `$injector.invoke`) throws an exception, or if a promise returned by an 
+   * invocable is rejected, the `$resolve` promise is immediately rejected with the 
+   * same error. A rejection of a `parent` promise (if specified) will likewise be 
+   * propagated immediately. Once the `$resolve` promise has been rejected, no 
    * further invocables will be called.
-   *
+   * 
    * Cyclic dependencies between invocables are not permitted and will caues `$resolve`
-   * to throw an error. As a special case, an injectable can depend on a parameter
-   * with the same name as the injectable, which will be fulfilled from the `parent`
-   * injectable of the same name. This allows inherited values to be decorated.
+   * to throw an error. As a special case, an injectable can depend on a parameter 
+   * with the same name as the injectable, which will be fulfilled from the `parent` 
+   * injectable of the same name. This allows inherited values to be decorated. 
    * Note that in this case any other injectable in the same `$resolve` with the same
    * dependency would see the decorated value, not the inherited value.
    *
-   * Note that missing dependencies -- unlike cyclic dependencies -- will cause an
-   * (asynchronous) rejection of the `$resolve` promise rather than a (synchronous)
+   * Note that missing dependencies -- unlike cyclic dependencies -- will cause an 
+   * (asynchronous) rejection of the `$resolve` promise rather than a (synchronous) 
    * exception.
    *
-   * Invocables are invoked eagerly as soon as all dependencies are available.
+   * Invocables are invoked eagerly as soon as all dependencies are available. 
    * This is true even for dependencies inherited from a `parent` call to `$resolve`.
    *
-   * As a special case, an invocable can be a string, in which case it is taken to
-   * be a service name to be passed to `$injector.get()`. This is supported primarily
-   * for backwards-compatibility with the `resolve` property of `$routeProvider`
+   * As a special case, an invocable can be a string, in which case it is taken to 
+   * be a service name to be passed to `$injector.get()`. This is supported primarily 
+   * for backwards-compatibility with the `resolve` property of `$routeProvider` 
    * routes.
    *
-   * @param {object} invocables functions to invoke or
+   * @param {object} invocables functions to invoke or 
    * `$injector` services to fetch.
    * @param {object} locals  values to make available to the injectables
    * @param {object} parent  a promise returned by another call to `$resolve`.
@@ -44564,23 +44564,23 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @methodOf ui.router.util.$templateFactory
    *
    * @description
-   * Creates a template from a configuration object.
+   * Creates a template from a configuration object. 
    *
-   * @param {object} config Configuration object for which to load a template.
-   * The following properties are search in the specified order, and the first one
+   * @param {object} config Configuration object for which to load a template. 
+   * The following properties are search in the specified order, and the first one 
    * that is defined is used to create the template:
    *
-   * @param {string|object} config.template html string template or function to
+   * @param {string|object} config.template html string template or function to 
    * load via {@link ui.router.util.$templateFactory#fromString fromString}.
-   * @param {string|object} config.templateUrl url to load or a function returning
+   * @param {string|object} config.templateUrl url to load or a function returning 
    * the url to load via {@link ui.router.util.$templateFactory#fromUrl fromUrl}.
-   * @param {Function} config.templateProvider function to invoke via
+   * @param {Function} config.templateProvider function to invoke via 
    * {@link ui.router.util.$templateFactory#fromProvider fromProvider}.
    * @param {object} params  Parameters to pass to the template function.
-   * @param {object} locals Locals to pass to `invoke` if the template is loaded
+   * @param {object} locals Locals to pass to `invoke` if the template is loaded 
    * via a `templateProvider`. Defaults to `{ params: params }`.
    *
-   * @return {string|object}  The template html as a string, or a promise for
+   * @return {string|object}  The template html as a string, or a promise for 
    * that string,or `null` if no template is configured.
    */
   this.fromConfig = function (config, params, locals) {
@@ -44600,11 +44600,11 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @description
    * Creates a template from a string or a function returning a string.
    *
-   * @param {string|object} template html template as a string or function that
+   * @param {string|object} template html template as a string or function that 
    * returns an html template as a string.
    * @param {object} params Parameters to pass to the template function.
    *
-   * @return {string|object} The template html as a string, or a promise for that
+   * @return {string|object} The template html as a string, or a promise for that 
    * string.
    */
   this.fromString = function (template, params) {
@@ -44615,14 +44615,14 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    * @ngdoc function
    * @name ui.router.util.$templateFactory#fromUrl
    * @methodOf ui.router.util.$templateFactory
-   *
+   * 
    * @description
    * Loads a template from the a URL via `$http` and `$templateCache`.
    *
-   * @param {string|Function} url url of the template to load, or a function
+   * @param {string|Function} url url of the template to load, or a function 
    * that returns a url.
    * @param {Object} params Parameters to pass to the url function.
-   * @return {string|Promise.<string>} The template html as a string, or a promise
+   * @return {string|Promise.<string>} The template html as a string, or a promise 
    * for that string.
    */
   this.fromUrl = function (url, params) {
@@ -44643,9 +44643,9 @@ function $TemplateFactory(  $http,   $templateCache,   $injector) {
    *
    * @param {Function} provider Function to invoke via `$injector.invoke`
    * @param {Object} params Parameters for the template.
-   * @param {Object} locals Locals to pass to `invoke`. Defaults to
+   * @param {Object} locals Locals to pass to `invoke`. Defaults to 
    * `{ params: params }`.
-   * @return {string|Promise.<string>} The template html as a string, or a promise
+   * @return {string|Promise.<string>} The template html as a string, or a promise 
    * for that string.
    */
   this.fromProvider = function (provider, params, locals) {
@@ -45714,9 +45714,9 @@ angular.module('ui.router.util').run(['$urlMatcherFactory', function($urlMatcher
  * @requires $locationProvider
  *
  * @description
- * `$urlRouterProvider` has the responsibility of watching `$location`.
- * When `$location` changes it runs through a list of rules one by one until a
- * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify
+ * `$urlRouterProvider` has the responsibility of watching `$location`. 
+ * When `$location` changes it runs through a list of rules one by one until a 
+ * match is found. `$urlRouterProvider` is used behind the scenes anytime you specify 
  * a url in a state configuration. All urls are compiled into a UrlMatcher object.
  *
  * There are several methods on `$urlRouterProvider` that make it useful to use directly
@@ -45801,8 +45801,8 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
    * });
    * </pre>
    *
-   * @param {string|object} rule The url path you want to redirect to or a function
-   * rule that returns the url path. The function version is passed two params:
+   * @param {string|object} rule The url path you want to redirect to or a function 
+   * rule that returns the url path. The function version is passed two params: 
    * `$injector` and `$location` services, and must return a url string.
    *
    * @return {object} `$urlRouterProvider` - `$urlRouterProvider` instance
@@ -46104,7 +46104,7 @@ function $UrlRouterProvider(   $locationProvider,   $urlMatcherFactory) {
         if (angular.isObject(isHtml5)) {
           isHtml5 = isHtml5.enabled;
         }
-
+        
         var url = urlMatcher.format(params);
         options = options || {};
 
@@ -46258,7 +46258,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
     if (path) {
       if (!base) throw new Error("No reference point given for path '"  + name + "'");
       base = findState(base);
-
+      
       var rel = name.split("."), i = 0, pathLength = rel.length, current = base;
 
       for (; i < pathLength; i++) {
@@ -46393,9 +46393,9 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @methodOf ui.router.state.$stateProvider
    *
    * @description
-   * Allows you to extend (carefully) or override (at your own peril) the
-   * `stateBuilder` object used internally by `$stateProvider`. This can be used
-   * to add custom functionality to ui-router, for example inferring templateUrl
+   * Allows you to extend (carefully) or override (at your own peril) the 
+   * `stateBuilder` object used internally by `$stateProvider`. This can be used 
+   * to add custom functionality to ui-router, for example inferring templateUrl 
    * based on the state name.
    *
    * When passing only a name, it returns the current (original or decorated) builder
@@ -46404,14 +46404,14 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * The builder functions that can be decorated are listed below. Though not all
    * necessarily have a good use case for decoration, that is up to you to decide.
    *
-   * In addition, users can attach custom decorators, which will generate new
-   * properties within the state's internal definition. There is currently no clear
-   * use-case for this beyond accessing internal states (i.e. $state.$current),
-   * however, expect this to become increasingly relevant as we introduce additional
+   * In addition, users can attach custom decorators, which will generate new 
+   * properties within the state's internal definition. There is currently no clear 
+   * use-case for this beyond accessing internal states (i.e. $state.$current), 
+   * however, expect this to become increasingly relevant as we introduce additional 
    * meta-programming features.
    *
-   * **Warning**: Decorators should not be interdependent because the order of
-   * execution of the builder functions in non-deterministic. Builder functions
+   * **Warning**: Decorators should not be interdependent because the order of 
+   * execution of the builder functions in non-deterministic. Builder functions 
    * should only be dependent on the state definition object and super function.
    *
    *
@@ -46422,21 +46422,21 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   overridden by own values (if any).
    * - **url** `{object}` - returns a {@link ui.router.util.type:UrlMatcher UrlMatcher}
    *   or `null`.
-   * - **navigable** `{object}` - returns closest ancestor state that has a URL (aka is
+   * - **navigable** `{object}` - returns closest ancestor state that has a URL (aka is 
    *   navigable).
-   * - **params** `{object}` - returns an array of state params that are ensured to
+   * - **params** `{object}` - returns an array of state params that are ensured to 
    *   be a super-set of parent's params.
-   * - **views** `{object}` - returns a views object where each key is an absolute view
-   *   name (i.e. "viewName@stateName") and each value is the config object
-   *   (template, controller) for the view. Even when you don't use the views object
+   * - **views** `{object}` - returns a views object where each key is an absolute view 
+   *   name (i.e. "viewName@stateName") and each value is the config object 
+   *   (template, controller) for the view. Even when you don't use the views object 
    *   explicitly on a state config, one is still created for you internally.
-   *   So by decorating this builder function you have access to decorating template
+   *   So by decorating this builder function you have access to decorating template 
    *   and controller properties.
-   * - **ownParams** `{object}` - returns an array of params that belong to the state,
+   * - **ownParams** `{object}` - returns an array of params that belong to the state, 
    *   not including any params defined by ancestor states.
-   * - **path** `{string}` - returns the full path from the root down to this state.
+   * - **path** `{string}` - returns the full path from the root down to this state. 
    *   Needed for state activation.
-   * - **includes** `{object}` - returns an object that includes every state that
+   * - **includes** `{object}` - returns an object that includes every state that 
    *   would pass a `$state.includes()` test.
    *
    * @example
@@ -46469,8 +46469,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * // and /partials/home/contact/item.html, respectively.
    * </pre>
    *
-   * @param {string} name The name of the builder function to decorate.
-   * @param {object} func A function that is responsible for decorating the original
+   * @param {string} name The name of the builder function to decorate. 
+   * @param {object} func A function that is responsible for decorating the original 
    * builder function. The function receives two parameters:
    *
    *   - `{object}` - state - The state config object.
@@ -46509,9 +46509,9 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @param {string|function=} stateConfig.template
    * <a id='template'></a>
    *   html template as a string or a function that returns
-   *   an html template as a string which should be used by the uiView directives. This property
+   *   an html template as a string which should be used by the uiView directives. This property 
    *   takes precedence over templateUrl.
-   *
+   *   
    *   If `template` is a function, it will be called with the following parameters:
    *
    *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
@@ -46529,10 +46529,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    *   path or function that returns a path to an html
    *   template that should be used by uiView.
-   *
+   *   
    *   If `templateUrl` is a function, it will be called with the following parameters:
    *
-   *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by
+   *   - {array.&lt;object&gt;} - state parameters extracted from the current $location.path() by 
    *     applying the current state
    *
    * <pre>templateUrl: "home.html"</pre>
@@ -46576,7 +46576,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *
    * @param {string=} stateConfig.controllerAs
    * <a id='controllerAs'></a>
-   *
+   * 
    * A controller alias name. If present the controller will be
    *   published to scope under the controllerAs name.
    * <pre>controllerAs: "myCtrl"</pre>
@@ -46592,17 +46592,17 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <a id='resolve'></a>
    *
    * An optional map&lt;string, function&gt; of dependencies which
-   *   should be injected into the controller. If any of these dependencies are promises,
+   *   should be injected into the controller. If any of these dependencies are promises, 
    *   the router will wait for them all to be resolved before the controller is instantiated.
    *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
    *   and the values of the resolved promises are injected into any controllers that reference them.
    *   If any  of the promises are rejected the $stateChangeError event is fired.
    *
    *   The map object is:
-   *
+   *   
    *   - key - {string}: name of dependency to be injected into controller
-   *   - factory - {string|function}: If string then it is alias for service. Otherwise if function,
-   *     it is injected and return value it treated as dependency. If result is a promise, it is
+   *   - factory - {string|function}: If string then it is alias for service. Otherwise if function, 
+   *     it is injected and return value it treated as dependency. If result is a promise, it is 
    *     resolved before its value is injected into controller.
    *
    * <pre>resolve: {
@@ -46616,7 +46616,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <a id='url'></a>
    *
    *   A url fragment with optional parameters. When a state is navigated or
-   *   transitioned to, the `$stateParams` service will be populated with any
+   *   transitioned to, the `$stateParams` service will be populated with any 
    *   parameters that were passed.
    *
    *   (See {@link ui.router.util.type:UrlMatcher UrlMatcher} `UrlMatcher`} for
@@ -46699,7 +46699,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * <a id='reloadOnSearch'></a>
    *
    * If `false`, will not retrigger the same state
-   *   just because a search/query parameter has changed (via $location.search() or $location.hash()).
+   *   just because a search/query parameter has changed (via $location.search() or $location.hash()). 
    *   Useful for when you'd like to modify $location.search() without triggering a reload.
    * <pre>reloadOnSearch: false</pre>
    *
@@ -46834,11 +46834,11 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    * @requires ui.router.state.$stateParams
    * @requires ui.router.router.$urlRouter
    *
-   * @property {object} params A param object, e.g. {sectionId: section.id)}, that
+   * @property {object} params A param object, e.g. {sectionId: section.id)}, that 
    * you'd like to test against the current active state.
-   * @property {object} current A reference to the state's config object. However
+   * @property {object} current A reference to the state's config object. However 
    * you passed it in. Useful for accessing custom data.
-   * @property {object} transition Currently pending transition. A promise that'll
+   * @property {object} transition Currently pending transition. A promise that'll 
    * resolve or reject.
    *
    * @description
@@ -46951,7 +46951,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      *
      * `reload()` is just an alias for:
      * <pre>
-     * $state.transitionTo($state.current, $stateParams, {
+     * $state.transitionTo($state.current, $stateParams, { 
      *   reload: true, inherit: false, notify: true
      * });
      * </pre>
@@ -46959,7 +46959,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @param {string=|object=} state - A state name or a state object, which is the root of the resolves to be re-resolved.
      * @example
      * <pre>
-     * //assuming app application consists of 3 states: 'contacts', 'contacts.detail', 'contacts.detail.item'
+     * //assuming app application consists of 3 states: 'contacts', 'contacts.detail', 'contacts.detail.item' 
      * //and current state is 'contacts.detail.item'
      * var app angular.module('app', ['ui.router']);
      *
@@ -46973,7 +46973,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      *
      * `reload()` is just an alias for:
      * <pre>
-     * $state.transitionTo($state.current, $stateParams, {
+     * $state.transitionTo($state.current, $stateParams, { 
      *   reload: true, inherit: false, notify: true
      * });
      * </pre>
@@ -46991,11 +46991,11 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * @methodOf ui.router.state.$state
      *
      * @description
-     * Convenience method for transitioning to a new state. `$state.go` calls
-     * `$state.transitionTo` internally but automatically sets options to
-     * `{ location: true, inherit: true, relative: $state.$current, notify: true }`.
-     * This allows you to easily use an absolute or relative to path and specify
-     * only the parameters you'd like to update (while letting unspecified parameters
+     * Convenience method for transitioning to a new state. `$state.go` calls 
+     * `$state.transitionTo` internally but automatically sets options to 
+     * `{ location: true, inherit: true, relative: $state.$current, notify: true }`. 
+     * This allows you to easily use an absolute or relative to path and specify 
+     * only the parameters you'd like to update (while letting unspecified parameters 
      * inherit from the currently active ancestor states).
      *
      * @example
@@ -47017,8 +47017,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * - `$state.go('^.sibling')` - will go to a sibling state
      * - `$state.go('.child.grandchild')` - will go to grandchild state
      *
-     * @param {object=} params A map of the parameters that will be sent to the state,
-     * will populate $stateParams. Any parameters that are not specified will be inherited from currently
+     * @param {object=} params A map of the parameters that will be sent to the state, 
+     * will populate $stateParams. Any parameters that are not specified will be inherited from currently 
      * defined parameters. This allows, for example, going to a sibling state that shares parameters
      * specified in a parent state. Parameter inheritance only works between common ancestor states, I.e.
      * transitioning to a sibling will get you the parameters for all parents, transitioning to a child
@@ -47028,10 +47028,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * - **`location`** - {boolean=true|string=} - If `true` will update the url in the location bar, if `false`
      *    will not. If string, must be `"replace"`, which will update url and also replace last history record.
      * - **`inherit`** - {boolean=true}, If `true` will inherit url parameters from current url.
-     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'),
+     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'), 
      *    defines which state to be relative from.
      * - **`notify`** - {boolean=true}, If `true` will broadcast $stateChangeStart and $stateChangeSuccess events.
-     * - **`reload`** (v0.2.5) - {boolean=false}, If `true` will force transition even if the state or params
+     * - **`reload`** (v0.2.5) - {boolean=false}, If `true` will force transition even if the state or params 
      *    have not changed, aka a reload of the same state. It differs from reloadOnSearch because you'd
      *    use this when you want to force a reload when *everything* is the same, including search params.
      *
@@ -47083,10 +47083,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      * - **`location`** - {boolean=true|string=} - If `true` will update the url in the location bar, if `false`
      *    will not. If string, must be `"replace"`, which will update url and also replace last history record.
      * - **`inherit`** - {boolean=false}, If `true` will inherit url parameters from current url.
-     * - **`relative`** - {object=}, When transitioning with relative path (e.g '^'),
+     * - **`relative`** - {object=}, When transitioning with relative path (e.g '^'), 
      *    defines which state to be relative from.
      * - **`notify`** - {boolean=true}, If `true` will broadcast $stateChangeStart and $stateChangeSuccess events.
-     * - **`reload`** (v0.2.5) - {boolean=false|string=|object=}, If `true` will force transition even if the state or params
+     * - **`reload`** (v0.2.5) - {boolean=false|string=|object=}, If `true` will force transition even if the state or params 
      *    have not changed, aka a reload of the same state. It differs from reloadOnSearch because you'd
      *    use this when you want to force a reload when *everything* is the same, including search params.
      *    if String, then will reload the state with the name given in reload, and any children.
@@ -47149,7 +47149,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
         if (isObject(options.reload) && !options.reload.name) {
           throw new Error('Invalid reload state object');
         }
-
+        
         var reloadState = options.reload === true ? fromPath[0] : findState(options.reload);
         if (options.reload && !reloadState) {
           throw new Error("No such reload state '" + (isString(options.reload) ? options.reload : options.reload.name) + "'");
@@ -47465,10 +47465,10 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
      *    first parameter, then the constructed href url will be built from the first navigable ancestor (aka
      *    ancestor with a valid url).
      * - **`inherit`** - {boolean=true}, If `true` will inherit url parameters from current url.
-     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'),
+     * - **`relative`** - {object=$state.$current}, When transitioning with relative path (e.g '^'), 
      *    defines which state to be relative from.
      * - **`absolute`** - {boolean=false},  If true will generate an absolute url, e.g. "http://www.example.com/fullurl".
-     *
+     * 
      * @returns {string} compiled state url
      */
     $state.href = function href(stateOrName, params, options) {
@@ -47483,7 +47483,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
 
       if (!isDefined(state)) return null;
       if (options.inherit) params = inheritParams($stateParams, params || {}, $state.$current, state);
-
+      
       var nav = (state && options.lossy) ? state.navigable : state;
 
       if (!nav || nav.url === undefined || nav.url === null) {
@@ -47753,26 +47753,26 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  * functionality, call `$uiViewScrollProvider.useAnchorScroll()`.*
  *
  * @param {string=} onload Expression to evaluate whenever the view updates.
- *
+ * 
  * @example
- * A view can be unnamed or named.
+ * A view can be unnamed or named. 
  * <pre>
  * <!-- Unnamed -->
- * <div ui-view></div>
- *
+ * <div ui-view></div> 
+ * 
  * <!-- Named -->
  * <div ui-view="viewName"></div>
  * </pre>
  *
- * You can only have one unnamed view within any template (or root html). If you are only using a
+ * You can only have one unnamed view within any template (or root html). If you are only using a 
  * single view and it is unnamed then you can populate it like so:
  * <pre>
- * <div ui-view></div>
+ * <div ui-view></div> 
  * $stateProvider.state("home", {
  *   template: "<h1>HELLO!</h1>"
  * })
  * </pre>
- *
+ * 
  * The above is a convenient shortcut equivalent to specifying your view explicitly with the {@link ui.router.state.$stateProvider#views `views`}
  * config property, by name, in this case an empty name:
  * <pre>
@@ -47781,33 +47781,33 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  *     "": {
  *       template: "<h1>HELLO!</h1>"
  *     }
- *   }
+ *   }    
  * })
  * </pre>
- *
- * But typically you'll only use the views property if you name your view or have more than one view
- * in the same template. There's not really a compelling reason to name a view if its the only one,
+ * 
+ * But typically you'll only use the views property if you name your view or have more than one view 
+ * in the same template. There's not really a compelling reason to name a view if its the only one, 
  * but you could if you wanted, like so:
  * <pre>
  * <div ui-view="main"></div>
- * </pre>
+ * </pre> 
  * <pre>
  * $stateProvider.state("home", {
  *   views: {
  *     "main": {
  *       template: "<h1>HELLO!</h1>"
  *     }
- *   }
+ *   }    
  * })
  * </pre>
- *
+ * 
  * Really though, you'll use views to set up multiple views:
  * <pre>
  * <div ui-view></div>
- * <div ui-view="chart"></div>
- * <div ui-view="data"></div>
+ * <div ui-view="chart"></div> 
+ * <div ui-view="data"></div> 
  * </pre>
- *
+ * 
  * <pre>
  * $stateProvider.state("home", {
  *   views: {
@@ -47820,7 +47820,7 @@ angular.module('ui.router.state').provider('$uiViewScroll', $ViewScrollProvider)
  *     "data": {
  *       template: "<data_thing/>"
  *     }
- *   }
+ *   }    
  * })
  * </pre>
  *
@@ -48055,17 +48055,17 @@ function stateContext(el) {
  * @restrict A
  *
  * @description
- * A directive that binds a link (`<a>` tag) to a state. If the state has an associated
- * URL, the directive will automatically generate & update the `href` attribute via
- * the {@link ui.router.state.$state#methods_href $state.href()} method. Clicking
- * the link will trigger a state transition with optional parameters.
+ * A directive that binds a link (`<a>` tag) to a state. If the state has an associated 
+ * URL, the directive will automatically generate & update the `href` attribute via 
+ * the {@link ui.router.state.$state#methods_href $state.href()} method. Clicking 
+ * the link will trigger a state transition with optional parameters. 
  *
- * Also middle-clicking, right-clicking, and ctrl-clicking on the link will be
+ * Also middle-clicking, right-clicking, and ctrl-clicking on the link will be 
  * handled natively by the browser.
  *
- * You can also use relative state paths within ui-sref, just like the relative
+ * You can also use relative state paths within ui-sref, just like the relative 
  * paths passed to `$state.go()`. You just need to be aware that the path is relative
- * to the state that the link lives in, in other words the state that loaded the
+ * to the state that the link lives in, in other words the state that loaded the 
  * template containing the link.
  *
  * You can specify options to pass to {@link ui.router.state.$state#go $state.go()}
@@ -48073,22 +48073,22 @@ function stateContext(el) {
  * and `reload`.
  *
  * @example
- * Here's an example of how you'd use ui-sref and how it would compile. If you have the
+ * Here's an example of how you'd use ui-sref and how it would compile. If you have the 
  * following template:
  * <pre>
  * <a ui-sref="home">Home</a> | <a ui-sref="about">About</a> | <a ui-sref="{page: 2}">Next page</a>
- *
+ * 
  * <ul>
  *     <li ng-repeat="contact in contacts">
  *         <a ui-sref="contacts.detail({ id: contact.id })">{{ contact.name }}</a>
  *     </li>
  * </ul>
  * </pre>
- *
+ * 
  * Then the compiled html would be (assuming Html5Mode is off and current state is contacts):
  * <pre>
  * <a href="#/home" ui-sref="home">Home</a> | <a href="#/about" ui-sref="about">About</a> | <a href="#/contacts?page=2" ui-sref="{page: 2}">Next page</a>
- *
+ * 
  * <ul>
  *     <li ng-repeat="contact in contacts">
  *         <a href="#/contacts/1" ui-sref="contacts.detail({ id: contact.id })">Joe</a>
@@ -48586,7 +48586,7 @@ angular.module('ui.utils', [
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /*
  Attaches input mask onto input element
@@ -49212,7 +49212,7 @@ angular.module('ui.mask', [])
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /**
  * General-purpose Event binding. Bind any event not natively supported by Angular
@@ -49253,7 +49253,7 @@ angular.module('ui.event',[]).directive('uiEvent', ['$parse',
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /**
  * General-purpose validator for ngModel.
@@ -49462,7 +49462,7 @@ angular.module('ui.validate',[])
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /**
  * Provides an easy way to toggle a checkboxes indeterminate property
@@ -49491,12 +49491,12 @@ angular.module('ui.indeterminate', []).directive('uiIndeterminate', [
 /*!
  * angular-ui-scrollpoint
  * https://github.com/angular-ui/ui-scrollpoint
- * Version: 2.0.1 - 2015-12-23T09:14:55.624Z
+ * Version: 2.1.0 - 2016-01-11T01:55:45.786Z
  * License: MIT
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /**
  * Adds a 'ui-scrollpoint' class to the element when the page scrolls past it's position.
@@ -49526,18 +49526,49 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                 this.$target = undefined;
                 this.hasTarget = false;
 
-                this.edges = {top: true};
+                this.edges = { top: { top: true }}; // ui-scrollpoint on top edge of element with top edge of target
                 this.hitEdge = undefined;
 
-                this.absolute = true;
-                this.percent = false;
-                this.shift = 0;
+                this.default_edge = {
+                    absolute: false,
+                    percent: false,
+                    shift: 0
+                };
                 this.posCache = {};
 
                 this.enabled = true;
-
+                
                 this.scrollpointClass = 'ui-scrollpoint';
                 this.actions = undefined;
+
+                function parseScrollpoint(scrollpoint){
+                    var def = { shift: 0, absolute: false, percent: false };
+                    if(scrollpoint && angular.isString(scrollpoint)) {
+                        def.percent = (scrollpoint.charAt(scrollpoint.length-1) == '%');
+                        if(def.percent) {
+                            scrollpoint = scrollpoint.substr(0, scrollpoint.length-1);
+                        }
+                        if(scrollpoint.charAt(0) === '-') {
+                            def.absolute = def.percent;
+                            def.shift = -parseFloat(scrollpoint.substr(1));
+                        }
+                        else if(scrollpoint.charAt(0) === '+') {
+                            def.absolute = def.percent;
+                            def.shift = parseFloat(scrollpoint.substr(1));
+                        }
+                        else {
+                            var parsed = parseFloat(scrollpoint);
+                            if (!isNaN(parsed) && isFinite(parsed)) {
+                                def.absolute = true;
+                                def.shift = parsed;
+                            }
+                        }
+                    }
+                    else if(angular.isNumber(scrollpoint)){
+                        return parseScrollpoint(scrollpoint.toString());
+                    }
+                    return def;
+                }
 
                 this.addEdge = function(view_edge, element_edge){
                     if(angular.isString(view_edge)){
@@ -49545,10 +49576,42 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                             element_edge = true;
                         }
                         if(view_edge == 'view'){
+                            // view is a shorthand for matching top of element with bottom of view, and vice versa
                             this.addEdge('top', 'bottom');
                             this.addEdge('bottom', 'top');
                         }
                         else{
+                            var edge, parsedEdge;
+                            if(angular.isObject(element_edge)){
+                                // the view_edge interacts with more than one element_edge
+                                for(edge in element_edge){
+                                    // parse each element_edge definition (allows each element_edge to have its own scrollpoint with view_edge)
+                                    if(element_edge[edge] === true){
+                                        element_edge[edge] = true; // use the ui-scrollpoint default
+                                    }
+                                    else{
+                                        element_edge[edge] = parseScrollpoint(element_edge[edge]);
+                                    }
+                                }
+                            }
+                            else if(element_edge == 'top' || element_edge == 'bottom'){
+                                // simple top or bottom of element with 0 shift
+                                edge = element_edge;
+                                parsedEdge = parseScrollpoint();
+                                element_edge = {};
+                                element_edge[edge] = parsedEdge;
+                            }
+                            else if(element_edge === true){
+                                element_edge = {};
+                                element_edge[view_edge] = true; // use the ui-scrollpoint default
+                            }
+                            else{
+                                // element_edge matches view_edge (ie. top of element interacts with top of view)
+                                parsedEdge = parseScrollpoint(element_edge);
+                                element_edge = {};
+                                element_edge[view_edge] = parsedEdge;
+                            }
+                            // element_edge has been parsed
                             this.edges[view_edge] = element_edge;
                         }
                     }
@@ -49566,33 +49629,7 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                 };
 
                 this.setScrollpoint = function(scrollpoint){
-                    if (!scrollpoint) {
-                        this.absolute = false;
-                        this.percent = false;
-                        this.shift = 0;
-                    } else if (typeof (scrollpoint) === 'string') {
-                        // charAt is generally faster than indexOf: http://jsperf.com/indexof-vs-charat
-                        this.percent = (scrollpoint.charAt(scrollpoint.length-1) == '%');
-                        if(this.percent){
-                            scrollpoint = scrollpoint.substr(0, scrollpoint.length-1);
-                        }
-                        if (scrollpoint.charAt(0) === '-') {
-                            this.absolute = this.percent;
-                            this.shift = -parseFloat(scrollpoint.substr(1));
-                        } else if (scrollpoint.charAt(0) === '+') {
-                            this.absolute = this.percent;
-                            this.shift = parseFloat(scrollpoint.substr(1));
-                        } else {
-                            var parsed = parseFloat(scrollpoint);
-                            if (!isNaN(parsed) && isFinite(parsed)) {
-                                this.absolute = true;
-                                this.shift = parsed;
-                            }
-                        }
-                    } else if (typeof (scrollpoint) === 'number') {
-                        this.setScrollpoint(scrollpoint.toString());
-                        return;
-                    }
+                    this.default_edge = parseScrollpoint(scrollpoint);
                 };
 
                 this.setClass = function(_class){
@@ -49623,7 +49660,8 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                     }
                     else{
                         // default
-                        this.edges = {top: true};
+                        this.edges = {};
+                        this.addEdge('top');
                     }
                 };
 
@@ -49642,63 +49680,117 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                     }
                 };
 
-                this.scrollEdgeHit = function(){
-                    var offset, hitEdge, flipOffset;
-                    for(var scroll_edge in this.edges){
-                        var scroll_top = (scroll_edge == 'top');
-                        var scroll_bottom = (scroll_edge == 'bottom');
-
-                        var elem_edge = this.edges[scroll_edge];
-                        var elem_top = (elem_edge == 'top');
-                        var elem_bottom = (elem_edge == 'bottom');
-                        if(elem_edge === true){
-                            if(scroll_top){ elem_top = true; }
-                            if(scroll_bottom){ elem_bottom = true; }
+                this.getEdge = function(scroll_edge, element_edge){
+                    if(scroll_edge && element_edge){
+                        if(this.edges[scroll_edge] && this.edges[scroll_edge][element_edge] && this.edges[scroll_edge][element_edge] !== true){
+                            return this.edges[scroll_edge][element_edge];
                         }
+                    }
+                    else if(scroll_edge && !element_edge){
+                        if(this.edges[scroll_edge]){
+                            return this.edges[scroll_edge];
+                        }
+                        return;
+                    }
+                    return this.default_edge;
+                };
 
-                        var scrollOffset = this.getScrollOffset();
+                this.checkOffset = function(scroll_edge, elem_edge, edge){
+                    var offset;
+                    if(!edge){
+                        edge = this.default_edge;
+                    }
+
+                    var scroll_bottom = (scroll_edge == 'bottom');
+                    var elem_top = (elem_edge == 'top');
+                    var elem_bottom = (elem_edge == 'bottom');
+
+                    var scrollOffset = this.getScrollOffset();
+                    if(scroll_bottom){
+                        scrollOffset += this.getTargetHeight();
+                    }
+
+                    var checkOffset;
+                    if(edge.absolute){
+                        if(edge.percent){
+                            checkOffset = edge.shift / 100.0 * this.getTargetScrollHeight();
+                        }
+                        else{
+                            checkOffset = edge.shift;
+                        }
                         if(scroll_bottom){
-                            scrollOffset += this.getTargetHeight();
+                            checkOffset = this.getTargetContentHeight() - checkOffset;
+                            if(this.hasTarget){
+                                checkOffset += this.getTargetHeight();
+                            }
                         }
+                    }
+                    else{
+                        if(elem_top){
+                            checkOffset = this.getElementTop();
+                        }
+                        else if(elem_bottom){
+                            checkOffset = this.getElementBottom();
+                        }
+                        checkOffset += edge.shift;
+                    }
 
-                        var checkOffset;
-                        if(this.absolute){
-                            if(this.percent){
-                                checkOffset = this.shift / 100.0 * this.getTargetScrollHeight();
+                    offset = (scrollOffset - checkOffset);
+                    if(scroll_bottom){
+                        offset *= -1.0;
+                    }
+                    return offset;
+                };
+
+                this.scrollEdgeHit = function(){
+                    var offset, edgeHit, absEdges, absEdgeHits;
+                    var edge, scroll_edge, element_edge;
+                    absEdges = 0;
+                    absEdgeHits = {};
+                    for(scroll_edge in this.edges){
+                        for(element_edge in this.edges[scroll_edge]){
+                            edge = this.getEdge(scroll_edge, element_edge);
+                            var edge_offset = this.checkOffset(scroll_edge, element_edge, edge);
+
+                            if(edge.absolute){
+                                if(angular.isUndefined(absEdgeHits)){
+                                    absEdgeHits = {};
+                                }
+                                if(angular.isUndefined(absEdgeHits[scroll_edge])){
+                                    absEdgeHits[scroll_edge] = {};
+                                }
+                                absEdgeHits[scroll_edge][element_edge] = edge_offset;
+                                absEdges++;
                             }
-                            else{
-                                checkOffset = this.shift;
+                            else if(angular.isUndefined(offset) || edge_offset > offset){
+                                offset = edge_offset;
+                                edgeHit = {scroll: scroll_edge, element: element_edge};
                             }
-                            if(scroll_bottom){
-                                checkOffset = this.getTargetContentHeight() - checkOffset;
-                                if(this.hasTarget){
-                                    checkOffset += this.getTargetHeight();
+                        }
+                    }
+                    // special handling for absolute edges when no relative edges hit
+                    if(absEdges && !edgeHit){
+                        // in case there is more than one absolute edge, they all should pass to count a hit (allows for creating ranges where the scrollpoint is active)
+                        var allPass = true;
+                        offset = undefined;
+                        for(scroll_edge in absEdgeHits){
+                            for(element_edge in absEdgeHits[scroll_edge]){
+                                if(absEdges > 1 && absEdgeHits[scroll_edge][element_edge] < 0){
+                                    allPass = false;
+                                }
+                                else if(angular.isUndefined(offset) || absEdgeHits[scroll_edge][element_edge] > offset){
+                                    offset = absEdgeHits[scroll_edge][element_edge];
+                                    edgeHit = {scroll: scroll_edge, element: element_edge};
                                 }
                             }
                         }
-                        else{
-                            if(elem_top){
-                                checkOffset = this.getElementTop();
-                            }
-                            else if(elem_bottom){
-                                checkOffset = this.getElementBottom();
-                            }
-                            checkOffset += this.shift;
-                        }
-
-                        var edge_offset = (scrollOffset - checkOffset);
-                        if(scroll_bottom){
-                            edge_offset *= -1.0;
-                        }
-
-                        if(angular.isUndefined(offset) || edge_offset > offset){
-                            offset = edge_offset;
-                            hitEdge = scroll_edge;
-                            flipOffset = (scroll_bottom && this.absolute);
+                        if(!allPass){
+                            edgeHit = undefined;
+                            offset = undefined;
                         }
                     }
-                    this.hitEdge = (offset >= 0) ? hitEdge : undefined;
-                    return offset*(flipOffset?-1.0:1.0);
+                    this.hitEdge = ((offset >= 0) ? edgeHit : undefined);
+                    return offset;
                 };
 
                 this.getScrollOffset = function(){
@@ -49749,7 +49841,7 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                 // base ui-scrollpoint (leave blank or set to: absolute, +, -, or %)
                 attrs.$observe('uiScrollpoint', function(scrollpoint){
                     uiScrollpoint.setScrollpoint(scrollpoint);
-                    onScroll();
+                    reset();
                 });
 
                 // ui-scrollpoint-enabled allows disabling the scrollpoint
@@ -49777,16 +49869,17 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
 
                 // ui-scrollpoint-action function name to use as scrollpoint callback
                 attrs.$observe('uiScrollpointAction', function(uiScrollpointAction){
-                    if(scope[uiScrollpointAction] && angular.isFunction(scope[uiScrollpointAction])){
-                        uiScrollpoint.addAction(scope[uiScrollpointAction]);
+                    var action = scope.$eval(uiScrollpointAction);
+                    if(action && angular.isFunction(action)){
+                        uiScrollpoint.addAction(action);
                     }
                 });
 
                 // ui-scrollpoint-class class to add instead of ui-scrollpoint
                 attrs.$observe('uiScrollpointClass', function(scrollpointClass){
+                    elm.removeClass(uiScrollpoint.scrollpointClass);
                     uiScrollpoint.setClass(scrollpointClass);
-                    hit = false;
-                    onScroll();
+                    reset();
                 });
 
                 // ui-scrollpoint-edge allows configuring which element and scroll edges match
@@ -49801,15 +49894,16 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
 
                         // assign it in controller
                         uiScrollpoint.setEdges(scrollpointEdge);
+                        reset();
                     }
                 });
-
+    
                 function onScroll() {
                     if(!ready || !uiScrollpoint.enabled){ return; }
 
-                    var hitEdge = uiScrollpoint.hitEdge; // which edge did scrollpoint trigger at before
                     var edgeHit = uiScrollpoint.scrollEdgeHit();
-
+                    var hitEdge = uiScrollpoint.hitEdge; // which edge did scrollpoint trigger at before
+                    
                     // edgeHit >= 0 - scrollpoint is scrolled out of active view
                     // edgeHit < 0 - scrollpoint is in active view
 
@@ -49845,12 +49939,12 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
                         // fire the actions
                         if(uiScrollpoint.actions){
                             for(var i in uiScrollpoint.actions){
-                                uiScrollpoint.actions[i](edgeHit, elm, uiScrollpoint.hitEdge || hitEdge);
+                                uiScrollpoint.actions[i](edgeHit, elm, (hitEdge ? hitEdge.scroll : undefined), (hitEdge ? hitEdge.element : undefined));
                             }
                         }
                     }
                 }
-
+    
                 function reset() {
                     $timeout(function(){
                         elm.removeClass(uiScrollpoint.scrollpointClass);
@@ -49886,7 +49980,7 @@ angular.module('ui.scrollpoint', []).directive('uiScrollpoint', ['$window', '$ti
  * Version: 1.3.2 -- 2015-09-03T15:39:10.862Z
  * License: MIT
  */
-
+ 
 
  (function () {
 'use strict';
@@ -50547,7 +50641,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function() {
  */
 
 
-(function () {
+(function () { 
 'use strict';
 /*
  * Author: Remy Alain Ticona Carbajal http://realtica.org
@@ -50670,7 +50764,7 @@ function uiUploader($log) {
             startUpload(self.options);
             if (angular.isFunction(self.options.onCompleted)) {
                 self.options.onCompleted(file, xhr.responseText, xhr.status);
-            }
+            }            
             if (self.uploadedFiles === self.files.length) {
                 self.uploadedFiles = 0;
                 if (angular.isFunction(self.options.onCompletedAll)) {
@@ -52069,7 +52163,7 @@ angular.module('ngResource', ['ng']).
 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
- *
+ * 
  * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
@@ -55208,7 +55302,7 @@ return 'pascalprecht.translate';
 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
- *
+ * 
  * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
@@ -55282,7 +55376,7 @@ return 'pascalprecht.translate';
 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
- *
+ * 
  * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
@@ -55395,7 +55489,7 @@ return 'pascalprecht.translate';
 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
- *
+ * 
  * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
@@ -55519,7 +55613,7 @@ return 'pascalprecht.translate';
 
 /*!
  * angular-translate - v2.8.1 - 2015-10-01
- *
+ * 
  * Copyright (c) 2015 The angular-translate team, Pascal Precht; Licensed MIT
  */
 (function (root, factory) {
@@ -64540,7 +64634,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position'])
   }]);
 
 /* Deprecated typeahead below */
-
+  
 angular.module('ui.bootstrap.typeahead')
   .value('$typeaheadSuppressWarning', false)
   .service('typeaheadParser', ['$parse', 'uibTypeaheadParser', '$log', '$typeaheadSuppressWarning', function($parse, uibTypeaheadParser, $log, $typeaheadSuppressWarning) {
@@ -64970,7 +65064,7 @@ angular.module('ui.bootstrap.typeahead')
       }
     };
   }])
-
+  
   .directive('typeaheadPopup', ['$typeaheadSuppressWarning', '$log', function($typeaheadSuppressWarning, $log) {
     return {
       scope: {
@@ -64986,7 +65080,7 @@ angular.module('ui.bootstrap.typeahead')
         return attrs.popupTemplateUrl || 'template/typeahead/typeahead-popup.html';
       },
       link: function(scope, element, attrs) {
-
+        
         if (!$typeaheadSuppressWarning) {
           $log.warn('typeahead-popup is now deprecated. Use uib-typeahead-popup instead.');
         }
@@ -65010,7 +65104,7 @@ angular.module('ui.bootstrap.typeahead')
       }
     };
   }])
-
+  
   .directive('typeaheadMatch', ['$templateRequest', '$compile', '$parse', '$typeaheadSuppressWarning', '$log', function($templateRequest, $compile, $parse, $typeaheadSuppressWarning, $log) {
     return {
       restrict: 'EA',
@@ -65033,7 +65127,7 @@ angular.module('ui.bootstrap.typeahead')
       }
     };
   }])
-
+  
   .filter('typeaheadHighlight', ['$sce', '$injector', '$log', '$typeaheadSuppressWarning', function($sce, $injector, $log, $typeaheadSuppressWarning) {
     var isSanitizePresent;
     isSanitizePresent = $injector.has('$sanitize');
@@ -65442,7 +65536,7 @@ angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCac
     "");
 }]);
 !angular.$$csp() && angular.element(document).find('head').prepend('<style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>');
-/*!
+/*! 
  * angular-loading-bar v0.8.0
  * https://chieffancypants.github.io/angular-loading-bar
  * Copyright (c) 2015 Wes Cruver

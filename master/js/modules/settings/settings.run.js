@@ -13,7 +13,7 @@
       // -----------------------------------
       $rootScope.app = {
         name: 'Invalog',
-        description: 'Angular Bootstrap Admin Template',
+        description: 'The app that organizes the worlds possessions.',
         year: ((new Date()).getFullYear()),
         layout: {
           isFixed: true,

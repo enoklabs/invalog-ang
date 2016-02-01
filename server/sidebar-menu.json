@@ -24,57 +24,11 @@
     "icon": "icon-calendar",
     "translate": "sidebar.nav.MAINTENANCE"
   },
-
   {
-    "text": "Tools",
-    "sref": "#",
-    "icon": "icon-wrench",
-    "submenu": [
-      { "text": "Warranty Tracker",
-        "sref": "app.warranty",
-        "icon": "icon-badge",
-        "translate": "sidebar.nav.tools.WARRANTY"
-      },
-      { "text": "Manuals Tracker",
-        "sref": "app.manuals",
-        "icon": "icon-book-open",
-        "translate": "sidebar.nav.tools.MANUALS"
-      },
-      { "text": "Moving / Storage",
-        "sref": "app.moving",
-        "icon": "fa fa-truck",
-        "translate": "sidebar.nav.tools.MOVING"
-      }
-    ],
-    "translate": "sidebar.nav.tools.TOOLS"
-  },
-  {
-    "text": "Money",
-    "sref": "#",
-    "icon": "fa fa-dollar",
-    "submenu": [
-      { "text": "Home Equity",
-        "sref": "app.equity",
-        "icon": "icon-home",
-        "translate": "sidebar.nav.money.EQUITY"
-      },
-      { "text": "Sales",
-        "sref": "app.sales",
-        "icon": "icon-tag",
-        "translate": "sidebar.nav.money.SALES"
-      },
-      { "text": "Donations",
-        "sref": "app.donations",
-        "icon": "icon-heart",
-        "translate": "sidebar.nav.money.DONATIONS"
-      },
-      { "text": "Sharing",
-        "sref": "app.sharing",
-        "icon": "icon-share",
-        "translate": "sidebar.nav.money.SHARING"
-      }
-    ],
-    "translate": "sidebar.nav.money.MONEY"
+    "text": "Storage / Moving",
+    "sref": "app.storage",
+    "icon": "fa fa-truck",
+    "translate": "sidebar.nav.STORAGE"
   },
   {
     "text": "Articles",

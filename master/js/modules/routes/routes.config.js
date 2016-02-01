@@ -19,7 +19,7 @@
         $locationProvider.html5Mode(false);
 
         // defaults to dashboard
-        $urlRouterProvider.otherwise('/app/overview');
+        $urlRouterProvider.otherwise('/login');
 
         //
         // Application Routes
@@ -36,21 +36,45 @@
                 title: 'OverView',
                 templateUrl: helper.basepath('overview.html')
             })
+            //
+            // INVENTORY Page Routes
+            // -----------------------------------
             .state('app.inventory', {
                 url: '/inventory',
                 title: 'Inventory',
-                templateUrl: helper.basepath('inventory.html')
+                templateUrl: helper.basepath('inventory/index.html')
             })
             .state('app.item', {
                 url: '/inventory/item',
                 title: 'Item',
-                templateUrl: helper.basepath('item.html')
+                templateUrl: helper.basepath('inventory/item.html')
             })
+            .state('app.item-create', {
+                url: '/inventory/create',
+                title: 'Create Item',
+                templateUrl: helper.basepath('inventory/create.html')
+            })
+            //
+            // MAINTENANCE Page Routes
+            // -----------------------------------
             .state('app.maintenance', {
                 url: '/maintenance',
                 title: 'Maintenance',
-                templateUrl: helper.basepath('maintenance.html')
+                templateUrl: helper.basepath('maintenance/index.html')
             })
+            .state('app.maintenance-grid', {
+                url: '/maintenance-grid',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-grid.html')
+            })
+            .state('app.maintenance-calendar', {
+                url: '/maintenance-calendar',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-calendar.html')
+            })
+            //
+            // WARRANTY Page Routes
+            // -----------------------------------
             .state('app.warranty', {
                 url: '/warranty-tracker',
                 title: 'Warranty Tracker',
@@ -61,10 +85,13 @@
                 title: 'Manuals Tracker',
                 templateUrl: helper.basepath('tools/manuals.html')
             })
-            .state('app.moving', {
-                url: '/moving',
-                title: 'Moving / Storage',
-                templateUrl: helper.basepath('submenu.html')
+            //
+            // STORAGE / MOVING Page Routes
+            // -----------------------------------
+            .state('app.storage', {
+                url: '/storage',
+                title: 'Storage / Moving',
+                templateUrl: helper.basepath('storage/index.html')
             })
             .state('app.articles', {
                 url: '/articles',
@@ -107,9 +134,9 @@
                 title: 'Recommendations',
                 templateUrl: helper.basepath('submenu.html')
             })
-          //
-          // Single Page Routes
-          // -----------------------------------
+            //
+            // Single Page Routes
+            // -----------------------------------
             .state('page', {
                 url: '/page',
                 templateUrl: 'app/pages/page.html',
@@ -118,21 +145,25 @@
                     $rootScope.app.layout.isBoxed = false;
                 }]
             })
-            .state('page.login', {
+            //
+            // LOGIN / REGISTRATION Page Routes
+            // -----------------------------------
+            .state('login', {
                 url: '/login',
                 title: 'Login',
                 templateUrl: 'app/pages/login.html'
             })
-            .state('page.register', {
+            .state('register', {
                 url: '/register',
                 title: 'Register',
-                templateUrl: 'app/pages/register.html'
+                templateUrl: 'app/pages/registration.html'
             })
-            .state('page.recover', {
+            .state('recover', {
                 url: '/recover',
                 title: 'Recover',
                 templateUrl: 'app/pages/recover.html'
             })
+
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties

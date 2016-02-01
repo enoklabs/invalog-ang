@@ -1,0 +1,57 @@
+<div ng-controller="LoginFormController as login" class="block-center mt-xl wd-xl">
+
+    <!-- START panel-->
+    <div class="panel panel-primary panel-flat">
+
+        <!-- Panel Header-->
+        <div ng-include="'app/pages/partials/panel-header.html'" class="panel-heading panel-gradient text-center"></div>
+
+        <div class="panel-body">
+            <div ng-show="login.authMsg" class="alert alert-danger text-center">{{login.authMsg}}</div>
+
+            <h4 class="text-center text-muted text-thin">Log in to continue</h4>
+
+            <div class="text-center pb">
+                <button type="button" class="btn btn-primary mb btn-labeled">
+                    <span class="btn-label"><i class="fa fa-facebook"></i></span>
+                    Log in with Facebook
+                </button>
+                <!--<button type="button" class="btn btn-danger mb btn-labeled">-->
+                    <!--<span class="btn-label"><i class="fa fa-google-plus"></i></span>-->
+                    <!--Log in with Google-->
+                <!--</button>-->
+                <em class="block text-muted"> - or - </em>
+            </div>
+
+            <form role="form" ng-submit="login.login()" name="login.loginForm" novalidate="" class="form-validate mb-lg text-thin">
+                <div class="form-group has-feedback">
+                    <input id="exampleInputEmail1" type="email" name="account_email" placeholder="Enter email" autocomplete="off" ng-model="login.account.email" required="" class="form-control input-lg" />
+                    <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                    <span ng-show="login.loginForm.account_email.$dirty &amp;&amp; login.loginForm.account_email.$error.required" class="text-danger">This field is required</span>
+                    <span ng-show="login.loginForm.account_email.$dirty &amp;&amp; login.loginForm.account_email.$error.email" class="text-danger">This field must be a valid email address</span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input id="exampleInputPassword1" type="password" name="account_password" placeholder="Password" ng-model="login.account.password" required="" class="form-control input-lg" />
+                    <span class="fa fa-lock form-control-feedback text-muted"></span>
+                    <span ng-show="login.loginForm.account_password.$dirty &amp;&amp; login.loginForm.account_password.$error.required" class="text-danger">This field is required</span>
+                </div>
+                <div class="clearfix">
+                    <div class="checkbox c-checkbox pull-left mt0">
+                        <label>
+                            <input type="checkbox" value="" name="account_remember" ng-model="login.account.remember" />
+                            <span class="fa fa-check"></span>Remember Me</label>
+                    </div>
+                    <div class="pull-right"><a ui-sref="recover" class="text-muted">Forgot your password?</a>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-block btn-action mt-lg btn-lg">Log In</button>
+            </form>
+
+            <div class="text-center pt-lg">
+                <small>Don't have an account? <a ui-sref="register">Sign up here</a></small>
+            </div>
+        </div>
+    </div>
+    <!-- END panel-->
+    <div ng-include="'app/pages/partials/footer.html'"></div>
+</div>
