@@ -24,6 +24,10 @@
   .button-variant(#fff; @brand-pink; transparent;);
 }
 
+.btn-gray, .btn-grey{
+  .button-variant(@gray-text; #dde6e9; transparent;);
+}
+
 .btn-outline {
   background-color: transparent;
   border-color: #fff;
@@ -71,7 +75,7 @@
 
 // Rounded buttons
 
-.btn-oval {
+.btn-oval, .btn-round {
   &:extend(.btn-pill-right);
   &:extend(.btn-pill-left);
 }

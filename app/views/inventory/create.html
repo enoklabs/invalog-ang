@@ -2,85 +2,202 @@
     <i class="icon-grid"></i> Add New Inventory Item
 </h3>
 
-<!-- START panel-->
-<div class="panel panel-default">
-    <div class="panel-heading">New Item information</div>
-    <div class="panel-body">
-        <form action="">
-            <fieldset>
-                <!--<legend>Classic inputs</legend>-->
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Description</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label for="input-id-1" class="col-sm-2 control-label">Room</label>
-                    <div class="col-sm-10">
-                        <select name="room" class="form-control">
-                            <option>Living room</option>
-                            <option>Bedroom (master) </option>
-                            <option>Bedroom 2</option>
-                            <option>Bedroom 3</option>
-                            <option>Bathroom</option>
-                            <option>Kitchen</option>
-                            <option>Dining Room</option>
-                        </select>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Category</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="category" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Make / Brand</label>
-                    <div class="col-sm-10">
-                        <input type="text" placeholder="placeholder" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Model</label>
-                    <div class="col-sm-10">
-                        <input type="text" placeholder="placeholder" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Quantity</label>
-                    <div class="col-sm-10">
-                        <input type="text" placeholder="placeholder" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Condition</label>
-                    <div class="col-sm-10">
-                        <input type="text" placeholder="placeholder" class="form-control" />
-                    </div>
-                </div>
-            </fieldset>
 
-        </form>
+
+<div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+
+    <!-- START panel-->
+    <div class="panel widget">
+        <!--<div class="panel-heading">-->
+            <!--<h4 class="header">Add New Inventory Item</h4>-->
+            <!--<hr>-->
+        <!--</div>-->
+        <div class="panel-body">
+            <form form-wizard="" action="/" method="POST" steps="3">
+                <div class="form-wizard">
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(1)" class="text-center">
+                        <h3 class="text-primary">1. Which room is this item located?</h3>
+                        <div class="row">
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Living Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bed Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bed Room <small>(master)</small></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Kitchen</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Dining Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bath Room <small>(master)</small></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bath Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Basement</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Garage</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="pager">
+                            <li class="next">
+                                <a href="#" ng-click="wizard.go(2)">
+                                    Next <span><i class="fa fa-chevron-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(2)">
+                        <!--<legend>2. Basic Info:</legend>-->
+                        <h3 class="text-primary text-center">2. Item's Basic Info</h3>
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-md-8 col-sm-7">
+                                    <label>Name of this Item</label>
+                                    <input type="text" name="item-name" class="form-control input-lg" />
+                                </div>
+                                <div class="col-md-4 col-sm-5">
+                                    <label>How many?</label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-gray"><i class="fa fa-minus"></i></button>
+                                        </span>
+                                        <input type="text" value="1" name="item-quantity" class="form-control input-lg text-center bl0" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-gray"><i class="fa fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 col-sm-7">
+                                    <label>Describe this Item</label>
+                                    <input name="item-description" class="form-control input-lg" />
+                                </div>
+                                <div class="col-md-4 col-sm-5">
+                                    <label>Category</label><br>
+                                    <select chosen="Furniture"  width="'100%'" class="chosen-select form-control input-lg">
+                                        <option value="Furniture">Furniture</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Valuables">Valuables</option>
+                                        <option value="Tools">Tools</option>
+                                        <option value="Miscellaneous">Miscellaneous</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4 col-sm-6">
+                                    <label>Make / Brand of Item</label>
+                                    <input type="text" name="item-make" class="form-control input-lg" />
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <label>Model Name or #</label>
+                                    <input type="text" name="item-model" class="form-control input-lg" />
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <label>Serial #</label>
+                                    <input type="text" name="item-serial" class="form-control input-lg" />
+                                </div>
+                            </div>
+                        </fieldset>
+                        <ul class="pager">
+                            <li class="previous">
+                                <a href="#" ng-click="wizard.go(1)">
+                                    <i class="fa fa-chevron-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="next">
+                                <a href="#" ng-click="wizard.go(3)">
+                                    Next <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(3)">
+                        <!--<legend>3. Purchase Info:</legend>-->
+                        <h3 class="text-primary text-center">3. Item's Purchase Info</h3>
+
+                        <fieldset>
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label>How much did it cost?</label>
+                                    <div class="input-group input-group-lg">
+                                        <span class="input-group-addon">$</span>
+                                        <input type="text" name="item-purchase-value" class="form-control input-lg" />
+                                    </div>
+                                </div>
+                                <div class=" col-sm-6">
+                                    <label>When was the purchase Date?</label>
+                                    <input type="text" name="item-purchase-date" masked="" data-inputmask="'mask': '99/99/9999'" class="form-control input-lg" />
+                                    <span class="help-block">ex: MM/DD/YYYY</span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>Where did you purchase it from?</label>
+                                <input type="text" name="item-purchase-store" class="form-control input-lg" />
+                            </div>
+
+                        </fieldset>
+                        <ul class="pager">
+                            <li class="previous">
+                                <a href="#" ng-click="wizard.go(2)">
+                                    <i class="fa fa-chevron-left"></i> Previous
+                                </a>
+                            </li>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-action btn-lg">
+                                    <i class="fa fa-save"></i> Save &amp; Finish
+                                </a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+
+                </div>
+            </form>
+        </div>
     </div>
+    <!-- END panel -->
+
+
 </div>

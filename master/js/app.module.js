@@ -24,6 +24,7 @@
             'app.utils',
             'app.calendar',
             'app.pages',
-            'app.bootstrapui'
+            'app.bootstrapui',
+            'app.forms'
         ]);
 })();

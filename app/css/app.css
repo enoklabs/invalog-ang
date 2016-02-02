@@ -141,7 +141,7 @@ now {
   padding: 0 !important;
 }
 .btn {
-  border-radius: 3px;
+  border-radius: 4px;
   font-size: 13px;
   border-color: transparent;
   -webkit-appearance: none;
@@ -389,7 +389,7 @@ body {
 .content-wrapper > .content-heading {
   font-size: 24px;
   line-height: 1.1;
-  color: #929292;
+  color: #779ba6;
   margin: -15px;
   margin-bottom: 20px;
   padding: 15px;
@@ -4894,6 +4894,110 @@ fieldset[disabled] .btn-pink.active {
   color: #f532e5;
   background-color: #ffffff;
 }
+.btn-gray,
+.btn-grey {
+  color: #779ba6;
+  background-color: #dde6e9;
+  border-color: transparent;
+}
+.btn-gray:focus,
+.btn-grey:focus,
+.btn-gray.focus,
+.btn-grey.focus {
+  color: #779ba6;
+  background-color: #d1dde1;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-gray:hover,
+.btn-grey:hover {
+  color: #779ba6;
+  background-color: #d1dde1;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-gray:active,
+.btn-grey:active,
+.btn-gray.active,
+.btn-grey.active,
+.open > .dropdown-toggle.btn-gray,
+.open > .dropdown-toggle.btn-grey {
+  color: #779ba6;
+  background-color: #d1dde1;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-gray:active:hover,
+.btn-grey:active:hover,
+.btn-gray.active:hover,
+.btn-grey.active:hover,
+.open > .dropdown-toggle.btn-gray:hover,
+.open > .dropdown-toggle.btn-grey:hover,
+.btn-gray:active:focus,
+.btn-grey:active:focus,
+.btn-gray.active:focus,
+.btn-grey.active:focus,
+.open > .dropdown-toggle.btn-gray:focus,
+.open > .dropdown-toggle.btn-grey:focus,
+.btn-gray:active.focus,
+.btn-grey:active.focus,
+.btn-gray.active.focus,
+.btn-grey.active.focus,
+.open > .dropdown-toggle.btn-gray.focus,
+.open > .dropdown-toggle.btn-grey.focus {
+  color: #779ba6;
+  background-color: #d1dde1;
+  border-color: rgba(0, 0, 0, 0);
+}
+.btn-gray:active,
+.btn-grey:active,
+.btn-gray.active,
+.btn-grey.active,
+.open > .dropdown-toggle.btn-gray,
+.open > .dropdown-toggle.btn-grey {
+  background-image: none;
+}
+.btn-gray.disabled,
+.btn-grey.disabled,
+.btn-gray[disabled],
+.btn-grey[disabled],
+fieldset[disabled] .btn-gray,
+fieldset[disabled] .btn-grey,
+.btn-gray.disabled:hover,
+.btn-grey.disabled:hover,
+.btn-gray[disabled]:hover,
+.btn-grey[disabled]:hover,
+fieldset[disabled] .btn-gray:hover,
+fieldset[disabled] .btn-grey:hover,
+.btn-gray.disabled:focus,
+.btn-grey.disabled:focus,
+.btn-gray[disabled]:focus,
+.btn-grey[disabled]:focus,
+fieldset[disabled] .btn-gray:focus,
+fieldset[disabled] .btn-grey:focus,
+.btn-gray.disabled.focus,
+.btn-grey.disabled.focus,
+.btn-gray[disabled].focus,
+.btn-grey[disabled].focus,
+fieldset[disabled] .btn-gray.focus,
+fieldset[disabled] .btn-grey.focus,
+.btn-gray.disabled:active,
+.btn-grey.disabled:active,
+.btn-gray[disabled]:active,
+.btn-grey[disabled]:active,
+fieldset[disabled] .btn-gray:active,
+fieldset[disabled] .btn-grey:active,
+.btn-gray.disabled.active,
+.btn-grey.disabled.active,
+.btn-gray[disabled].active,
+.btn-grey[disabled].active,
+fieldset[disabled] .btn-gray.active,
+fieldset[disabled] .btn-grey.active {
+  background-color: #dde6e9;
+  border-color: transparent;
+}
+.btn-gray .badge,
+.btn-grey .badge {
+  color: #dde6e9;
+  background-color: #779ba6;
+}
 .btn-outline {
   background-color: transparent;
   border-color: #fff;
@@ -4916,13 +5020,15 @@ fieldset[disabled] .btn-pink.active {
   border-radius: 0;
 }
 .btn-pill-left,
-.btn-oval {
+.btn-oval,
+.btn-round {
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
   padding-left: 18px;
 }
 .btn-pill-right,
-.btn-oval {
+.btn-oval,
+.btn-round {
   border-top-right-radius: 50px;
   border-bottom-right-radius: 50px;
   padding-right: 18px;
@@ -8639,6 +8745,10 @@ fieldset[disabled] .calendar-app .fc-button.active {
 .mb {
   margin-bottom: 10px !important;
 }
+.mx {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+}
 .m-sm {
   margin: 5px !important;
 }
@@ -8684,29 +8794,55 @@ fieldset[disabled] .calendar-app .fc-button.active {
 .mb-xl {
   margin-bottom: 30px !important;
 }
-.mv {
+.mv0,
+.my0 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.mh0,
+.mx0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.mv,
+.my {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
-.mh {
+.mh,
+.mx {
   margin-left: 10px !important;
   margin-right: 10px !important;
 }
-.mv-lg {
-  margin-top: 15px !important;
-  margin-bottom: 15px !important;
-}
-.mh-lg {
-  margin-left: 15px !important;
-  margin-right: 15px !important;
-}
-.mv-sm {
+.mv-sm,
+.my-sm {
   margin-top: 5px !important;
   margin-bottom: 5px !important;
 }
-.mh-sm {
+.mh-sm,
+.mx-sm {
   margin-left: 5px !important;
   margin-right: 5px !important;
+}
+.mv-lg,
+.my-lg {
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+}
+.mh-lg,
+.mx-lg {
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+}
+.mv-xl,
+.my-xl {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
+}
+.mh-xl,
+.mx-xl {
+  margin-left: 30px !important;
+  margin-right: 30px !important;
 }
 .p0 {
   padding: 0 !important;
@@ -9458,4 +9594,20 @@ fieldset[disabled] .calendar-app .fc-button.active {
 .form-group span.fa,
 .form-group span.glyphicon {
   top: 0 !important;
+}
+.form-wizard .form-group label {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #779ba6;
+}
+.pager .next a,
+.pager .previous a {
+  border-radius: 4px;
+}
+.default-input-group-lg > .form-control {
+  height: 38px;
+  padding: 8px 13px;
+  font-size: 14px;
+  line-height: 1.44;
+  border-radius: 6px;
 }

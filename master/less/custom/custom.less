@@ -1,3 +1,5 @@
+
+
 .navbar .topnavbar, .panel-gradient{
   background-color:  @preloader-bg;
   background-image: -webkit-linear-gradient(135deg, darken(@preloader-bg2, 10%) 10%, @preloader-bg 90%); /* Chrome 10+, Saf5.1+ */
@@ -53,3 +55,32 @@
     top:0 !important;
   }
 }
+
+.form-wizard{
+  .form-group{
+    label {
+      margin-top: 15px;
+      font-size: 16px;
+      color: @gray-text;
+    }
+  }
+}
+
+.pager {
+  .next,
+  .previous{
+    a{
+      border-radius: @border-radius-base;
+    }
+  }
+}
+
+
+.default-input-group-lg > .form-control {
+  height: 38px;
+  padding: 8px 13px;
+  font-size: 14px;
+  line-height: 1.44;
+  border-radius: 6px;
+}
+

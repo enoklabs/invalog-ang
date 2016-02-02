@@ -43,7 +43,8 @@
     "simple-line-icons": "2.2.3",
     "angular-touch": "1.4.7",
     "jquery.browser": "master",
-    "fullcalendar": "2.4.0"
+    "fullcalendar": "2.4.0",
+    "jquery.inputmask": "3.2.3"
   },
   "resolutions": {
     "angular": "1.4.7",
