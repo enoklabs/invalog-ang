@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div ng-show="reg.registerForm.account_agreed.$dirty &amp;&amp; reg.registerForm.account_agreed.$error.required" class="text-danger">You must agree the terms</div>
-                <button type="submit" class="btn btn-block btn-action mt-lg btn-lg">Create account</button>
+                <a type="submit" ng-href="#/new-home" class="btn btn-block btn-action mt-lg btn-lg">Create account</a>
             </form>
             <div ng-show="reg.authMsg" class="alert alert-danger text-center">{{reg.authMsg}}</div>
             <div class="text-center">

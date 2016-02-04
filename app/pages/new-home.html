@@ -1,0 +1,269 @@
+<!-- CUSTOM CSS -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<style>
+    body{
+        background-image: url("http://invalog.com/themes/invalog/assets/images/bg-header.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center top;
+    }
+</style>
+
+
+
+<div class="block-center mt-xl">
+    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xl-6 col-xl-offset-3">
+
+        <!-- START panel-->
+        <div class="panel panel-primary panel-flat">
+
+
+            <!-- Panel Header-->
+            <div class="panel-heading panel-gradient text-center">
+                <!--<a href="#/app/overview">-->
+                    <!--<img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />-->
+                <!--</a>-->
+                <h3 class="header text-thin">Let's get started. Tell us about your property. </h3>
+            </div>
+
+
+            <div class="panel-body">
+                <form form-wizard="" action="/" method="POST" steps="4">
+                    <div class="form-wizard">
+                        <!-- START Wizard Step inputs -->
+                        <div ng-show="wizard.active(1)" class="text-center">
+                            <h1 class="text-primary text-thin">What type of dwelling is your home?</h1>
+                            <div class="row">
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">House</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Condo</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Apartment</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Loft</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Studio</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Villa</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Beach House</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">RV</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Boat</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager">
+                                <li class="next">
+                                    <a href="#" ng-click="wizard.go(2)">
+                                        Next <span><i class="fa fa-chevron-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Wizard Step inputs -->
+                        <!-- START Wizard Step inputs -->
+                        <div ng-show="wizard.active(2)" class="text-center">
+                            <h1 class="text-primary text-thin">Which rooms does this property have?</h1>
+                            <div class="row">
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Living Room</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Bed Room <small>(Master)</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Bed Room</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Bath Room <small>(Master)</small></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Bath Room</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Kitchen</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Dining Room</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Garage</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-center mv-sm">
+                                    <div class="list-group-item panel widget">
+                                        <i class="icon-home fa-2x text-info"></i><br>
+                                        <p class="panel-title">Storage / Closet</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="#" ng-click="wizard.go(1)">
+                                        <i class="fa fa-chevron-left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="#" ng-click="wizard.go(3)">
+                                        Next <span><i class="fa fa-chevron-right"></i></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Wizard Step inputs -->
+                        <!-- START Wizard Step inputs -->
+                        <div ng-show="wizard.active(3)">
+                            <h1 class="text-primary text-center text-thin">Your Property's Basic Info</h1>
+                            <fieldset>
+                                <div class="form-group col-md-12">
+                                    <label>What's a good nickname for your property?</label>
+                                    <input type="text" name="property-name" class="form-control input-lg" />
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-7">
+                                        <label>Street Address</label>
+                                        <input name="property-address" class="form-control input-lg" />
+                                    </div>
+                                    <div class="col-md-6 col-sm-5">
+                                        <label>Address Line 2</label>
+                                        <input name="property-address-2" class="form-control input-lg" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6">
+                                        <label>City</label>
+                                        <input type="text" name="property-city" class="form-control input-lg" />
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <label>State</label>
+                                        <select chosen="Furniture"  width="'100%'" class="chosen-select form-control input-lg">
+                                            <option value="AL">Alabama</option>
+                                            <option value="AK">Alaska</option>
+                                            <option value="AZ">Arizona</option>
+                                            <option value="AR">Arkansas</option>
+                                            <option value="CA">California</option>
+                                            <option value="CO">Colorado</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12">
+                                        <label>Zip code</label>
+                                        <input type="text" name="property-zip" class="form-control input-lg" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="#" ng-click="wizard.go(2)">
+                                        <i class="fa fa-chevron-left"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="#" ng-click="wizard.go(4)">
+                                        Next <i class="fa fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- END Wizard Step inputs -->
+                        <!-- START Wizard Step inputs -->
+                        <div ng-show="wizard.active(4)">
+                            <!--<legend>3. Purchase Info:</legend>-->
+                            <h1 class="text-primary text-center text-thin">Add a picture</h1>
+
+                            <fieldset>
+                                <div class="form-group bootstrap-filestyle">
+                                    <label>Upload Image</label>
+                                    <input filestyle="" type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control" />
+                                </div>
+                            </fieldset>
+
+                            <ul class="pager">
+                                <li class="previous">
+                                    <a href="#" ng-click="wizard.go(3)">
+                                        <i class="fa fa-chevron-left"></i> Previous
+                                    </a>
+                                </li>
+                                <div class="pull-right">
+                                    <a href="#/app/overview" class="btn btn-action btn-lg">
+                                        <i class="fa fa-save"></i> Save &amp; Finish
+                                    </a>
+                                </div>
+                            </ul>
+                        </div>
+                        <!-- END Wizard Step inputs -->
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- END panel -->
+
+        <div ng-include="'app/pages/partials/footer.html'"></div>
+
+    </div>
+
+
+
+
+</div>

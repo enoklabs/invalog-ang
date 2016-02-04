@@ -145,6 +145,11 @@
                     $rootScope.app.layout.isBoxed = false;
                 }]
             })
+            .state('new-home', {
+                url: '/new-home',
+                title: 'New Home',
+                templateUrl: 'app/pages/new-home.html'
+            })
             //
             // LOGIN / REGISTRATION Page Routes
             // -----------------------------------
@@ -163,7 +168,6 @@
                 title: 'Recover',
                 templateUrl: 'app/pages/recover.html'
             })
-
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties
