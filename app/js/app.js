@@ -33,6 +33,12 @@
     'use strict';
 
     angular
+        .module('app.forms', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.colors', []);
 })();
 (function() {
@@ -64,25 +70,7 @@
     'use strict';
 
     angular
-        .module('app.forms', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.lazyload', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages', []);
 })();
 (function() {
     'use strict';
@@ -94,7 +82,13 @@
     'use strict';
 
     angular
-        .module('app.settings', []);
+        .module('app.loadingbar', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages', []);
 })();
 (function() {
     'use strict';
@@ -108,15 +102,21 @@
     'use strict';
 
     angular
-        .module('app.translate', []);
+        .module('app.routes', [
+            'app.lazyload'
+        ]);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.routes', [
-            'app.lazyload'
-        ]);
+        .module('app.settings', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar', []);
 })();
 (function() {
     'use strict';
@@ -131,8 +131,146 @@
     'use strict';
 
     angular
-        .module('app.sidebar', []);
+        .module('app.translate', []);
 })();
+/**=========================================================
+ * Module: filestyle.js
+ * Initializes the fielstyle plugin
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('filestyle', filestyle);
+
+    function filestyle () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+            var options = element.data();
+
+            // old usage support
+            options.classInput = element.data('classinput') || options.classInput;
+
+            element.filestyle(options);
+        }
+    }
+
+})();
+/**=========================================================
+ * Module: form-wizard.js
+ * Handles form wizard plugin and validation
+ =========================================================*/
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('formWizard', formWizard);
+
+    formWizard.$inject = ['$parse'];
+    function formWizard ($parse) {
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: true
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            var validate = $parse(attrs.validateSteps)(scope),
+                wiz = new Wizard(attrs.steps, !!validate, element);
+            scope.wizard = wiz.init();
+        }
+
+        function Wizard (quantity, validate, element) {
+
+            var self = this;
+            self.quantity = parseInt(quantity,10);
+            self.validate = validate;
+            self.element = element;
+
+            self.init = function() {
+                self.createsteps(self.quantity);
+                self.go(1); // always start at fist step
+                return self;
+            };
+
+            self.go = function(step) {
+
+                if ( angular.isDefined(self.steps[step]) ) {
+
+                    if(self.validate && step !== 1) {
+                        var form = $(self.element),
+                            group = form.children().children('div').get(step - 2);
+
+                        if (false === form.parsley().validate( group.id )) {
+                            return false;
+                        }
+                    }
+
+                    self.cleanall();
+                    self.steps[step] = true;
+                }
+            };
+
+            self.active = function(step) {
+                return !!self.steps[step];
+            };
+
+            self.cleanall = function() {
+                for(var i in self.steps){
+                    self.steps[i] = false;
+                }
+            };
+
+            self.createsteps = function(q) {
+                self.steps = [];
+                for(var i = 1; i <= q; i++) self.steps[i] = false;
+            };
+
+        }
+    }
+
+
+})();
+
+/**=========================================================
+ * Module: masked.js
+ * Initializes the masked inputs
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('masked', masked);
+
+    function masked () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+            var $elem = $(element);
+            if($.fn.inputmask)
+                $elem.inputmask();
+        }
+    }
+
+})();
+
 (function() {
     'use strict';
 
@@ -857,188 +995,6 @@
 })();
 
 
-/**=========================================================
- * Module: filestyle.js
- * Initializes the fielstyle plugin
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('filestyle', filestyle);
-
-    function filestyle () {
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element) {
-            var options = element.data();
-
-            // old usage support
-            options.classInput = element.data('classinput') || options.classInput;
-
-            element.filestyle(options);
-        }
-    }
-
-})();
-/**=========================================================
- * Module: form-wizard.js
- * Handles form wizard plugin and validation
- =========================================================*/
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('formWizard', formWizard);
-
-    formWizard.$inject = ['$parse'];
-    function formWizard ($parse) {
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: true
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            var validate = $parse(attrs.validateSteps)(scope),
-                wiz = new Wizard(attrs.steps, !!validate, element);
-            scope.wizard = wiz.init();
-        }
-
-        function Wizard (quantity, validate, element) {
-
-            var self = this;
-            self.quantity = parseInt(quantity,10);
-            self.validate = validate;
-            self.element = element;
-
-            self.init = function() {
-                self.createsteps(self.quantity);
-                self.go(1); // always start at fist step
-                return self;
-            };
-
-            self.go = function(step) {
-
-                if ( angular.isDefined(self.steps[step]) ) {
-
-                    if(self.validate && step !== 1) {
-                        var form = $(self.element),
-                            group = form.children().children('div').get(step - 2);
-
-                        if (false === form.parsley().validate( group.id )) {
-                            return false;
-                        }
-                    }
-
-                    self.cleanall();
-                    self.steps[step] = true;
-                }
-            };
-
-            self.active = function(step) {
-                return !!self.steps[step];
-            };
-
-            self.cleanall = function() {
-                for(var i in self.steps){
-                    self.steps[i] = false;
-                }
-            };
-
-            self.createsteps = function(q) {
-                self.steps = [];
-                for(var i = 1; i <= q; i++) self.steps[i] = false;
-            };
-
-        }
-    }
-
-
-})();
-
-/**=========================================================
- * Module: masked.js
- * Initializes the masked inputs
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('masked', masked);
-
-    function masked () {
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element) {
-            var $elem = $(element);
-            if($.fn.inputmask)
-                $elem.inputmask();
-        }
-    }
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
 (function() {
     'use strict';
 
@@ -1077,120 +1033,6 @@
         })
         ;
 
-})();
-
-/**=========================================================
- * Module: access-login.js
- * Demo for login api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('LoginFormController', LoginFormController);
-
-    LoginFormController.$inject = ['$http', '$state'];
-    function LoginFormController($http, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-
-          vm.login = function() {
-            vm.authMsg = '';
-
-            if(vm.loginForm.$valid) {
-
-              $http
-                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = 'Incorrect credentials.';
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.loginForm.account_email.$dirty = true;
-              vm.loginForm.account_password.$dirty = true;
-            }
-          };
-        }
-    }
-})();
-
-/**=========================================================
- * Module: access-register.js
- * Demo for register account api
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages')
-        .controller('RegisterFormController', RegisterFormController);
-
-    RegisterFormController.$inject = ['$http', '$state'];
-    function RegisterFormController($http, $state) {
-        var vm = this;
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          // bind here all data from the form
-          vm.account = {};
-          // place the message if something goes wrong
-          vm.authMsg = '';
-            
-          vm.register = function() {
-            vm.authMsg = '';
-
-            if(vm.registerForm.$valid) {
-
-              $http
-                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
-                .then(function(response) {
-                  // assumes if ok, response is an object with some data, if not, a string with error
-                  // customize according to your api
-                  if ( !response.account ) {
-                    vm.authMsg = response;
-                  }else{
-                    $state.go('app.dashboard');
-                  }
-                }, function() {
-                  vm.authMsg = 'Server Request Error';
-                });
-            }
-            else {
-              // set as dirty if the user click directly to login so we show the validation messages
-              /*jshint -W106*/
-              vm.registerForm.account_email.$dirty = true;
-              vm.registerForm.account_password.$dirty = true;
-              vm.registerForm.account_agreed.$dirty = true;
-              
-            }
-          };
-        }
-    }
 })();
 
 /**=========================================================
@@ -1306,58 +1148,158 @@
     'use strict';
 
     angular
-        .module('app.settings')
-        .run(settingsRun);
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
 
-    settingsRun.$inject = ['$rootScope', '$localStorage'];
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
 
-    function settingsRun($rootScope, $localStorage){
-
-      // Global Settings
-      // -----------------------------------
-      $rootScope.app = {
-        name: 'Invalog',
-        description: 'The app that organizes the worlds possessions.',
-        year: ((new Date()).getFullYear()),
-        layout: {
-          isFixed: true,
-          isCollapsed: false,
-          isBoxed: false,
-          isRTL: false,
-          horizontal: false,
-          isFloat: false,
-          asideHover: false,
-          theme: null,
-          asideScrollbar: false
-        },
-        useFullLayout: false,
-        hiddenFooter: false,
-        offsidebarOpen: false,
-        asideToggled: false,
-        viewAnimation: 'ng-fadeInUp'
-      };
-
-      // Setup the layout mode
-      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
-
-      // Restore layout settings [*** UNCOMMENT TO ENABLE ***]
-      // if( angular.isDefined($localStorage.layout) )
-      //   $rootScope.app.layout = $localStorage.layout;
-      // else
-      //   $localStorage.layout = $rootScope.app.layout;
-      //
-      // $rootScope.$watch('app.layout', function () {
-      //   $localStorage.layout = $rootScope.app.layout;
-      // }, true);
-
-      // Close submenu when sidebar change from collapsed to normal
-      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
-        if( newValue === false )
-          $rootScope.$broadcast('closeSidebarMenu');
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
       });
 
     }
 
+})();
+/**=========================================================
+ * Module: access-login.js
+ * Demo for login api
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages')
+        .controller('LoginFormController', LoginFormController);
+
+    LoginFormController.$inject = ['$http', '$state'];
+    function LoginFormController($http, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
+
+          vm.login = function() {
+            vm.authMsg = '';
+
+            if(vm.loginForm.$valid) {
+
+              $http
+                .post('api/account/login', {email: vm.account.email, password: vm.account.password})
+                .then(function(response) {
+                  // assumes if ok, response is an object with some data, if not, a string with error
+                  // customize according to your api
+                  if ( !response.account ) {
+                    vm.authMsg = 'Incorrect credentials.';
+                  }else{
+                    $state.go('app.dashboard');
+                  }
+                }, function() {
+                  vm.authMsg = 'Server Request Error';
+                });
+            }
+            else {
+              // set as dirty if the user click directly to login so we show the validation messages
+              /*jshint -W106*/
+              vm.loginForm.account_email.$dirty = true;
+              vm.loginForm.account_password.$dirty = true;
+            }
+          };
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: access-register.js
+ * Demo for register account api
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.pages')
+        .controller('RegisterFormController', RegisterFormController);
+
+    RegisterFormController.$inject = ['$http', '$state'];
+    function RegisterFormController($http, $state) {
+        var vm = this;
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          // bind here all data from the form
+          vm.account = {};
+          // place the message if something goes wrong
+          vm.authMsg = '';
+            
+          vm.register = function() {
+            vm.authMsg = '';
+
+            if(vm.registerForm.$valid) {
+
+              $http
+                .post('api/account/register', {email: vm.account.email, password: vm.account.password})
+                .then(function(response) {
+                  // assumes if ok, response is an object with some data, if not, a string with error
+                  // customize according to your api
+                  if ( !response.account ) {
+                    vm.authMsg = response;
+                  }else{
+                    $state.go('app.dashboard');
+                  }
+                }, function() {
+                  vm.authMsg = 'Server Request Error';
+                });
+            }
+            else {
+              // set as dirty if the user click directly to login so we show the validation messages
+              /*jshint -W106*/
+              vm.registerForm.account_email.$dirty = true;
+              vm.registerForm.account_password.$dirty = true;
+              vm.registerForm.account_agreed.$dirty = true;
+              
+            }
+          };
+        }
+    }
 })();
 
 (function() {
@@ -1452,70 +1394,6 @@
         } //link
     }
 
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .config(translateConfig)
-        ;
-    translateConfig.$inject = ['$translateProvider'];
-    function translateConfig($translateProvider){
-
-      $translateProvider.useStaticFilesLoader({
-          prefix : 'app/i18n/',
-          suffix : '.json'
-      });
-
-      $translateProvider.preferredLanguage('en');
-      $translateProvider.useLocalStorage();
-      $translateProvider.usePostCompiling(true);
-      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
-
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.translate')
-        .run(translateRun)
-        ;
-    translateRun.$inject = ['$rootScope', '$translate'];
-    
-    function translateRun($rootScope, $translate){
-
-      // Internationalization
-      // ----------------------
-
-      $rootScope.language = {
-        // Handles language dropdown
-        listIsOpen: false,
-        // list of available languages
-        available: {
-          'en':       'English',
-          'es_AR':    'Español'
-        },
-        // display always the current ui language
-        init: function () {
-          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
-          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
-          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
-        },
-        set: function (localeId) {
-          // Set the new idiom
-          $translate.use(localeId);
-          // save a reference for the current language
-          $rootScope.language.selected = $rootScope.language.available[localeId];
-          // finally toggle dropdown
-          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
-        }
-      };
-
-      $rootScope.language.init();
-
-    }
 })();
 /**=========================================================
  * Module: helpers.js
@@ -1696,6 +1574,11 @@
                 title: 'Storage / Moving',
                 templateUrl: helper.basepath('storage/index.html')
             })
+            .state('app.storage-create', {
+                url: '/storage-create',
+                title: 'Create New Box',
+                templateUrl: helper.basepath('storage/create.html')
+            })
             .state('app.articles', {
                 url: '/articles',
                 title: 'Articles',
@@ -1791,6 +1674,419 @@
 
     } // routesConfig
 
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.settings')
+        .run(settingsRun);
+
+    settingsRun.$inject = ['$rootScope', '$localStorage'];
+
+    function settingsRun($rootScope, $localStorage){
+
+      // Global Settings
+      // -----------------------------------
+      $rootScope.app = {
+        name: 'Invalog',
+        description: 'The app that organizes the worlds possessions.',
+        year: ((new Date()).getFullYear()),
+        layout: {
+          isFixed: true,
+          isCollapsed: false,
+          isBoxed: false,
+          isRTL: false,
+          horizontal: false,
+          isFloat: false,
+          asideHover: false,
+          theme: null,
+          asideScrollbar: false
+        },
+        useFullLayout: false,
+        hiddenFooter: false,
+        offsidebarOpen: false,
+        asideToggled: false,
+        viewAnimation: 'ng-fadeInUp'
+      };
+
+      // Setup the layout mode
+      $rootScope.app.layout.horizontal = ( $rootScope.$stateParams.layout === 'app-h') ;
+
+      // Restore layout settings [*** UNCOMMENT TO ENABLE ***]
+      // if( angular.isDefined($localStorage.layout) )
+      //   $rootScope.app.layout = $localStorage.layout;
+      // else
+      //   $localStorage.layout = $rootScope.app.layout;
+      //
+      // $rootScope.$watch('app.layout', function () {
+      //   $localStorage.layout = $rootScope.app.layout;
+      // }, true);
+
+      // Close submenu when sidebar change from collapsed to normal
+      $rootScope.$watch('app.layout.isCollapsed', function(newValue) {
+        if( newValue === false )
+          $rootScope.$broadcast('closeSidebarMenu');
+      });
+
+    }
+
+})();
+
+/**=========================================================
+ * Module: sidebar-menu.js
+ * Handle sidebar collapsible elements
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar')
+        .controller('SidebarController', SidebarController);
+
+    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils'];
+    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils) {
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          var collapseList = [];
+
+          // demo: when switch from collapse to hover, close all items
+          $rootScope.$watch('app.layout.asideHover', function(oldVal, newVal){
+            if ( newVal === false && oldVal === true) {
+              closeAllBut(-1);
+            }
+          });
+
+
+          // Load menu from json file
+          // ----------------------------------- 
+
+          SidebarLoader.getMenu(sidebarReady);
+          
+          function sidebarReady(items) {
+            $scope.menuItems = items;
+          }
+
+          // Handle sidebar and collapse items
+          // ----------------------------------
+          
+          $scope.getMenuItemPropClasses = function(item) {
+            return (item.heading ? 'nav-heading' : '') +
+                   (isActive(item) ? ' active' : '') ;
+          };
+
+          $scope.addCollapse = function($index, item) {
+            collapseList[$index] = $rootScope.app.layout.asideHover ? true : !isActive(item);
+          };
+
+          $scope.isCollapse = function($index) {
+            return (collapseList[$index]);
+          };
+
+          $scope.toggleCollapse = function($index, isParentItem) {
+
+            // collapsed sidebar doesn't toggle drodopwn
+            if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) return true;
+
+            // make sure the item index exists
+            if( angular.isDefined( collapseList[$index] ) ) {
+              if ( ! $scope.lastEventFromChild ) {
+                collapseList[$index] = !collapseList[$index];
+                closeAllBut($index);
+              }
+            }
+            else if ( isParentItem ) {
+              closeAllBut(-1);
+            }
+            
+            $scope.lastEventFromChild = isChild($index);
+
+            return true;
+          
+          };
+
+          // Controller helpers
+          // ----------------------------------- 
+
+            // Check item and children active state
+            function isActive(item) {
+
+              if(!item) return;
+
+              if( !item.sref || item.sref === '#') {
+                var foundActive = false;
+                angular.forEach(item.submenu, function(value) {
+                  if(isActive(value)) foundActive = true;
+                });
+                return foundActive;
+              }
+              else
+                return $state.is(item.sref) || $state.includes(item.sref);
+            }
+
+            function closeAllBut(index) {
+              index += '';
+              for(var i in collapseList) {
+                if(index < 0 || index.indexOf(i) < 0)
+                  collapseList[i] = true;
+              }
+            }
+
+            function isChild($index) {
+              /*jshint -W018*/
+              return (typeof $index === 'string') && !($index.indexOf('-') < 0);
+            }
+        
+        } // activate
+    }
+
+})();
+
+/**=========================================================
+ * Module: sidebar.js
+ * Wraps the sidebar and handles collapsed state
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar')
+        .directive('sidebar', sidebar);
+
+    sidebar.$inject = ['$rootScope', '$timeout', '$window', 'Utils'];
+    function sidebar ($rootScope, $timeout, $window, Utils) {
+        var $win = angular.element($window);
+        var directive = {
+            // bindToController: true,
+            // controller: Controller,
+            // controllerAs: 'vm',
+            link: link,
+            restrict: 'EA',
+            template: '<nav class="sidebar" ng-transclude></nav>',
+            transclude: true,
+            replace: true
+            // scope: {}
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+
+          var currentState = $rootScope.$state.current.name;
+          var $sidebar = element;
+
+          var eventName = Utils.isTouch() ? 'click' : 'mouseenter' ;
+          var subNav = $();
+
+          $sidebar.on( eventName, '.nav > li', function() {
+
+            if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) {
+
+              subNav.trigger('mouseleave');
+              subNav = toggleMenuItem( $(this), $sidebar);
+
+              // Used to detect click and touch events outside the sidebar          
+              sidebarAddBackdrop();
+
+            }
+
+          });
+
+          scope.$on('closeSidebarMenu', function() {
+            removeFloatingNav();
+          });
+
+          // Normalize state when resize to mobile
+          $win.on('resize', function() {
+            if( ! Utils.isMobile() )
+          	asideToggleOff();
+          });
+
+          // Adjustment on route changes
+          $rootScope.$on('$stateChangeStart', function(event, toState) {
+            currentState = toState.name;
+            // Hide sidebar automatically on mobile
+            asideToggleOff();
+
+            $rootScope.$broadcast('closeSidebarMenu');
+          });
+
+      	  // Autoclose when click outside the sidebar
+          if ( angular.isDefined(attrs.sidebarAnyclickClose) ) {
+            
+            var wrapper = $('.wrapper');
+            var sbclickEvent = 'click.sidebar';
+            
+            $rootScope.$watch('app.asideToggled', watchExternalClicks);
+
+          }
+
+          //////
+
+          function watchExternalClicks(newVal) {
+            // if sidebar becomes visible
+            if ( newVal === true ) {
+              $timeout(function(){ // render after current digest cycle
+                wrapper.on(sbclickEvent, function(e){
+                  // if not child of sidebar
+                  if( ! $(e.target).parents('.aside').length ) {
+                    asideToggleOff();
+                  }
+                });
+              });
+            }
+            else {
+              // dettach event
+              wrapper.off(sbclickEvent);
+            }
+          }
+
+          function asideToggleOff() {
+            $rootScope.app.asideToggled = false;
+            if(!scope.$$phase) scope.$apply(); // anti-pattern but sometimes necessary
+      	  }
+        }
+        
+        ///////
+
+        function sidebarAddBackdrop() {
+          var $backdrop = $('<div/>', { 'class': 'dropdown-backdrop'} );
+          $backdrop.insertAfter('.aside-inner').on('click mouseenter', function () {
+            removeFloatingNav();
+          });
+        }
+
+        // Open the collapse sidebar submenu items when on touch devices 
+        // - desktop only opens on hover
+        function toggleTouchItem($element){
+          $element
+            .siblings('li')
+            .removeClass('open')
+            .end()
+            .toggleClass('open');
+        }
+
+        // Handles hover to open items under collapsed menu
+        // ----------------------------------- 
+        function toggleMenuItem($listItem, $sidebar) {
+
+          removeFloatingNav();
+
+          var ul = $listItem.children('ul');
+          
+          if( !ul.length ) return $();
+          if( $listItem.hasClass('open') ) {
+            toggleTouchItem($listItem);
+            return $();
+          }
+
+          var $aside = $('.aside');
+          var $asideInner = $('.aside-inner'); // for top offset calculation
+          // float aside uses extra padding on aside
+          var mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
+          var subNav = ul.clone().appendTo( $aside );
+          
+          toggleTouchItem($listItem);
+
+          var itemTop = ($listItem.position().top + mar) - $sidebar.scrollTop();
+          var vwHeight = $win.height();
+
+          subNav
+            .addClass('nav-floating')
+            .css({
+              position: $rootScope.app.layout.isFixed ? 'fixed' : 'absolute',
+              top:      itemTop,
+              bottom:   (subNav.outerHeight(true) + itemTop > vwHeight) ? 0 : 'auto'
+            });
+
+          subNav.on('mouseleave', function() {
+            toggleTouchItem($listItem);
+            subNav.remove();
+          });
+
+          return subNav;
+        }
+
+        function removeFloatingNav() {
+          $('.dropdown-backdrop').remove();
+          $('.sidebar-subnav.nav-floating').remove();
+          $('.sidebar li.open').removeClass('open');
+        }
+    }
+
+
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar')
+        .service('SidebarLoader', SidebarLoader);
+
+    SidebarLoader.$inject = ['$http'];
+    function SidebarLoader($http) {
+        this.getMenu = getMenu;
+
+        ////////////////
+
+        function getMenu(onReady, onError) {
+          var menuJson = 'server/sidebar-menu.json',
+              menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
+            
+          onError = onError || function() { alert('Failure loading menu'); };
+
+          $http
+            .get(menuURL)
+            .success(onReady)
+            .error(onError);
+        }
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.sidebar')
+        .controller('UserBlockController', UserBlockController);
+
+    UserBlockController.$inject = ['$rootScope', '$scope'];
+    function UserBlockController($rootScope, $scope) {
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+          $rootScope.user = {
+            name:     'John',
+            job:      'ng-developer',
+            picture:  'app/img/user/02.jpg'
+          };
+
+          // Hides/show user avatar on sidebar
+          $rootScope.toggleUserBlock = function(){
+            $rootScope.$broadcast('toggleUserBlock');
+          };
+
+          $rootScope.userBlockVisible = true;
+
+          var detach = $rootScope.$on('toggleUserBlock', function(/*event, args*/) {
+
+            $rootScope.userBlockVisible = ! $rootScope.userBlockVisible;
+
+          });
+
+          $scope.$on('$destroy', detach);
+        }
+    }
 })();
 
 /**=========================================================
@@ -2223,361 +2519,70 @@
     }
 })();
 
-/**=========================================================
- * Module: sidebar-menu.js
- * Handle sidebar collapsible elements
- =========================================================*/
-
 (function() {
     'use strict';
 
     angular
-        .module('app.sidebar')
-        .controller('SidebarController', SidebarController);
+        .module('app.translate')
+        .config(translateConfig)
+        ;
+    translateConfig.$inject = ['$translateProvider'];
+    function translateConfig($translateProvider){
+
+      $translateProvider.useStaticFilesLoader({
+          prefix : 'app/i18n/',
+          suffix : '.json'
+      });
+
+      $translateProvider.preferredLanguage('en');
+      $translateProvider.useLocalStorage();
+      $translateProvider.usePostCompiling(true);
+      $translateProvider.useSanitizeValueStrategy('sanitizeParameters');
 
-    SidebarController.$inject = ['$rootScope', '$scope', '$state', 'SidebarLoader', 'Utils'];
-    function SidebarController($rootScope, $scope, $state, SidebarLoader,  Utils) {
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-          var collapseList = [];
-
-          // demo: when switch from collapse to hover, close all items
-          $rootScope.$watch('app.layout.asideHover', function(oldVal, newVal){
-            if ( newVal === false && oldVal === true) {
-              closeAllBut(-1);
-            }
-          });
-
-
-          // Load menu from json file
-          // ----------------------------------- 
-
-          SidebarLoader.getMenu(sidebarReady);
-          
-          function sidebarReady(items) {
-            $scope.menuItems = items;
-          }
-
-          // Handle sidebar and collapse items
-          // ----------------------------------
-          
-          $scope.getMenuItemPropClasses = function(item) {
-            return (item.heading ? 'nav-heading' : '') +
-                   (isActive(item) ? ' active' : '') ;
-          };
-
-          $scope.addCollapse = function($index, item) {
-            collapseList[$index] = $rootScope.app.layout.asideHover ? true : !isActive(item);
-          };
-
-          $scope.isCollapse = function($index) {
-            return (collapseList[$index]);
-          };
-
-          $scope.toggleCollapse = function($index, isParentItem) {
-
-            // collapsed sidebar doesn't toggle drodopwn
-            if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) return true;
-
-            // make sure the item index exists
-            if( angular.isDefined( collapseList[$index] ) ) {
-              if ( ! $scope.lastEventFromChild ) {
-                collapseList[$index] = !collapseList[$index];
-                closeAllBut($index);
-              }
-            }
-            else if ( isParentItem ) {
-              closeAllBut(-1);
-            }
-            
-            $scope.lastEventFromChild = isChild($index);
-
-            return true;
-          
-          };
-
-          // Controller helpers
-          // ----------------------------------- 
-
-            // Check item and children active state
-            function isActive(item) {
-
-              if(!item) return;
-
-              if( !item.sref || item.sref === '#') {
-                var foundActive = false;
-                angular.forEach(item.submenu, function(value) {
-                  if(isActive(value)) foundActive = true;
-                });
-                return foundActive;
-              }
-              else
-                return $state.is(item.sref) || $state.includes(item.sref);
-            }
-
-            function closeAllBut(index) {
-              index += '';
-              for(var i in collapseList) {
-                if(index < 0 || index.indexOf(i) < 0)
-                  collapseList[i] = true;
-              }
-            }
-
-            function isChild($index) {
-              /*jshint -W018*/
-              return (typeof $index === 'string') && !($index.indexOf('-') < 0);
-            }
-        
-        } // activate
-    }
-
-})();
-
-/**=========================================================
- * Module: sidebar.js
- * Wraps the sidebar and handles collapsed state
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.sidebar')
-        .directive('sidebar', sidebar);
-
-    sidebar.$inject = ['$rootScope', '$timeout', '$window', 'Utils'];
-    function sidebar ($rootScope, $timeout, $window, Utils) {
-        var $win = angular.element($window);
-        var directive = {
-            // bindToController: true,
-            // controller: Controller,
-            // controllerAs: 'vm',
-            link: link,
-            restrict: 'EA',
-            template: '<nav class="sidebar" ng-transclude></nav>',
-            transclude: true,
-            replace: true
-            // scope: {}
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-
-          var currentState = $rootScope.$state.current.name;
-          var $sidebar = element;
-
-          var eventName = Utils.isTouch() ? 'click' : 'mouseenter' ;
-          var subNav = $();
-
-          $sidebar.on( eventName, '.nav > li', function() {
-
-            if( Utils.isSidebarCollapsed() || $rootScope.app.layout.asideHover ) {
-
-              subNav.trigger('mouseleave');
-              subNav = toggleMenuItem( $(this), $sidebar);
-
-              // Used to detect click and touch events outside the sidebar          
-              sidebarAddBackdrop();
-
-            }
-
-          });
-
-          scope.$on('closeSidebarMenu', function() {
-            removeFloatingNav();
-          });
-
-          // Normalize state when resize to mobile
-          $win.on('resize', function() {
-            if( ! Utils.isMobile() )
-          	asideToggleOff();
-          });
-
-          // Adjustment on route changes
-          $rootScope.$on('$stateChangeStart', function(event, toState) {
-            currentState = toState.name;
-            // Hide sidebar automatically on mobile
-            asideToggleOff();
-
-            $rootScope.$broadcast('closeSidebarMenu');
-          });
-
-      	  // Autoclose when click outside the sidebar
-          if ( angular.isDefined(attrs.sidebarAnyclickClose) ) {
-            
-            var wrapper = $('.wrapper');
-            var sbclickEvent = 'click.sidebar';
-            
-            $rootScope.$watch('app.asideToggled', watchExternalClicks);
-
-          }
-
-          //////
-
-          function watchExternalClicks(newVal) {
-            // if sidebar becomes visible
-            if ( newVal === true ) {
-              $timeout(function(){ // render after current digest cycle
-                wrapper.on(sbclickEvent, function(e){
-                  // if not child of sidebar
-                  if( ! $(e.target).parents('.aside').length ) {
-                    asideToggleOff();
-                  }
-                });
-              });
-            }
-            else {
-              // dettach event
-              wrapper.off(sbclickEvent);
-            }
-          }
-
-          function asideToggleOff() {
-            $rootScope.app.asideToggled = false;
-            if(!scope.$$phase) scope.$apply(); // anti-pattern but sometimes necessary
-      	  }
-        }
-        
-        ///////
-
-        function sidebarAddBackdrop() {
-          var $backdrop = $('<div/>', { 'class': 'dropdown-backdrop'} );
-          $backdrop.insertAfter('.aside-inner').on('click mouseenter', function () {
-            removeFloatingNav();
-          });
-        }
-
-        // Open the collapse sidebar submenu items when on touch devices 
-        // - desktop only opens on hover
-        function toggleTouchItem($element){
-          $element
-            .siblings('li')
-            .removeClass('open')
-            .end()
-            .toggleClass('open');
-        }
-
-        // Handles hover to open items under collapsed menu
-        // ----------------------------------- 
-        function toggleMenuItem($listItem, $sidebar) {
-
-          removeFloatingNav();
-
-          var ul = $listItem.children('ul');
-          
-          if( !ul.length ) return $();
-          if( $listItem.hasClass('open') ) {
-            toggleTouchItem($listItem);
-            return $();
-          }
-
-          var $aside = $('.aside');
-          var $asideInner = $('.aside-inner'); // for top offset calculation
-          // float aside uses extra padding on aside
-          var mar = parseInt( $asideInner.css('padding-top'), 0) + parseInt( $aside.css('padding-top'), 0);
-          var subNav = ul.clone().appendTo( $aside );
-          
-          toggleTouchItem($listItem);
-
-          var itemTop = ($listItem.position().top + mar) - $sidebar.scrollTop();
-          var vwHeight = $win.height();
-
-          subNav
-            .addClass('nav-floating')
-            .css({
-              position: $rootScope.app.layout.isFixed ? 'fixed' : 'absolute',
-              top:      itemTop,
-              bottom:   (subNav.outerHeight(true) + itemTop > vwHeight) ? 0 : 'auto'
-            });
-
-          subNav.on('mouseleave', function() {
-            toggleTouchItem($listItem);
-            subNav.remove();
-          });
-
-          return subNav;
-        }
-
-        function removeFloatingNav() {
-          $('.dropdown-backdrop').remove();
-          $('.sidebar-subnav.nav-floating').remove();
-          $('.sidebar li.open').removeClass('open');
-        }
-    }
-
-
-})();
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.sidebar')
-        .service('SidebarLoader', SidebarLoader);
-
-    SidebarLoader.$inject = ['$http'];
-    function SidebarLoader($http) {
-        this.getMenu = getMenu;
-
-        ////////////////
-
-        function getMenu(onReady, onError) {
-          var menuJson = 'server/sidebar-menu.json',
-              menuURL  = menuJson + '?v=' + (new Date().getTime()); // jumps cache
-            
-          onError = onError || function() { alert('Failure loading menu'); };
-
-          $http
-            .get(menuURL)
-            .success(onReady)
-            .error(onError);
-        }
     }
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.sidebar')
-        .controller('UserBlockController', UserBlockController);
+        .module('app.translate')
+        .run(translateRun)
+        ;
+    translateRun.$inject = ['$rootScope', '$translate'];
+    
+    function translateRun($rootScope, $translate){
 
-    UserBlockController.$inject = ['$rootScope', '$scope'];
-    function UserBlockController($rootScope, $scope) {
+      // Internationalization
+      // ----------------------
 
-        activate();
-
-        ////////////////
-
-        function activate() {
-          $rootScope.user = {
-            name:     'John',
-            job:      'ng-developer',
-            picture:  'app/img/user/02.jpg'
-          };
-
-          // Hides/show user avatar on sidebar
-          $rootScope.toggleUserBlock = function(){
-            $rootScope.$broadcast('toggleUserBlock');
-          };
-
-          $rootScope.userBlockVisible = true;
-
-          var detach = $rootScope.$on('toggleUserBlock', function(/*event, args*/) {
-
-            $rootScope.userBlockVisible = ! $rootScope.userBlockVisible;
-
-          });
-
-          $scope.$on('$destroy', detach);
+      $rootScope.language = {
+        // Handles language dropdown
+        listIsOpen: false,
+        // list of available languages
+        available: {
+          'en':       'English',
+          'es_AR':    'Español'
+        },
+        // display always the current ui language
+        init: function () {
+          var proposedLanguage = $translate.proposedLanguage() || $translate.use();
+          var preferredLanguage = $translate.preferredLanguage(); // we know we have set a preferred one in app.config
+          $rootScope.language.selected = $rootScope.language.available[ (proposedLanguage || preferredLanguage) ];
+        },
+        set: function (localeId) {
+          // Set the new idiom
+          $translate.use(localeId);
+          // save a reference for the current language
+          $rootScope.language.selected = $rootScope.language.available[localeId];
+          // finally toggle dropdown
+          $rootScope.language.listIsOpen = ! $rootScope.language.listIsOpen;
         }
+      };
+
+      $rootScope.language.init();
+
     }
 })();
-
 (function() {
     'use strict';
 

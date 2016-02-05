@@ -1,0 +1,208 @@
+<h3><i class="fa fa-plus"></i> Add New Box</h3>
+
+
+<div class="col-md-12 col-lg-10 col-lg-offset-1">
+
+    <!-- START panel-->
+    <div class="panel widget">
+        <!--<div class="panel-heading">-->
+        <!--<h4 class="header">Add New Inventory Item</h4>-->
+        <!--<hr>-->
+        <!--</div>-->
+        <div class="panel-body">
+            <form form-wizard="" action="/" method="POST" steps="3">
+                <div class="form-wizard">
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(1)" class="text-center">
+                        <h3 class="text-primary">1. This box will contain items from which room?</h3>
+                        <div class="row">
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Living Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bed Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bed Room <small>(master)</small></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Kitchen</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Dining Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bath Room <small>(master)</small></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Bath Room</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Basement</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mv-sm">
+                                <div class="list-group-item panel widget">
+                                    <i class="icon-home fa-2x text-info"></i><br>
+                                    <p class="panel-title">Garage</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="pager">
+                            <li class="next">
+                                <a href="#" ng-click="wizard.go(2)">
+                                    Next <span><i class="fa fa-chevron-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(2)">
+                        <!--<legend>2. Basic Info:</legend>-->
+                        <h3 class="text-primary text-center">2. Box's Basic Info</h3>
+                        <fieldset>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-sm-7">
+                                    <label>Name of this Box</label>
+                                    <input name="item-description" class="form-control input-lg" />
+                                </div>
+                                <div class="col-md-4 col-sm-5">
+                                    <label>Room</label><br>
+                                    <select chosen="livingRoom"  width="'100%'" class="chosen-select form-control input-lg">
+                                        <option value="livingRoom">Living Room</option>
+                                        <option value="dining">Dining Room</option>
+                                        <option value="kitchen">Kitchen</option>
+                                        <option value="bedM">Bed Room (Master)</option>
+                                        <option value="bed">Bed Room</option>
+                                        <option value="bathM">Bath Room (Master)</option>
+                                        <option value="bath">Bath Room</option>
+                                        <option value="storage">Storage / Closet</option>
+                                        <option value="garage">Garage</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 col-sm-7">
+                                    <label>Description of this Box</label>
+                                    <input type="text" name="item-name" class="form-control input-lg" />
+                                </div>
+                            </div>
+
+                        </fieldset>
+                        <ul class="pager">
+                            <li class="previous">
+                                <a href="#" ng-click="wizard.go(1)">
+                                    <i class="fa fa-chevron-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="next">
+                                <a href="#" ng-click="wizard.go(3)">
+                                    Next <i class="fa fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+                    <!-- START Wizard Step inputs -->
+                    <div ng-show="wizard.active(3)">
+                        <!--<legend>3. Purchase Info:</legend>-->
+                        <h3 class="text-primary text-center">3. Let's Add Items to this Box</h3>
+
+                        <div class="container-fluid mt-xl">
+                            <fieldset class="panel widget col-sm-5 bg-gray-lighter">
+                                <div class="panel-header">
+                                    <h4>Items Listed</h4>
+                                </div>
+                                <div class="list-group">
+
+                                    <li class="list-group-item" draggable="true" role="option">
+                                        <div class="grid">
+                                            <h4>
+                                                <em class="fa fa-reorder fa-fw text-muted mr-lg"></em>
+                                                Item 1 - <small>Description of this item blahhhhh....</small>
+                                            </h4>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" draggable="true" role="option">
+                                        <div class="grid">
+                                            <h4>
+                                                <em class="fa fa-reorder fa-fw text-muted mr-lg"></em>
+                                                Item 2 - <small>Description of this item blahhhhh....</small>
+                                            </h4>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item" draggable="true" role="option">
+                                        <div class="grid">
+                                            <h4>
+                                                <em class="fa fa-reorder fa-fw text-muted mr-lg"></em>
+                                                Item 3 - <small>Description of this item blahhhhh....</small>
+                                            </h4>
+                                        </div>
+                                    </li>
+                                </div>
+                            </fieldset>
+
+                            <div class="text-center btn-group-vertical col-sm-2 mt-xl pt-xl">
+                                <i class="text-gray-light mt-xl fa fa-angle-double-right fa-4x"></i>
+                            </div>
+
+                            <fieldset class="panel widget col-sm-5 bg-gray-lighter">
+                                <div class="panel-header">
+                                    <h4>Box</h4>
+                                </div>
+                                <div class="box-placeholder text-center">
+                                    <span class="text-muted">Your box is Empty. <br>Drag 'n Drop your Items into this box.</span>
+                                </div>
+                            </fieldset>
+                        </div>
+
+
+
+                        <ul class="pager">
+                            <li class="previous">
+                                <a href="#" ng-click="wizard.go(2)">
+                                    <i class="fa fa-chevron-left"></i> Previous
+                                </a>
+                            </li>
+                            <div class="pull-right">
+                                <a href="#" class="btn btn-action btn-lg">
+                                    <i class="fa fa-save"></i> Save &amp; Finish
+                                </a>
+                            </div>
+                        </ul>
+                    </div>
+                    <!-- END Wizard Step inputs -->
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END panel -->
+
+
+</div>

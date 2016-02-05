@@ -93,6 +93,11 @@
                 title: 'Storage / Moving',
                 templateUrl: helper.basepath('storage/index.html')
             })
+            .state('app.storage-create', {
+                url: '/storage-create',
+                title: 'Create New Box',
+                templateUrl: helper.basepath('storage/create.html')
+            })
             .state('app.articles', {
                 url: '/articles',
                 title: 'Articles',
