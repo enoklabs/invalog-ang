@@ -33,6 +33,12 @@
     'use strict';
 
     angular
+        .module('app.forms', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.colors', []);
 })();
 (function() {
@@ -70,13 +76,7 @@
     'use strict';
 
     angular
-        .module('app.forms', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.pages', []);
+        .module('app.navsearch', []);
 })();
 (function() {
     'use strict';
@@ -88,10 +88,24 @@
     'use strict';
 
     angular
+        .module('app.pages', []);
+})();
+(function() {
+    'use strict';
+
+    angular
         .module('app.preloader', []);
 })();
 
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.routes', [
+            'app.lazyload'
+        ]);
+})();
 (function() {
     'use strict';
 
@@ -108,20 +122,6 @@
     'use strict';
 
     angular
-        .module('app.navsearch', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.routes', [
-            'app.lazyload'
-        ]);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.utils', [
           'app.colors'
           ]);
@@ -133,6 +133,144 @@
     angular
         .module('app.translate', []);
 })();
+/**=========================================================
+ * Module: filestyle.js
+ * Initializes the fielstyle plugin
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('filestyle', filestyle);
+
+    function filestyle () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+            var options = element.data();
+
+            // old usage support
+            options.classInput = element.data('classinput') || options.classInput;
+
+            element.filestyle(options);
+        }
+    }
+
+})();
+/**=========================================================
+ * Module: form-wizard.js
+ * Handles form wizard plugin and validation
+ =========================================================*/
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('formWizard', formWizard);
+
+    formWizard.$inject = ['$parse'];
+    function formWizard ($parse) {
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: true
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            var validate = $parse(attrs.validateSteps)(scope),
+                wiz = new Wizard(attrs.steps, !!validate, element);
+            scope.wizard = wiz.init();
+        }
+
+        function Wizard (quantity, validate, element) {
+
+            var self = this;
+            self.quantity = parseInt(quantity,10);
+            self.validate = validate;
+            self.element = element;
+
+            self.init = function() {
+                self.createsteps(self.quantity);
+                self.go(1); // always start at fist step
+                return self;
+            };
+
+            self.go = function(step) {
+
+                if ( angular.isDefined(self.steps[step]) ) {
+
+                    if(self.validate && step !== 1) {
+                        var form = $(self.element),
+                            group = form.children().children('div').get(step - 2);
+
+                        if (false === form.parsley().validate( group.id )) {
+                            return false;
+                        }
+                    }
+
+                    self.cleanall();
+                    self.steps[step] = true;
+                }
+            };
+
+            self.active = function(step) {
+                return !!self.steps[step];
+            };
+
+            self.cleanall = function() {
+                for(var i in self.steps){
+                    self.steps[i] = false;
+                }
+            };
+
+            self.createsteps = function(q) {
+                self.steps = [];
+                for(var i = 1; i <= q; i++) self.steps[i] = false;
+            };
+
+        }
+    }
+
+
+})();
+
+/**=========================================================
+ * Module: masked.js
+ * Initializes the masked inputs
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('masked', masked);
+
+    function masked () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+            var $elem = $(element);
+            if($.fn.inputmask)
+                $elem.inputmask();
+        }
+    }
+
+})();
+
 (function() {
     'use strict';
 
@@ -898,113 +1036,158 @@
 })();
 
 /**=========================================================
- * Module: form-wizard.js
- * Handles form wizard plugin and validation
- =========================================================*/
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('formWizard', formWizard);
-
-    formWizard.$inject = ['$parse'];
-    function formWizard ($parse) {
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: true
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            var validate = $parse(attrs.validateSteps)(scope),
-                wiz = new Wizard(attrs.steps, !!validate, element);
-            scope.wizard = wiz.init();
-        }
-
-        function Wizard (quantity, validate, element) {
-
-            var self = this;
-            self.quantity = parseInt(quantity,10);
-            self.validate = validate;
-            self.element = element;
-
-            self.init = function() {
-                self.createsteps(self.quantity);
-                self.go(1); // always start at fist step
-                return self;
-            };
-
-            self.go = function(step) {
-
-                if ( angular.isDefined(self.steps[step]) ) {
-
-                    if(self.validate && step !== 1) {
-                        var form = $(self.element),
-                            group = form.children().children('div').get(step - 2);
-
-                        if (false === form.parsley().validate( group.id )) {
-                            return false;
-                        }
-                    }
-
-                    self.cleanall();
-                    self.steps[step] = true;
-                }
-            };
-
-            self.active = function(step) {
-                return !!self.steps[step];
-            };
-
-            self.cleanall = function() {
-                for(var i in self.steps){
-                    self.steps[i] = false;
-                }
-            };
-
-            self.createsteps = function(q) {
-                self.steps = [];
-                for(var i = 1; i <= q; i++) self.steps[i] = false;
-            };
-
-        }
-    }
-
-
-})();
-
-/**=========================================================
- * Module: masked.js
- * Initializes the masked inputs
+ * Module: navbar-search.js
+ * Navbar search toggler * Auto dismiss on ESC key
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.forms')
-        .directive('masked', masked);
+        .module('app.navsearch')
+        .directive('searchOpen', searchOpen)
+        .directive('searchDismiss', searchDismiss);
 
-    function masked () {
+    //
+    // directives definition
+    // 
+    
+    function searchOpen () {
         var directive = {
-            link: link,
+            controller: searchOpenController,
             restrict: 'A'
         };
         return directive;
 
-        function link(scope, element) {
-            var $elem = $(element);
-            if($.fn.inputmask)
-                $elem.inputmask();
-        }
+    }
+
+    function searchDismiss () {
+        var directive = {
+            controller: searchDismissController,
+            restrict: 'A'
+        };
+        return directive;
+        
+    }
+
+    //
+    // Contrller definition
+    // 
+    
+    searchOpenController.$inject = ['$scope', '$element', 'NavSearch'];
+    function searchOpenController ($scope, $element, NavSearch) {
+      $element
+        .on('click', function (e) { e.stopPropagation(); })
+        .on('click', NavSearch.toggle);
+    }
+
+    searchDismissController.$inject = ['$scope', '$element', 'NavSearch'];
+    function searchDismissController ($scope, $element, NavSearch) {
+      
+      var inputSelector = '.navbar-form input[type="text"]';
+
+      $(inputSelector)
+        .on('click', function (e) { e.stopPropagation(); })
+        .on('keyup', function(e) {
+          if (e.keyCode === 27) // ESC
+            NavSearch.dismiss();
+        });
+        
+      // click anywhere closes the search
+      $(document).on('click', NavSearch.dismiss);
+      // dismissable options
+      $element
+        .on('click', function (e) { e.stopPropagation(); })
+        .on('click', NavSearch.dismiss);
     }
 
 })();
 
+
+/**=========================================================
+ * Module: nav-search.js
+ * Services to share navbar search functions
+ =========================================================*/
+ 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.navsearch')
+        .service('NavSearch', NavSearch);
+
+    function NavSearch() {
+        this.toggle = toggle;
+        this.dismiss = dismiss;
+
+        ////////////////
+
+        var navbarFormSelector = 'form.navbar-form';
+
+        function toggle() {
+          var navbarForm = $(navbarFormSelector);
+
+          navbarForm.toggleClass('open');
+          
+          var isOpen = navbarForm.hasClass('open');
+          
+          navbarForm.find('input')[isOpen ? 'focus' : 'blur']();
+        }
+
+        function dismiss() {
+          $(navbarFormSelector)
+            .removeClass('open') // Close control
+            .find('input[type="text"]').blur() // remove focus
+            .val('') // Empty input
+            ;
+        }        
+    }
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
+        ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
+
+})();
 /**=========================================================
  * Module: access-login.js
  * Demo for login api
@@ -1123,50 +1306,6 @@
     'use strict';
 
     angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
-    }
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
-        ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
-
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.preloader')
         .directive('preloader', preloader);
 
@@ -1256,6 +1395,287 @@
     }
 
 })();
+/**=========================================================
+ * Module: helpers.js
+ * Provides helper functions for routes definition
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.routes')
+        .provider('RouteHelpers', RouteHelpersProvider)
+        ;
+
+    RouteHelpersProvider.$inject = ['APP_REQUIRES'];
+    function RouteHelpersProvider(APP_REQUIRES) {
+
+      /* jshint validthis:true */
+      return {
+        // provider access level
+        basepath: basepath,
+        resolveFor: resolveFor,
+        // controller access level
+        $get: function() {
+          return {
+            basepath: basepath,
+            resolveFor: resolveFor
+          };
+        }
+      };
+
+      // Set here the base of the relative path
+      // for all app views
+      function basepath(uri) {
+        return 'app/views/' + uri;
+      }
+
+      // Generates a resolve object by passing script names
+      // previously configured in constant.APP_REQUIRES
+      function resolveFor() {
+        var _args = arguments;
+        return {
+          deps: ['$ocLazyLoad','$q', function ($ocLL, $q) {
+            // Creates a promise chain for each argument
+            var promise = $q.when(1); // empty promise
+            for(var i=0, len=_args.length; i < len; i ++){
+              promise = andThen(_args[i]);
+            }
+            return promise;
+
+            // creates promise to chain dynamically
+            function andThen(_arg) {
+              // also support a function that returns a promise
+              if(typeof _arg === 'function')
+                  return promise.then(_arg);
+              else
+                  return promise.then(function() {
+                    // if is a module, pass the name. If not, pass the array
+                    var whatToLoad = getRequired(_arg);
+                    // simple error check
+                    if(!whatToLoad) return $.error('Route resolve: Bad resource name [' + _arg + ']');
+                    // finally, return a promise
+                    return $ocLL.load( whatToLoad );
+                  });
+            }
+            // check and returns required data
+            // analyze module items with the form [name: '', files: []]
+            // and also simple array of script files (for not angular js)
+            function getRequired(name) {
+              if (APP_REQUIRES.modules)
+                  for(var m in APP_REQUIRES.modules)
+                      if(APP_REQUIRES.modules[m].name && APP_REQUIRES.modules[m].name === name)
+                          return APP_REQUIRES.modules[m];
+              return APP_REQUIRES.scripts && APP_REQUIRES.scripts[name];
+            }
+
+          }]};
+      } // resolveFor
+
+    }
+
+
+})();
+
+
+/**=========================================================
+ * Module: config.js
+ * App routes and resources configuration
+ =========================================================*/
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.routes')
+        .config(routesConfig);
+
+    routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
+    function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
+
+        // Set the following to true to enable the HTML5 Mode
+        // You may have to set <base> tag in index and a routing configuration in your server
+        $locationProvider.html5Mode(false);
+
+        // defaults to dashboard
+        $urlRouterProvider.otherwise('/login');
+
+        //
+        // Application Routes
+        // -----------------------------------
+        $stateProvider
+          .state('app', {
+              url: '/app',
+              abstract: true,
+              templateUrl: helper.basepath('app.html'),
+              resolve: helper.resolveFor('modernizr', 'icons')
+          })
+            .state('app.overview', {
+                url: '/overview',
+                title: 'OverView',
+                templateUrl: helper.basepath('overview.html')
+            })
+            //
+            // INVENTORY Page Routes
+            // -----------------------------------
+            .state('app.inventory', {
+                url: '/inventory',
+                title: 'Inventory',
+                templateUrl: helper.basepath('inventory/index.html')
+            })
+            .state('app.item', {
+                url: '/inventory/item',
+                title: 'Item',
+                templateUrl: helper.basepath('inventory/item.html')
+            })
+            .state('app.item-create', {
+                url: '/inventory/create',
+                title: 'Create Item',
+                templateUrl: helper.basepath('inventory/create.html')
+            })
+            //
+            // MAINTENANCE Page Routes
+            // -----------------------------------
+            .state('app.maintenance', {
+                url: '/maintenance',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/index.html')
+            })
+            .state('app.maintenance-grid', {
+                url: '/maintenance-grid',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-grid.html')
+            })
+            .state('app.maintenance-calendar', {
+                url: '/maintenance-calendar',
+                title: 'Maintenance',
+                templateUrl: helper.basepath('maintenance/maintenance-calendar.html')
+            })
+            //
+            // WARRANTY Page Routes
+            // -----------------------------------
+            .state('app.warranty', {
+                url: '/warranty-tracker',
+                title: 'Warranty Tracker',
+                templateUrl: helper.basepath('tools/warranty.html')
+            })
+            .state('app.manuals', {
+                url: '/manuals-tracker',
+                title: 'Manuals Tracker',
+                templateUrl: helper.basepath('tools/manuals.html')
+            })
+            //
+            // STORAGE / MOVING Page Routes
+            // -----------------------------------
+            .state('app.storage', {
+                url: '/storage',
+                title: 'Storage / Moving',
+                templateUrl: helper.basepath('storage/index.html')
+            })
+            .state('app.storage-create', {
+                url: '/storage-create',
+                title: 'Create New Box',
+                templateUrl: helper.basepath('storage/create.html')
+            })
+            .state('app.articles', {
+                url: '/articles',
+                title: 'Articles',
+                templateUrl: helper.basepath('articles.html')
+            })
+          .state('' +
+              'app.submenu', {
+              url: '/submenu',
+              title: 'Submenu',
+              templateUrl: helper.basepath('submenu.html')
+          })
+            .state('' +
+                'app.equity', {
+                url: '/equity',
+                title: 'Equity',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.sales', {
+                url: '/sales',
+                title: 'Sales',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.donations', {
+                url: '/donations',
+                title: 'Donations',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.sharing', {
+                url: '/sharing',
+                title: 'Sharing',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            .state('' +
+                'app.recommendations', {
+                url: '/recommendations',
+                title: 'Recommendations',
+                templateUrl: helper.basepath('submenu.html')
+            })
+            //
+            // Single Page Routes
+            // -----------------------------------
+            .state('page', {
+                url: '/page',
+                templateUrl: 'app/pages/page.html',
+                resolve: helper.resolveFor('modernizr', 'icons'),
+                controller: ['$rootScope', function($rootScope) {
+                    $rootScope.app.layout.isBoxed = false;
+                }]
+            })
+            .state('new-home', {
+                url: '/new-home',
+                title: 'New Home',
+                templateUrl: 'app/pages/new-home.html'
+            })
+            //
+            // LOGIN / REGISTRATION Page Routes
+            // -----------------------------------
+            .state('login', {
+                url: '/login',
+                title: 'Login',
+                templateUrl: 'app/pages/login.html'
+            })
+            .state('register', {
+                url: '/register',
+                title: 'Register',
+                templateUrl: 'app/pages/registration.html'
+            })
+            .state('recover', {
+                url: '/recover',
+                title: 'Recover',
+                templateUrl: 'app/pages/recover.html'
+            })
+          //
+          // CUSTOM RESOLVES
+          //   Add your own resolves properties
+          //   following this object extend
+          //   method
+          // -----------------------------------
+          // .state('app.someroute', {
+          //   url: '/some_url',
+          //   templateUrl: 'path_to_template.html',
+          //   controller: 'someController',
+          //   resolve: angular.extend(
+          //     helper.resolveFor(), {
+          //     // YOUR RESOLVES GO HERE
+          //     }
+          //   )
+          // })
+          ;
+
+    } // routesConfig
+
+})();
+
 (function() {
     'use strict';
 
@@ -1667,387 +2087,6 @@
           $scope.$on('$destroy', detach);
         }
     }
-})();
-
-/**=========================================================
- * Module: navbar-search.js
- * Navbar search toggler * Auto dismiss on ESC key
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.navsearch')
-        .directive('searchOpen', searchOpen)
-        .directive('searchDismiss', searchDismiss);
-
-    //
-    // directives definition
-    // 
-    
-    function searchOpen () {
-        var directive = {
-            controller: searchOpenController,
-            restrict: 'A'
-        };
-        return directive;
-
-    }
-
-    function searchDismiss () {
-        var directive = {
-            controller: searchDismissController,
-            restrict: 'A'
-        };
-        return directive;
-        
-    }
-
-    //
-    // Contrller definition
-    // 
-    
-    searchOpenController.$inject = ['$scope', '$element', 'NavSearch'];
-    function searchOpenController ($scope, $element, NavSearch) {
-      $element
-        .on('click', function (e) { e.stopPropagation(); })
-        .on('click', NavSearch.toggle);
-    }
-
-    searchDismissController.$inject = ['$scope', '$element', 'NavSearch'];
-    function searchDismissController ($scope, $element, NavSearch) {
-      
-      var inputSelector = '.navbar-form input[type="text"]';
-
-      $(inputSelector)
-        .on('click', function (e) { e.stopPropagation(); })
-        .on('keyup', function(e) {
-          if (e.keyCode === 27) // ESC
-            NavSearch.dismiss();
-        });
-        
-      // click anywhere closes the search
-      $(document).on('click', NavSearch.dismiss);
-      // dismissable options
-      $element
-        .on('click', function (e) { e.stopPropagation(); })
-        .on('click', NavSearch.dismiss);
-    }
-
-})();
-
-
-/**=========================================================
- * Module: nav-search.js
- * Services to share navbar search functions
- =========================================================*/
- 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.navsearch')
-        .service('NavSearch', NavSearch);
-
-    function NavSearch() {
-        this.toggle = toggle;
-        this.dismiss = dismiss;
-
-        ////////////////
-
-        var navbarFormSelector = 'form.navbar-form';
-
-        function toggle() {
-          var navbarForm = $(navbarFormSelector);
-
-          navbarForm.toggleClass('open');
-          
-          var isOpen = navbarForm.hasClass('open');
-          
-          navbarForm.find('input')[isOpen ? 'focus' : 'blur']();
-        }
-
-        function dismiss() {
-          $(navbarFormSelector)
-            .removeClass('open') // Close control
-            .find('input[type="text"]').blur() // remove focus
-            .val('') // Empty input
-            ;
-        }        
-    }
-})();
-
-/**=========================================================
- * Module: helpers.js
- * Provides helper functions for routes definition
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.routes')
-        .provider('RouteHelpers', RouteHelpersProvider)
-        ;
-
-    RouteHelpersProvider.$inject = ['APP_REQUIRES'];
-    function RouteHelpersProvider(APP_REQUIRES) {
-
-      /* jshint validthis:true */
-      return {
-        // provider access level
-        basepath: basepath,
-        resolveFor: resolveFor,
-        // controller access level
-        $get: function() {
-          return {
-            basepath: basepath,
-            resolveFor: resolveFor
-          };
-        }
-      };
-
-      // Set here the base of the relative path
-      // for all app views
-      function basepath(uri) {
-        return 'app/views/' + uri;
-      }
-
-      // Generates a resolve object by passing script names
-      // previously configured in constant.APP_REQUIRES
-      function resolveFor() {
-        var _args = arguments;
-        return {
-          deps: ['$ocLazyLoad','$q', function ($ocLL, $q) {
-            // Creates a promise chain for each argument
-            var promise = $q.when(1); // empty promise
-            for(var i=0, len=_args.length; i < len; i ++){
-              promise = andThen(_args[i]);
-            }
-            return promise;
-
-            // creates promise to chain dynamically
-            function andThen(_arg) {
-              // also support a function that returns a promise
-              if(typeof _arg === 'function')
-                  return promise.then(_arg);
-              else
-                  return promise.then(function() {
-                    // if is a module, pass the name. If not, pass the array
-                    var whatToLoad = getRequired(_arg);
-                    // simple error check
-                    if(!whatToLoad) return $.error('Route resolve: Bad resource name [' + _arg + ']');
-                    // finally, return a promise
-                    return $ocLL.load( whatToLoad );
-                  });
-            }
-            // check and returns required data
-            // analyze module items with the form [name: '', files: []]
-            // and also simple array of script files (for not angular js)
-            function getRequired(name) {
-              if (APP_REQUIRES.modules)
-                  for(var m in APP_REQUIRES.modules)
-                      if(APP_REQUIRES.modules[m].name && APP_REQUIRES.modules[m].name === name)
-                          return APP_REQUIRES.modules[m];
-              return APP_REQUIRES.scripts && APP_REQUIRES.scripts[name];
-            }
-
-          }]};
-      } // resolveFor
-
-    }
-
-
-})();
-
-
-/**=========================================================
- * Module: config.js
- * App routes and resources configuration
- =========================================================*/
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.routes')
-        .config(routesConfig);
-
-    routesConfig.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider', 'RouteHelpersProvider'];
-    function routesConfig($stateProvider, $locationProvider, $urlRouterProvider, helper){
-
-        // Set the following to true to enable the HTML5 Mode
-        // You may have to set <base> tag in index and a routing configuration in your server
-        $locationProvider.html5Mode(false);
-
-        // defaults to dashboard
-        $urlRouterProvider.otherwise('/login');
-
-        //
-        // Application Routes
-        // -----------------------------------
-        $stateProvider
-          .state('app', {
-              url: '/app',
-              abstract: true,
-              templateUrl: helper.basepath('app.html'),
-              resolve: helper.resolveFor('modernizr', 'icons')
-          })
-            .state('app.overview', {
-                url: '/overview',
-                title: 'OverView',
-                templateUrl: helper.basepath('overview.html')
-            })
-            //
-            // INVENTORY Page Routes
-            // -----------------------------------
-            .state('app.inventory', {
-                url: '/inventory',
-                title: 'Inventory',
-                templateUrl: helper.basepath('inventory/index.html')
-            })
-            .state('app.item', {
-                url: '/inventory/item',
-                title: 'Item',
-                templateUrl: helper.basepath('inventory/item.html')
-            })
-            .state('app.item-create', {
-                url: '/inventory/create',
-                title: 'Create Item',
-                templateUrl: helper.basepath('inventory/create.html')
-            })
-            //
-            // MAINTENANCE Page Routes
-            // -----------------------------------
-            .state('app.maintenance', {
-                url: '/maintenance',
-                title: 'Maintenance',
-                templateUrl: helper.basepath('maintenance/index.html')
-            })
-            .state('app.maintenance-grid', {
-                url: '/maintenance-grid',
-                title: 'Maintenance',
-                templateUrl: helper.basepath('maintenance/maintenance-grid.html')
-            })
-            .state('app.maintenance-calendar', {
-                url: '/maintenance-calendar',
-                title: 'Maintenance',
-                templateUrl: helper.basepath('maintenance/maintenance-calendar.html')
-            })
-            //
-            // WARRANTY Page Routes
-            // -----------------------------------
-            .state('app.warranty', {
-                url: '/warranty-tracker',
-                title: 'Warranty Tracker',
-                templateUrl: helper.basepath('tools/warranty.html')
-            })
-            .state('app.manuals', {
-                url: '/manuals-tracker',
-                title: 'Manuals Tracker',
-                templateUrl: helper.basepath('tools/manuals.html')
-            })
-            //
-            // STORAGE / MOVING Page Routes
-            // -----------------------------------
-            .state('app.storage', {
-                url: '/storage',
-                title: 'Storage / Moving',
-                templateUrl: helper.basepath('storage/index.html')
-            })
-            .state('app.articles', {
-                url: '/articles',
-                title: 'Articles',
-                templateUrl: helper.basepath('articles.html')
-            })
-          .state('' +
-              'app.submenu', {
-              url: '/submenu',
-              title: 'Submenu',
-              templateUrl: helper.basepath('submenu.html')
-          })
-            .state('' +
-                'app.equity', {
-                url: '/equity',
-                title: 'Equity',
-                templateUrl: helper.basepath('submenu.html')
-            })
-            .state('' +
-                'app.sales', {
-                url: '/sales',
-                title: 'Sales',
-                templateUrl: helper.basepath('submenu.html')
-            })
-            .state('' +
-                'app.donations', {
-                url: '/donations',
-                title: 'Donations',
-                templateUrl: helper.basepath('submenu.html')
-            })
-            .state('' +
-                'app.sharing', {
-                url: '/sharing',
-                title: 'Sharing',
-                templateUrl: helper.basepath('submenu.html')
-            })
-            .state('' +
-                'app.recommendations', {
-                url: '/recommendations',
-                title: 'Recommendations',
-                templateUrl: helper.basepath('submenu.html')
-            })
-            //
-            // Single Page Routes
-            // -----------------------------------
-            .state('page', {
-                url: '/page',
-                templateUrl: 'app/pages/page.html',
-                resolve: helper.resolveFor('modernizr', 'icons'),
-                controller: ['$rootScope', function($rootScope) {
-                    $rootScope.app.layout.isBoxed = false;
-                }]
-            })
-            //
-            // LOGIN / REGISTRATION Page Routes
-            // -----------------------------------
-            .state('login', {
-                url: '/login',
-                title: 'Login',
-                templateUrl: 'app/pages/login.html'
-            })
-            .state('register', {
-                url: '/register',
-                title: 'Register',
-                templateUrl: 'app/pages/registration.html'
-            })
-            .state('recover', {
-                url: '/recover',
-                title: 'Recover',
-                templateUrl: 'app/pages/recover.html'
-            })
-
-          //
-          // CUSTOM RESOLVES
-          //   Add your own resolves properties
-          //   following this object extend
-          //   method
-          // -----------------------------------
-          // .state('app.someroute', {
-          //   url: '/some_url',
-          //   templateUrl: 'path_to_template.html',
-          //   controller: 'someController',
-          //   resolve: angular.extend(
-          //     helper.resolveFor(), {
-          //     // YOUR RESOLVES GO HERE
-          //     }
-          //   )
-          // })
-          ;
-
-    } // routesConfig
-
 })();
 
 /**=========================================================

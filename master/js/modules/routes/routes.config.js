@@ -93,6 +93,11 @@
                 title: 'Storage / Moving',
                 templateUrl: helper.basepath('storage/index.html')
             })
+            .state('app.storage-create', {
+                url: '/storage-create',
+                title: 'Create New Box',
+                templateUrl: helper.basepath('storage/create.html')
+            })
             .state('app.articles', {
                 url: '/articles',
                 title: 'Articles',
@@ -145,6 +150,11 @@
                     $rootScope.app.layout.isBoxed = false;
                 }]
             })
+            .state('new-home', {
+                url: '/new-home',
+                title: 'New Home',
+                templateUrl: 'app/pages/new-home.html'
+            })
             //
             // LOGIN / REGISTRATION Page Routes
             // -----------------------------------
@@ -163,7 +173,6 @@
                 title: 'Recover',
                 templateUrl: 'app/pages/recover.html'
             })
-
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties
