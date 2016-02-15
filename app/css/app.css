@@ -9908,3 +9908,38 @@ fieldset[disabled] .calendar-app .fc-button.active {
   line-height: 1.44;
   border-radius: 6px;
 }
+.btn-default.outline {
+  background: transparent !important;
+  border: 1px solid #ffffff !important;
+  color: #ffffff;
+}
+.btn-primary.outline {
+  background: transparent !important;
+  border: 1px solid #039be5 !important;
+  color: #039be5;
+}
+.btn-action.outline {
+  background: transparent !important;
+  border: 1px solid #fcab53 !important;
+  color: #fcab53;
+}
+.btn-success.outline {
+  background: transparent !important;
+  border: 1px solid #27c24c !important;
+  color: #27c24c;
+}
+.btn-info.outline {
+  background: transparent !important;
+  border: 1px solid #29b6f6 !important;
+  color: #29b6f6;
+}
+.btn-warning.outline {
+  background: transparent !important;
+  border: 1px solid #ff902b !important;
+  color: #ff902b !important;
+}
+.btn-danger.outline {
+  background: transparent !important;
+  border: 1px solid #f05050 !important;
+  color: #f05050 !important;
+}
