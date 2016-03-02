@@ -14,7 +14,8 @@
     },
     "nav": {
 
-      "OVERVIEW": "OverView",
+      "OVERVIEW": "Dashboard",
+      "PROPERTIES": "Properties",
       "INVENTORY": "Inventory",
       "MAINTENANCE": "Maintenance",
       "STORAGE": "Storage / Moving",

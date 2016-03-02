@@ -5,10 +5,16 @@
     "translate": "sidebar.heading.HEADER"
   },
   {
-    "text": "Over View",
+    "text": "Dashboard",
     "sref": "app.overview",
-    "icon": "icon-home",
+    "icon": "icon-speedometer",
     "translate": "sidebar.nav.OVERVIEW"
+  },
+  {
+    "text": "Properties",
+    "sref": "app.properties",
+    "icon": "icon-home",
+    "translate": "sidebar.nav.PROPERTIES"
   },
   {
     "text": "Inventory",
