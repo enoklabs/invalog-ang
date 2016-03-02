@@ -36,10 +36,18 @@
                 title: 'OverView',
                 templateUrl: helper.basepath('overview.html')
             })
+            //
+            // PROPERTIES Page Routes
+            // -----------------------------------
             .state('app.properties', {
                 url: '/properties',
                 title: 'Properties',
-                templateUrl: helper.basepath('properties.html') 
+                templateUrl: helper.basepath('properties/index.html')
+            })
+            .state('app.property', {
+                url: '/properties/property',
+                title: 'Property',
+                templateUrl: helper.basepath('properties/property.html')
             })
             //
             // INVENTORY Page Routes
