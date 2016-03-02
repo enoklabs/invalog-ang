@@ -11779,12 +11779,6 @@ fieldset[disabled] .calendar-app .fc-button.active {
   border-radius: 6px;
 }
 
-.topnavbar .navbar-nav .open a,
-.topnavbar .navbar-nav .open a:focus,
-.topnavbar .navbar-nav .open a:active {
-  box-shadow: none !important;
-}
-
 .btn-default.outline {
   background: transparent !important;
   border: 1px solid #ffffff !important;
@@ -11825,4 +11819,10 @@ fieldset[disabled] .calendar-app .fc-button.active {
   background: transparent !important;
   border: 1px solid #f05050 !important;
   color: #f05050 !important;
+}
+
+.topnavbar .navbar-nav .open a,
+.topnavbar .navbar-nav .open a:focus,
+.topnavbar .navbar-nav .open a:active {
+  box-shadow: none !important;
 }
