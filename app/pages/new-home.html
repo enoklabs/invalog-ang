@@ -36,7 +36,7 @@
                             <h1 class="text-primary text-thin">What is your property's address?</h1>
 
                             <br>
-                            <div class="row">
+
 
                                 <fieldset>
                                     <div class="form-group col-sm-10 col-sm-offset-1 text-left">
@@ -67,24 +67,24 @@
                                         </div>
 
 
-                                        <div class="col-sm-4">
-                                            <br>
-                                            <button type="button" class="btn btn-action btn-lg btn-block text-large">
-                                                Submit
-                                            </button>
-                                        </div>
+                                        <!--<div class="col-sm-4">-->
+                                            <!--<br>-->
+                                            <!--<button type="button" class="btn btn-action btn-lg btn-block text-large">-->
+                                                <!--Submit-->
+                                            <!--</button>-->
+                                        <!--</div>-->
 
                                         <!-- Error Message -->
-                                        <div class="col-sm-8 hidden">
-                                            <div class="text-muted">
+                                        <div class="col-sm-12 hidden">
+                                            <div class="text-muted text-center">
                                                 <br>
                                                 <i class="fa fa-warning"></i><strong> Sorry!</strong> We could not find any properties with that address.
                                             </div>
                                         </div>
 
                                         <!-- Success Message -->
-                                        <div class="col-sm-8 hidden">
-                                            <div class="text-success lead">
+                                        <div class="col-sm-12 hidden">
+                                            <div class="text-success lead text-center">
                                                 <br>
                                                 <i class="fa fa-check"></i><strong> Success!</strong>
                                             </div>
@@ -92,15 +92,13 @@
 
                                     </div>
                                 </fieldset>
-                            </div>
-
 
                             <ul class="pager">
-                                <li class="next">
-                                    <a href="#" ng-click="wizard.go(2)">
-                                        Next <span><i class="fa fa-chevron-right"></i></span>
+                                <div class="pull-right">
+                                    <a href="#" ng-click="wizard.go(2)" class="btn btn-action btn-lg">
+                                        Next <i class="fa fa-chevron-right"></i>
                                     </a>
-                                </li>
+                                </div>
                             </ul>
                         </div>
                         <!-- END Wizard Step inputs -->
@@ -132,39 +130,8 @@
                                     <label>Upload Image (optional)</label>
                                     <input filestyle="" type="file" data-classbutton="btn btn-default" data-classinput="form-control inline" class="form-control" />
                                 </div>
-
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-md-6 col-sm-7">-->
-                                        <!--<label>Street Address</label>-->
-                                        <!--<input name="property-address" class="form-control input-lg" />-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-6 col-sm-5">-->
-                                        <!--<label>Address Line 2</label>-->
-                                        <!--<input name="property-address-2" class="form-control input-lg" />-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="form-group">-->
-                                    <!--<div class="col-md-6 col-sm-6">-->
-                                        <!--<label>City</label>-->
-                                        <!--<input type="text" name="property-city" class="form-control input-lg" />-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-4 col-sm-6">-->
-                                        <!--<label>State</label>-->
-                                        <!--<select chosen="Furniture"  width="'100%'" class="chosen-select form-control input-lg">-->
-                                            <!--<option value="AL">Alabama</option>-->
-                                            <!--<option value="AK">Alaska</option>-->
-                                            <!--<option value="AZ">Arizona</option>-->
-                                            <!--<option value="AR">Arkansas</option>-->
-                                            <!--<option value="CA">California</option>-->
-                                            <!--<option value="CO">Colorado</option>-->
-                                        <!--</select>-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-2 col-sm-12">-->
-                                        <!--<label>Zip code</label>-->
-                                        <!--<input type="text" name="property-zip" class="form-control input-lg" />-->
-                                    <!--</div>-->
-                                <!--</div>-->
                             </fieldset>
+
                             <ul class="pager">
                                 <li class="previous">
                                     <a href="#" ng-click="wizard.go(1)">
