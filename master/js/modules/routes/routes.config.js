@@ -39,7 +39,7 @@
             .state('app.properties', {
                 url: '/properties',
                 title: 'Properties',
-                templateUrl: helper.basepath('properties.html')
+                templateUrl: helper.basepath('properties.html') 
             })
             //
             // INVENTORY Page Routes

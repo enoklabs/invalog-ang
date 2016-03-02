@@ -33,24 +33,6 @@
     'use strict';
 
     angular
-        .module('app.forms', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors', []);
-})();
-(function() {
-    'use strict';
-
-    angular
-        .module('app.bootstrapui', []);
-})();
-(function() {
-    'use strict';
-
-    angular
         .module('app.core', [
             'ngRoute',
             'ngAnimate',
@@ -70,13 +52,19 @@
     'use strict';
 
     angular
-        .module('app.lazyload', []);
+        .module('app.bootstrapui', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.navsearch', []);
+        .module('app.colors', []);
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms', []);
 })();
 (function() {
     'use strict';
@@ -88,16 +76,20 @@
     'use strict';
 
     angular
-        .module('app.pages', []);
+        .module('app.navsearch', []);
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.preloader', []);
+        .module('app.lazyload', []);
 })();
+(function() {
+    'use strict';
 
-
+    angular
+        .module('app.pages', []);
+})();
 (function() {
     'use strict';
 
@@ -122,6 +114,14 @@
     'use strict';
 
     angular
+        .module('app.preloader', []);
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
         .module('app.utils', [
           'app.colors'
           ]);
@@ -133,193 +133,119 @@
     angular
         .module('app.translate', []);
 })();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core')
+        .config(coreConfig);
+
+    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
+    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
+
+      var core = angular.module('app.core');
+      // registering components after bootstrap
+      core.controller = $controllerProvider.register;
+      core.directive  = $compileProvider.directive;
+      core.filter     = $filterProvider.register;
+      core.factory    = $provide.factory;
+      core.service    = $provide.service;
+      core.constant   = $provide.constant;
+      core.value      = $provide.value;
+
+      // Disables animation on items with class .ng-no-animation
+      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
+
+    }
+
+})();
 /**=========================================================
- * Module: filestyle.js
- * Initializes the fielstyle plugin
+ * Module: constants.js
+ * Define constants to inject across the application
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.forms')
-        .directive('filestyle', filestyle);
-
-    function filestyle () {
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element) {
-            var options = element.data();
-
-            // old usage support
-            options.classInput = element.data('classinput') || options.classInput;
-
-            element.filestyle(options);
-        }
-    }
-
-})();
-/**=========================================================
- * Module: form-wizard.js
- * Handles form wizard plugin and validation
- =========================================================*/
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('formWizard', formWizard);
-
-    formWizard.$inject = ['$parse'];
-    function formWizard ($parse) {
-        var directive = {
-            link: link,
-            restrict: 'A',
-            scope: true
-        };
-        return directive;
-
-        function link(scope, element, attrs) {
-            var validate = $parse(attrs.validateSteps)(scope),
-                wiz = new Wizard(attrs.steps, !!validate, element);
-            scope.wizard = wiz.init();
-        }
-
-        function Wizard (quantity, validate, element) {
-
-            var self = this;
-            self.quantity = parseInt(quantity,10);
-            self.validate = validate;
-            self.element = element;
-
-            self.init = function() {
-                self.createsteps(self.quantity);
-                self.go(1); // always start at fist step
-                return self;
-            };
-
-            self.go = function(step) {
-
-                if ( angular.isDefined(self.steps[step]) ) {
-
-                    if(self.validate && step !== 1) {
-                        var form = $(self.element),
-                            group = form.children().children('div').get(step - 2);
-
-                        if (false === form.parsley().validate( group.id )) {
-                            return false;
-                        }
-                    }
-
-                    self.cleanall();
-                    self.steps[step] = true;
-                }
-            };
-
-            self.active = function(step) {
-                return !!self.steps[step];
-            };
-
-            self.cleanall = function() {
-                for(var i in self.steps){
-                    self.steps[i] = false;
-                }
-            };
-
-            self.createsteps = function(q) {
-                self.steps = [];
-                for(var i = 1; i <= q; i++) self.steps[i] = false;
-            };
-
-        }
-    }
-
-
-})();
-
-/**=========================================================
- * Module: masked.js
- * Initializes the masked inputs
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.forms')
-        .directive('masked', masked);
-
-    function masked () {
-        var directive = {
-            link: link,
-            restrict: 'A'
-        };
-        return directive;
-
-        function link(scope, element) {
-            var $elem = $(element);
-            if($.fn.inputmask)
-                $elem.inputmask();
-        }
-    }
-
-})();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.colors')
-        .constant('APP_COLORS', {
-          'primary':                '#5d9cec',
-          'success':                '#27c24c',
-          'info':                   '#23b7e5',
-          'warning':                '#ff902b',
-          'danger':                 '#f05050',
-          'inverse':                '#131e26',
-          'green':                  '#37bc9b',
-          'pink':                   '#f532e5',
-          'purple':                 '#7266ba',
-          'dark':                   '#3a3f51',
-          'yellow':                 '#fad732',
-          'gray-darker':            '#232735',
-          'gray-dark':              '#3a3f51',
-          'gray':                   '#dde6e9',
-          'gray-light':             '#e4eaec',
-          'gray-lighter':           '#edf1f2'
+        .module('app.core')
+        .constant('APP_MEDIAQUERY', {
+          'desktopLG':             1200,
+          'desktop':                992,
+          'tablet':                 768,
+          'mobile':                 480
         })
-        ;
-})();
-/**=========================================================
- * Module: colors.js
- * Services to retrieve global colors
- =========================================================*/
+      ;
 
+})();
 (function() {
     'use strict';
 
     angular
-        .module('app.colors')
-        .service('Colors', Colors);
+        .module('app.core')
+        .run(appRun);
 
-    Colors.$inject = ['APP_COLORS'];
-    function Colors(APP_COLORS) {
-        this.byName = byName;
+    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
+    
+    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
+      
+      // Set reference to access them from any scope
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
+      $rootScope.$storage = $window.localStorage;
 
-        ////////////////
+      // Uncomment this to disable template cache
+      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+          if (typeof(toState) !== 'undefined'){
+            $templateCache.remove(toState.templateUrl);
+          }
+      });
 
-        function byName(name) {
-          return (APP_COLORS[name] || '#fff');
-        }
+      // Allows to use branding color with interpolation
+      // {{ colorByName('primary') }}
+      $rootScope.colorByName = Colors.byName;
+
+      // cancel click event easily
+      $rootScope.cancel = function($event) {
+        $event.stopPropagation();
+      };
+
+      // Hooks Example
+      // ----------------------------------- 
+
+      // Hook not found
+      $rootScope.$on('$stateNotFound',
+        function(event, unfoundState/*, fromState, fromParams*/) {
+            console.log(unfoundState.to); // "lazy.state"
+            console.log(unfoundState.toParams); // {a:1, b:2}
+            console.log(unfoundState.options); // {inherit:false} + default options
+        });
+      // Hook error
+      $rootScope.$on('$stateChangeError',
+        function(event, toState, toParams, fromState, fromParams, error){
+          console.log(error);
+        });
+      // Hook success
+      $rootScope.$on('$stateChangeSuccess',
+        function(/*event, toState, toParams, fromState, fromParams*/) {
+          // display new view from top
+          $window.scrollTo(0, 0);
+          // Save the route title
+          $rootScope.currTitle = $state.current.title;
+        });
+
+      // Load a title dynamically
+      $rootScope.currTitle = $state.current.title;
+      $rootScope.pageTitle = function() {
+        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
+        document.title = title;
+        return title;
+      };      
+
     }
 
 })();
+
 
 /**=========================================================
  * Module: demo-alerts.js
@@ -885,156 +811,234 @@
     'use strict';
 
     angular
-        .module('app.core')
-        .config(coreConfig);
-
-    coreConfig.$inject = ['$controllerProvider', '$compileProvider', '$filterProvider', '$provide', '$animateProvider'];
-    function coreConfig($controllerProvider, $compileProvider, $filterProvider, $provide, $animateProvider){
-
-      var core = angular.module('app.core');
-      // registering components after bootstrap
-      core.controller = $controllerProvider.register;
-      core.directive  = $compileProvider.directive;
-      core.filter     = $filterProvider.register;
-      core.factory    = $provide.factory;
-      core.service    = $provide.service;
-      core.constant   = $provide.constant;
-      core.value      = $provide.value;
-
-      // Disables animation on items with class .ng-no-animation
-      $animateProvider.classNameFilter(/^((?!(ng-no-animation)).)*$/);
-
-    }
-
+        .module('app.colors')
+        .constant('APP_COLORS', {
+          'primary':                '#5d9cec',
+          'success':                '#27c24c',
+          'info':                   '#23b7e5',
+          'warning':                '#ff902b',
+          'danger':                 '#f05050',
+          'inverse':                '#131e26',
+          'green':                  '#37bc9b',
+          'pink':                   '#f532e5',
+          'purple':                 '#7266ba',
+          'dark':                   '#3a3f51',
+          'yellow':                 '#fad732',
+          'gray-darker':            '#232735',
+          'gray-dark':              '#3a3f51',
+          'gray':                   '#dde6e9',
+          'gray-light':             '#e4eaec',
+          'gray-lighter':           '#edf1f2'
+        })
+        ;
 })();
 /**=========================================================
- * Module: constants.js
- * Define constants to inject across the application
+ * Module: colors.js
+ * Services to retrieve global colors
  =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.core')
-        .constant('APP_MEDIAQUERY', {
-          'desktopLG':             1200,
-          'desktop':                992,
-          'tablet':                 768,
-          'mobile':                 480
-        })
-      ;
+        .module('app.colors')
+        .service('Colors', Colors);
 
-})();
-(function() {
-    'use strict';
+    Colors.$inject = ['APP_COLORS'];
+    function Colors(APP_COLORS) {
+        this.byName = byName;
 
-    angular
-        .module('app.core')
-        .run(appRun);
+        ////////////////
 
-    appRun.$inject = ['$rootScope', '$state', '$stateParams',  '$window', '$templateCache', 'Colors'];
-    
-    function appRun($rootScope, $state, $stateParams, $window, $templateCache, Colors) {
-      
-      // Set reference to access them from any scope
-      $rootScope.$state = $state;
-      $rootScope.$stateParams = $stateParams;
-      $rootScope.$storage = $window.localStorage;
-
-      // Uncomment this to disable template cache
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-          if (typeof(toState) !== 'undefined'){
-            $templateCache.remove(toState.templateUrl);
-          }
-      });
-
-      // Allows to use branding color with interpolation
-      // {{ colorByName('primary') }}
-      $rootScope.colorByName = Colors.byName;
-
-      // cancel click event easily
-      $rootScope.cancel = function($event) {
-        $event.stopPropagation();
-      };
-
-      // Hooks Example
-      // ----------------------------------- 
-
-      // Hook not found
-      $rootScope.$on('$stateNotFound',
-        function(event, unfoundState/*, fromState, fromParams*/) {
-            console.log(unfoundState.to); // "lazy.state"
-            console.log(unfoundState.toParams); // {a:1, b:2}
-            console.log(unfoundState.options); // {inherit:false} + default options
-        });
-      // Hook error
-      $rootScope.$on('$stateChangeError',
-        function(event, toState, toParams, fromState, fromParams, error){
-          console.log(error);
-        });
-      // Hook success
-      $rootScope.$on('$stateChangeSuccess',
-        function(/*event, toState, toParams, fromState, fromParams*/) {
-          // display new view from top
-          $window.scrollTo(0, 0);
-          // Save the route title
-          $rootScope.currTitle = $state.current.title;
-        });
-
-      // Load a title dynamically
-      $rootScope.currTitle = $state.current.title;
-      $rootScope.pageTitle = function() {
-        var title = $rootScope.app.name + ' - ' + ($rootScope.currTitle || $rootScope.app.description);
-        document.title = title;
-        return title;
-      };      
-
+        function byName(name) {
+          return (APP_COLORS[name] || '#fff');
+        }
     }
 
 })();
 
+/**=========================================================
+ * Module: filestyle.js
+ * Initializes the fielstyle plugin
+ =========================================================*/
 
 (function() {
     'use strict';
 
     angular
-        .module('app.lazyload')
-        .config(lazyloadConfig);
+        .module('app.forms')
+        .directive('filestyle', filestyle);
 
-    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
-    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
+    function filestyle () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
 
-      // Lazy Load modules configuration
-      $ocLazyLoadProvider.config({
-        debug: false,
-        events: true,
-        modules: APP_REQUIRES.modules
-      });
+        function link(scope, element) {
+            var options = element.data();
 
+            // old usage support
+            options.classInput = element.data('classinput') || options.classInput;
+
+            element.filestyle(options);
+        }
     }
+
 })();
+/**=========================================================
+ * Module: form-wizard.js
+ * Handles form wizard plugin and validation
+ =========================================================*/
+
+
 (function() {
     'use strict';
 
     angular
-        .module('app.lazyload')
-        .constant('APP_REQUIRES', {
-          // jQuery based and standalone scripts
-          scripts: {
-            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
-            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
-                                   'vendor/simple-line-icons/css/simple-line-icons.css']
-          },
-          // Angular based script (use the right module name)
-          modules: [
-            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
-          ]
-        })
+        .module('app.forms')
+        .directive('formWizard', formWizard);
+
+    formWizard.$inject = ['$parse'];
+    function formWizard ($parse) {
+        var directive = {
+            link: link,
+            restrict: 'A',
+            scope: true
+        };
+        return directive;
+
+        function link(scope, element, attrs) {
+            var validate = $parse(attrs.validateSteps)(scope),
+                wiz = new Wizard(attrs.steps, !!validate, element);
+            scope.wizard = wiz.init();
+        }
+
+        function Wizard (quantity, validate, element) {
+
+            var self = this;
+            self.quantity = parseInt(quantity,10);
+            self.validate = validate;
+            self.element = element;
+
+            self.init = function() {
+                self.createsteps(self.quantity);
+                self.go(1); // always start at fist step
+                return self;
+            };
+
+            self.go = function(step) {
+
+                if ( angular.isDefined(self.steps[step]) ) {
+
+                    if(self.validate && step !== 1) {
+                        var form = $(self.element),
+                            group = form.children().children('div').get(step - 2);
+
+                        if (false === form.parsley().validate( group.id )) {
+                            return false;
+                        }
+                    }
+
+                    self.cleanall();
+                    self.steps[step] = true;
+                }
+            };
+
+            self.active = function(step) {
+                return !!self.steps[step];
+            };
+
+            self.cleanall = function() {
+                for(var i in self.steps){
+                    self.steps[i] = false;
+                }
+            };
+
+            self.createsteps = function(q) {
+                self.steps = [];
+                for(var i = 1; i <= q; i++) self.steps[i] = false;
+            };
+
+        }
+    }
+
+
+})();
+
+/**=========================================================
+ * Module: masked.js
+ * Initializes the masked inputs
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.forms')
+        .directive('masked', masked);
+
+    function masked () {
+        var directive = {
+            link: link,
+            restrict: 'A'
+        };
+        return directive;
+
+        function link(scope, element) {
+            var $elem = $(element);
+            if($.fn.inputmask)
+                $elem.inputmask();
+        }
+    }
+
+})();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .config(loadingbarConfig)
         ;
+    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
+    function loadingbarConfig(cfpLoadingBarProvider){
+      cfpLoadingBarProvider.includeBar = true;
+      cfpLoadingBarProvider.includeSpinner = false;
+      cfpLoadingBarProvider.latencyThreshold = 500;
+      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+    }
+})();
+(function() {
+    'use strict';
+
+    angular
+        .module('app.loadingbar')
+        .run(loadingbarRun)
+        ;
+    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
+    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
+
+      // Loading bar transition
+      // ----------------------------------- 
+      var thBar;
+      $rootScope.$on('$stateChangeStart', function() {
+          if($('.wrapper > section').length) // check if bar container exists
+            thBar = $timeout(function() {
+              cfpLoadingBar.start();
+            }, 0); // sets a latency Threshold
+      });
+      $rootScope.$on('$stateChangeSuccess', function(event) {
+          event.targetScope.$watch('$viewContentLoaded', function () {
+            $timeout.cancel(thBar);
+            cfpLoadingBar.complete();
+          });
+      });
+
+    }
 
 })();
-
 /**=========================================================
  * Module: navbar-search.js
  * Navbar search toggler * Auto dismiss on ESC key
@@ -1148,46 +1152,42 @@
     'use strict';
 
     angular
-        .module('app.loadingbar')
-        .config(loadingbarConfig)
-        ;
-    loadingbarConfig.$inject = ['cfpLoadingBarProvider'];
-    function loadingbarConfig(cfpLoadingBarProvider){
-      cfpLoadingBarProvider.includeBar = true;
-      cfpLoadingBarProvider.includeSpinner = false;
-      cfpLoadingBarProvider.latencyThreshold = 500;
-      cfpLoadingBarProvider.parentSelector = '.wrapper > section';
+        .module('app.lazyload')
+        .config(lazyloadConfig);
+
+    lazyloadConfig.$inject = ['$ocLazyLoadProvider', 'APP_REQUIRES'];
+    function lazyloadConfig($ocLazyLoadProvider, APP_REQUIRES){
+
+      // Lazy Load modules configuration
+      $ocLazyLoadProvider.config({
+        debug: false,
+        events: true,
+        modules: APP_REQUIRES.modules
+      });
+
     }
 })();
 (function() {
     'use strict';
 
     angular
-        .module('app.loadingbar')
-        .run(loadingbarRun)
+        .module('app.lazyload')
+        .constant('APP_REQUIRES', {
+          // jQuery based and standalone scripts
+          scripts: {
+            'modernizr':          ['vendor/modernizr/modernizr.custom.js'],
+            'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
+                                   'vendor/simple-line-icons/css/simple-line-icons.css']
+          },
+          // Angular based script (use the right module name)
+          modules: [
+            // {name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js', 'vendor/angularjs-toaster/toaster.css']}
+          ]
+        })
         ;
-    loadingbarRun.$inject = ['$rootScope', '$timeout', 'cfpLoadingBar'];
-    function loadingbarRun($rootScope, $timeout, cfpLoadingBar){
-
-      // Loading bar transition
-      // ----------------------------------- 
-      var thBar;
-      $rootScope.$on('$stateChangeStart', function() {
-          if($('.wrapper > section').length) // check if bar container exists
-            thBar = $timeout(function() {
-              cfpLoadingBar.start();
-            }, 0); // sets a latency Threshold
-      });
-      $rootScope.$on('$stateChangeSuccess', function(event) {
-          event.targetScope.$watch('$viewContentLoaded', function () {
-            $timeout.cancel(thBar);
-            cfpLoadingBar.complete();
-          });
-      });
-
-    }
 
 })();
+
 /**=========================================================
  * Module: access-login.js
  * Demo for login api
@@ -1302,99 +1302,6 @@
     }
 })();
 
-(function() {
-    'use strict';
-
-    angular
-        .module('app.preloader')
-        .directive('preloader', preloader);
-
-    preloader.$inject = ['$animate', '$timeout', '$q'];
-    function preloader ($animate, $timeout, $q) {
-
-        var directive = {
-            restrict: 'EAC',
-            template: 
-              '<div class="preloader-progress">' +
-                  '<div class="preloader-progress-bar" ' +
-                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
-              '</div>'
-            ,
-            link: link
-        };
-        return directive;
-
-        ///////
-
-        function link(scope, el) {
-
-          scope.loadCounter = 0;
-
-          var counter  = 0,
-              timeout;
-
-          // disables scrollbar
-          angular.element('body').css('overflow', 'hidden');
-          // ensure class is present for styling
-          el.addClass('preloader');
-
-          appReady().then(endCounter);
-
-          timeout = $timeout(startCounter);
-
-          ///////
-
-          function startCounter() {
-
-            var remaining = 100 - counter;
-            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
-
-            scope.loadCounter = parseInt(counter, 10);
-
-            timeout = $timeout(startCounter, 20);
-          }
-
-          function endCounter() {
-
-            $timeout.cancel(timeout);
-
-            scope.loadCounter = 100;
-
-            $timeout(function(){
-              // animate preloader hiding
-              $animate.addClass(el, 'preloader-hidden');
-              // retore scrollbar
-              angular.element('body').css('overflow', '');
-            }, 300);
-          }
-
-          function appReady() {
-            var deferred = $q.defer();
-            var viewsLoaded = 0;
-            // if this doesn't sync with the real app ready
-            // a custom event must be used instead
-            var off = scope.$on('$viewContentLoaded', function () {
-              viewsLoaded ++;
-              // we know there are at least two views to be loaded 
-              // before the app is ready (1-index.html 2-app*.html)
-              if ( viewsLoaded === 2) {
-                // with resolve this fires only once
-                $timeout(function(){
-                  deferred.resolve();
-                }, 3000);
-
-                off();
-              }
-
-            });
-
-            return deferred.promise;
-          }
-
-        } //link
-    }
-
-})();
 /**=========================================================
  * Module: helpers.js
  * Provides helper functions for routes definition
@@ -1516,6 +1423,11 @@
                 url: '/overview',
                 title: 'OverView',
                 templateUrl: helper.basepath('overview.html')
+            })
+            .state('app.properties', {
+                url: '/properties',
+                title: 'Properties',
+                templateUrl: helper.basepath('properties.html') 
             })
             //
             // INVENTORY Page Routes
@@ -2089,6 +2001,99 @@
     }
 })();
 
+(function() {
+    'use strict';
+
+    angular
+        .module('app.preloader')
+        .directive('preloader', preloader);
+
+    preloader.$inject = ['$animate', '$timeout', '$q'];
+    function preloader ($animate, $timeout, $q) {
+
+        var directive = {
+            restrict: 'EAC',
+            template: 
+              '<div class="preloader-progress">' +
+                  '<div class="preloader-progress-bar" ' +
+                       'ng-style="{width: loadCounter + \'%\'}"></div>' +
+              '</div>'
+            ,
+            link: link
+        };
+        return directive;
+
+        ///////
+
+        function link(scope, el) {
+
+          scope.loadCounter = 0;
+
+          var counter  = 0,
+              timeout;
+
+          // disables scrollbar
+          angular.element('body').css('overflow', 'hidden');
+          // ensure class is present for styling
+          el.addClass('preloader');
+
+          appReady().then(endCounter);
+
+          timeout = $timeout(startCounter);
+
+          ///////
+
+          function startCounter() {
+
+            var remaining = 100 - counter;
+            counter = counter + (0.015 * Math.pow(1 - Math.sqrt(remaining), 2));
+
+            scope.loadCounter = parseInt(counter, 10);
+
+            timeout = $timeout(startCounter, 20);
+          }
+
+          function endCounter() {
+
+            $timeout.cancel(timeout);
+
+            scope.loadCounter = 100;
+
+            $timeout(function(){
+              // animate preloader hiding
+              $animate.addClass(el, 'preloader-hidden');
+              // retore scrollbar
+              angular.element('body').css('overflow', '');
+            }, 300);
+          }
+
+          function appReady() {
+            var deferred = $q.defer();
+            var viewsLoaded = 0;
+            // if this doesn't sync with the real app ready
+            // a custom event must be used instead
+            var off = scope.$on('$viewContentLoaded', function () {
+              viewsLoaded ++;
+              // we know there are at least two views to be loaded 
+              // before the app is ready (1-index.html 2-app*.html)
+              if ( viewsLoaded === 2) {
+                // with resolve this fires only once
+                $timeout(function(){
+                  deferred.resolve();
+                }, 3000);
+
+                off();
+              }
+
+            });
+
+            return deferred.promise;
+          }
+
+        } //link
+    }
+
+})();
 /**=========================================================
  * Module: animate-enabled.js
  * Enable or disables ngAnimate for element with directive
@@ -2601,15 +2606,15 @@
     'use strict';
 
     angular
-        .module('app.calendar', []);
+        .module('app.tables', []);
 })();
+
 (function() {
     'use strict';
 
     angular
-        .module('app.tables', []);
+        .module('app.calendar', []);
 })();
-
 
 // To run this code, edit file index.html or index.jade and change
 // html data-ng-app attribute from angle to myAppName
@@ -2636,6 +2641,232 @@
         }
     }
 })();
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tables')
+        .service('ngTableDataService', ngTableDataService);
+
+    function ngTableDataService() {
+        /* jshint validthis:true */
+        var self = this;
+        this.cache = null;
+        this.getData = getData;
+
+        ////////////////
+
+        function getData($defer, params, api) {
+            // if no cache, request data and filter
+            if ( ! self.cache ) {
+                if ( api ) {
+                    api.get(function(data){
+                        self.cache = data;
+                        filterdata($defer, params);
+                    });
+                }
+            }
+            else {
+                filterdata($defer, params);
+            }
+
+            function filterdata($defer, params) {
+                var from = (params.page() - 1) * params.count();
+                var to = params.page() * params.count();
+                var filteredData = self.cache.result.slice(from, to);
+
+                params.total(self.cache.total);
+                $defer.resolve(filteredData);
+            }
+
+        }
+    }
+})();
+
+/**=========================================================
+ * Module: NGTableCtrl.js
+ * Controller for ngTables
+ =========================================================*/
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app.tables')
+        .controller('NGTableCtrl', NGTableCtrl);
+    /*jshint -W055 */
+    NGTableCtrl.$inject = ['$filter', 'ngTableParams', '$resource', '$timeout', 'ngTableDataService'];
+    function NGTableCtrl($filter, ngTableParams, $resource, $timeout, ngTableDataService) {
+        var vm = this;
+        vm.title = 'Controller';
+
+        activate();
+
+        ////////////////
+
+        function activate() {
+            var data = [
+                {name: 'Moroni',  age: 50, money: -10   },
+                {name: 'Tiancum', age: 43, money: 120   },
+                {name: 'Jacob',   age: 27, money: 5.5   },
+                {name: 'Nephi',   age: 29, money: -54   },
+                {name: 'Enos',    age: 34, money: 110   },
+                {name: 'Tiancum', age: 43, money: 1000  },
+                {name: 'Jacob',   age: 27, money: -201  },
+                {name: 'Nephi',   age: 29, money: 100   },
+                {name: 'Enos',    age: 34, money: -52.5 },
+                {name: 'Tiancum', age: 43, money: 52.1  },
+                {name: 'Jacob',   age: 27, money: 110   },
+                {name: 'Nephi',   age: 29, money: -55   },
+                {name: 'Enos',    age: 34, money: 551   },
+                {name: 'Tiancum', age: 43, money: -1410 },
+                {name: 'Jacob',   age: 27, money: 410   },
+                {name: 'Nephi',   age: 29, money: 100   },
+                {name: 'Enos',    age: 34, money: -100  }
+            ];
+
+            // SELECT ROWS
+            // -----------------------------------
+
+            vm.data = data;
+
+            vm.tableParams3 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10          // count per page
+            }, {
+                total: data.length, // length of data
+                getData: function ($defer, params) {
+                    // use build-in angular filter
+                    var filteredData = params.filter() ?
+                        $filter('filter')(data, params.filter()) :
+                        data;
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(filteredData, params.orderBy()) :
+                        data;
+
+                    params.total(orderedData.length); // set total for recalc pagination
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+            vm.changeSelection = function(user) {
+                console.info(user);
+            };
+
+            // EXPORT CSV
+            // -----------------------------------
+
+            var data4 = [{name: 'Moroni', age: 50},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34},
+                {name: 'Tiancum', age: 43},
+                {name: 'Jacob', age: 27},
+                {name: 'Nephi', age: 29},
+                {name: 'Enos', age: 34}];
+
+            vm.tableParams4 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10           // count per page
+            }, {
+                total: data4.length, // length of data4
+                getData: function($defer, params) {
+                    $defer.resolve(data4.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+
+            // SORTING
+            // -----------------------------------
+
+
+
+            vm.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                count: 10,          // count per page
+                sorting: {
+                    name: 'asc'     // initial sorting
+                }
+            }, {
+                total: data.length, // length of data
+                getData: function($defer, params) {
+                    // use build-in angular filter
+                    var orderedData = params.sorting() ?
+                        $filter('orderBy')(data, params.orderBy()) :
+                        data;
+
+                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                }
+            });
+
+            // FILTERS
+            // -----------------------------------
+
+            vm.tableParams2 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10,          // count per page
+                filter: {
+                    name: '',
+                    age: ''
+                    // name: 'M'       // initial filter
+                }
+            }, {
+                total: data.length, // length of data
+                getData: function($defer, params) {
+                    // use build-in angular filter
+                    var orderedData = params.filter() ?
+                        $filter('filter')(data, params.filter()) :
+                        data;
+
+                    vm.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
+
+                    params.total(orderedData.length); // set total for recalc pagination
+                    $defer.resolve(vm.users);
+                }
+            });
+
+            // AJAX
+
+            var Api = $resource('server/table-data.json');
+
+            vm.tableParams5 = new ngTableParams({
+                page: 1,            // show first page
+                count: 10           // count per page
+            }, {
+                total: 0,           // length of data
+                counts: [],         // hide page counts control
+                getData: function($defer, params) {
+
+                    // Service using cache to avoid mutiple requests
+                    ngTableDataService.getData( $defer, params, Api);
+
+                    /* direct ajax request to api (perform result pagination on the server)
+                     Api.get(params.url(), function(data) {
+                     $timeout(function() {
+                     // update table params
+                     params.total(data.total);
+                     // set new data
+                     $defer.resolve(data.result);
+                     }, 500);
+                     });
+                     */
+                }
+            });
+        }
+    }
+})();
+
+
 
 /**=========================================================
  * Module: calendar-ui.js
@@ -2912,229 +3143,3 @@
     }
 
 })();
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.tables')
-        .service('ngTableDataService', ngTableDataService);
-
-    function ngTableDataService() {
-        /* jshint validthis:true */
-        var self = this;
-        this.cache = null;
-        this.getData = getData;
-
-        ////////////////
-
-        function getData($defer, params, api) {
-            // if no cache, request data and filter
-            if ( ! self.cache ) {
-                if ( api ) {
-                    api.get(function(data){
-                        self.cache = data;
-                        filterdata($defer, params);
-                    });
-                }
-            }
-            else {
-                filterdata($defer, params);
-            }
-
-            function filterdata($defer, params) {
-                var from = (params.page() - 1) * params.count();
-                var to = params.page() * params.count();
-                var filteredData = self.cache.result.slice(from, to);
-
-                params.total(self.cache.total);
-                $defer.resolve(filteredData);
-            }
-
-        }
-    }
-})();
-
-/**=========================================================
- * Module: NGTableCtrl.js
- * Controller for ngTables
- =========================================================*/
-
-(function() {
-    'use strict';
-
-    angular
-        .module('app.tables')
-        .controller('NGTableCtrl', NGTableCtrl);
-    /*jshint -W055 */
-    NGTableCtrl.$inject = ['$filter', 'ngTableParams', '$resource', '$timeout', 'ngTableDataService'];
-    function NGTableCtrl($filter, ngTableParams, $resource, $timeout, ngTableDataService) {
-        var vm = this;
-        vm.title = 'Controller';
-
-        activate();
-
-        ////////////////
-
-        function activate() {
-            var data = [
-                {name: 'Moroni',  age: 50, money: -10   },
-                {name: 'Tiancum', age: 43, money: 120   },
-                {name: 'Jacob',   age: 27, money: 5.5   },
-                {name: 'Nephi',   age: 29, money: -54   },
-                {name: 'Enos',    age: 34, money: 110   },
-                {name: 'Tiancum', age: 43, money: 1000  },
-                {name: 'Jacob',   age: 27, money: -201  },
-                {name: 'Nephi',   age: 29, money: 100   },
-                {name: 'Enos',    age: 34, money: -52.5 },
-                {name: 'Tiancum', age: 43, money: 52.1  },
-                {name: 'Jacob',   age: 27, money: 110   },
-                {name: 'Nephi',   age: 29, money: -55   },
-                {name: 'Enos',    age: 34, money: 551   },
-                {name: 'Tiancum', age: 43, money: -1410 },
-                {name: 'Jacob',   age: 27, money: 410   },
-                {name: 'Nephi',   age: 29, money: 100   },
-                {name: 'Enos',    age: 34, money: -100  }
-            ];
-
-            // SELECT ROWS
-            // -----------------------------------
-
-            vm.data = data;
-
-            vm.tableParams3 = new ngTableParams({
-                page: 1,            // show first page
-                count: 10          // count per page
-            }, {
-                total: data.length, // length of data
-                getData: function ($defer, params) {
-                    // use build-in angular filter
-                    var filteredData = params.filter() ?
-                        $filter('filter')(data, params.filter()) :
-                        data;
-                    var orderedData = params.sorting() ?
-                        $filter('orderBy')(filteredData, params.orderBy()) :
-                        data;
-
-                    params.total(orderedData.length); // set total for recalc pagination
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                }
-            });
-
-            vm.changeSelection = function(user) {
-                console.info(user);
-            };
-
-            // EXPORT CSV
-            // -----------------------------------
-
-            var data4 = [{name: 'Moroni', age: 50},
-                {name: 'Tiancum', age: 43},
-                {name: 'Jacob', age: 27},
-                {name: 'Nephi', age: 29},
-                {name: 'Enos', age: 34},
-                {name: 'Tiancum', age: 43},
-                {name: 'Jacob', age: 27},
-                {name: 'Nephi', age: 29},
-                {name: 'Enos', age: 34},
-                {name: 'Tiancum', age: 43},
-                {name: 'Jacob', age: 27},
-                {name: 'Nephi', age: 29},
-                {name: 'Enos', age: 34},
-                {name: 'Tiancum', age: 43},
-                {name: 'Jacob', age: 27},
-                {name: 'Nephi', age: 29},
-                {name: 'Enos', age: 34}];
-
-            vm.tableParams4 = new ngTableParams({
-                page: 1,            // show first page
-                count: 10           // count per page
-            }, {
-                total: data4.length, // length of data4
-                getData: function($defer, params) {
-                    $defer.resolve(data4.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                }
-            });
-
-
-            // SORTING
-            // -----------------------------------
-
-
-
-            vm.tableParams = new ngTableParams({
-                page: 1,            // show first page
-                count: 10,          // count per page
-                sorting: {
-                    name: 'asc'     // initial sorting
-                }
-            }, {
-                total: data.length, // length of data
-                getData: function($defer, params) {
-                    // use build-in angular filter
-                    var orderedData = params.sorting() ?
-                        $filter('orderBy')(data, params.orderBy()) :
-                        data;
-
-                    $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                }
-            });
-
-            // FILTERS
-            // -----------------------------------
-
-            vm.tableParams2 = new ngTableParams({
-                page: 1,            // show first page
-                count: 10,          // count per page
-                filter: {
-                    name: '',
-                    age: ''
-                    // name: 'M'       // initial filter
-                }
-            }, {
-                total: data.length, // length of data
-                getData: function($defer, params) {
-                    // use build-in angular filter
-                    var orderedData = params.filter() ?
-                        $filter('filter')(data, params.filter()) :
-                        data;
-
-                    vm.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-
-                    params.total(orderedData.length); // set total for recalc pagination
-                    $defer.resolve(vm.users);
-                }
-            });
-
-            // AJAX
-
-            var Api = $resource('server/table-data.json');
-
-            vm.tableParams5 = new ngTableParams({
-                page: 1,            // show first page
-                count: 10           // count per page
-            }, {
-                total: 0,           // length of data
-                counts: [],         // hide page counts control
-                getData: function($defer, params) {
-
-                    // Service using cache to avoid mutiple requests
-                    ngTableDataService.getData( $defer, params, Api);
-
-                    /* direct ajax request to api (perform result pagination on the server)
-                     Api.get(params.url(), function(data) {
-                     $timeout(function() {
-                     // update table params
-                     params.total(data.total);
-                     // set new data
-                     $defer.resolve(data.result);
-                     }, 500);
-                     });
-                     */
-                }
-            });
-        }
-    }
-})();
-
-
