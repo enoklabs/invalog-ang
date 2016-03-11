@@ -15,29 +15,57 @@
 <div class="row">
     <div class="col-xs-8">
 
-        <div class="panel widget">
-            <div class="panel-body">
-                <div class="row row-table">
+        <!-- Nav tabs -->
+        <ul id="#porpertyTabs" class="nav nav-tabs nav-justified" role="tablist">
+            <li role="presentation" class="active"><a href="#property" aria-controls="photos" role="tab" data-toggle="tab">Property</a></li>
+            <li role="presentation"><a href="#maintenance" aria-controls="documents" role="tab" data-toggle="tab">Maintenance & Projects </a></li>
+        </ul>
 
-                    <div class="col-xs-12 text-left">
+        <!-- Tab panes -->
+        <div class="tab-content bg-white br-bh">
+            <div role="tabpanel" class="tab-pane active" id="project">
+
+                <div class="row">
+                    <div class="col-xs-12">
                         <div class="pull-right">
                             <span class="label label-info pull-right"><i class="fa fa-check"></i> Default Property</span>
                         </div>
-                        <h3 class="mt0">My Art Loft</h3>
-                        <p class="text-muted">721 Garrison St. <br>Las Vegas, Nevada</p>
-                        <p class="text-muted">Total Inventory Value: <b class="text-green">$35,000</b></p>
+                        <h3 class="mt0">My Art Loft - <b class="text-green">$35,000</b></h3>
+
+                    </div>
+
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled">
+                            <li class="text-muted">721 Garrison St.</li>
+                            <li class="text-muted">Las Vegas, Nevada</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled">
+                            <li class="text-muted">Bedrooms <b>4</b></li>
+                            <li class="text-muted">Bathrooms <b>2.0</b></li>
+                            <li class="text-muted">Year Built <b>1998</b></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4">
+                        <ul class="list-unstyled">
+                            <li class="text-muted">Size <b>2057 sqft</b></li>
+                            <li class="text-muted">Lot <b>81ft x 147ft</b></li>
+                            <li class="text-muted">DIN# <b>85674934</b></li>
+                        </ul>
+
                     </div>
 
                 </div>
 
-                <div class="row row-table">
+                <div class="row">
                     <div class="col-xs-12 text-center">
                         <img src="https://s3.amazonaws.com/upload.uxpin/files/386835/390532/a-house-20-800x481.jpg" alt="Image" class="img-responsive">
                     </div>
                 </div>
 
                 <hr>
-                <div class="row row-table">
+                <div class="row">
                     <div class="col-xs-12 mt">
                         <h3 class="mt0">About This Property</h3>
                         <p class="text-muted">This two story house in Las Vegas Hills is located on a small cul de sac street with 8 homes on it, which makes it a quiet and nice place. The modern exterior home is a two story loft style home, with a fantastic backyard and spacious rooms. The Las Vegas Hills neighborhood has great schools, lots of outdoor parks and spaces, and restaurants and shopping within a 5 mile radius.</p>
@@ -45,12 +73,20 @@
                 </div>
 
 
+            </div>
+            <div role="tabpanel" class="tab-pane" id="maintenance">
 
+                panel 2
 
             </div>
         </div>
+        <!-- END tab pane -->
+
 
     </div>
+    <!-- END column 8 -->
+
+
 
 
 
@@ -212,4 +248,5 @@
 
 
 </div>
+<!-- ENd Row -->
 
