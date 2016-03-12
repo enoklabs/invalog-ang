@@ -13,24 +13,22 @@
 </h3>
 
 <div class="row">
-    <div class="col-xs-8">
 
-        <!-- Nav tabs -->
-        <ul id="#porpertyTabs" class="nav nav-tabs nav-justified" role="tablist">
-            <li role="presentation" class="active"><a href="#property" aria-controls="photos" role="tab" data-toggle="tab">Property</a></li>
-            <li role="presentation"><a href="#maintenance" aria-controls="documents" role="tab" data-toggle="tab">Maintenance & Projects </a></li>
-        </ul>
+    <div class="col-md-8">
 
         <!-- Tab panes -->
-        <div class="tab-content bg-white br-bh">
-            <div role="tabpanel" class="tab-pane active" id="project">
+        <uib-tabset justified="true" class="bg-white br-bh">
+            <uib-tab>
+                <uib-tab-heading>
+                    <em class="icon-home fa-fw"></em> &nbsp; Property
+                </uib-tab-heading>
 
-                <div class="row">
+                <div class="media-box p-lg row">
                     <div class="col-xs-12">
                         <div class="pull-right">
                             <span class="label label-info pull-right"><i class="fa fa-check"></i> Default Property</span>
                         </div>
-                        <h3 class="mt0">My Art Loft - <b class="text-green">$35,000</b></h3>
+                        <h3 class="mt0">My Art Loft - <b class="text-green">$450,000</b></h3>
 
                     </div>
 
@@ -72,14 +70,18 @@
                     </div>
                 </div>
 
+            </uib-tab>
 
-            </div>
-            <div role="tabpanel" class="tab-pane" id="maintenance">
+            <uib-tab>
+                <uib-tab-heading>
+                    <em class="icon-wrench fa-fw"></em> Maintenance &amp; Projects
+                </uib-tab-heading>
 
-                panel 2
-
-            </div>
-        </div>
+                <div class="media-box p-lg row">
+                    Maintenance &amp; Projects
+                </div>
+            </uib-tab>
+        </uib-tabset>
         <!-- END tab pane -->
 
 
